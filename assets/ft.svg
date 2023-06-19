@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="113" height="48" viewBox="0 0 113 48">
+  <g id="Group_96" data-name="Group 96" transform="translate(42 247)">
+    <rect id="Rectangle_56" data-name="Rectangle 56" width="111" height="48" rx="10" transform="translate(-42 -247)" fill="#258dfc"/>
+    <text id="Ft" transform="translate(-23 -217)" fill="#fff" font-size="16" font-family="OpenSans, Open Sans"><tspan x="0" y="0">Ft</tspan></text>
+    <rect id="Rectangle_57" data-name="Rectangle 57" width="60" height="48" rx="10" transform="translate(11 -247)" fill="#fff"/>
+    <text id="Cm" transform="translate(28 -217)" fill="#258dfc" font-size="16" font-family="OpenSans, Open Sans"><tspan x="0" y="0">Cm</tspan></text>
+  </g>
+</svg>

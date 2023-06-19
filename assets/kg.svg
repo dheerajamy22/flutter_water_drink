@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="113" height="48" viewBox="0 0 113 48">
+  <g id="Group_101" data-name="Group 101" transform="translate(221 309)">
+    <g id="Group_97" data-name="Group 97" transform="translate(0 -6)">
+      <rect id="Rectangle_59" data-name="Rectangle 59" width="113" height="48" rx="10" transform="translate(-221 -303)" fill="#fff"/>
+      <text id="Lb" transform="translate(-203 -273)" fill="#258dfc" font-size="16" font-family="OpenSans, Open Sans"><tspan x="0" y="0">Lb</tspan></text>
+      <rect id="Rectangle_58" data-name="Rectangle 58" width="60" height="48" rx="10" transform="translate(-168 -303)" fill="#258dfc"/>
+      <text id="Kg" transform="translate(-146 -273)" fill="#fff" font-size="16" font-family="OpenSans, Open Sans"><tspan x="0" y="0">Kg</tspan></text>
+    </g>
+  </g>
+</svg>

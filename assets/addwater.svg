@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="56" height="56" viewBox="0 0 56 56">
+  <g id="Button" transform="translate(0.614 0.593)">
+    <circle id="Oval" cx="28" cy="28" r="28" transform="translate(-0.614 -0.593)" fill="#fff"/>
+    <g id="Icon" transform="translate(18.248 16.42)">
+      <path id="Icon-2" data-name="Icon" d="M9.009,0l6.378,6.6a9.574,9.574,0,0,1,1.957,10.171,9.017,9.017,0,0,1-8.329,5.763A9.017,9.017,0,0,1,.686,16.774,9.574,9.574,0,0,1,2.643,6.6Z" transform="translate(0)" fill="none" stroke="#c6bfd2" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="2"/>
+      <g id="Icon-3" data-name="Icon" transform="translate(6.01 10.517)">
+        <path id="Path" d="M.286,0V6.01" transform="translate(2.719)" fill="none" stroke="#c6bfd2" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="2"/>
+        <path id="Path-2" data-name="Path" d="M0,.286H6.01" transform="translate(0 2.719)" fill="none" stroke="#c6bfd2" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="2"/>
+      </g>
+    </g>
+  </g>
+</svg>

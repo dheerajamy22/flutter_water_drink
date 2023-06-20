@@ -12,13 +12,13 @@ class body_mass_index extends StatefulWidget {
 class _body_mass_indexState extends State<body_mass_index> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return SafeArea(child: Scaffold(
       body: Stack(
         children: [
            Container(
             alignment: Alignment.centerLeft,
             padding: const EdgeInsets.only(left: 20),
-            height: 120,
+            height: 70,
             decoration: const BoxDecoration(color: Colors.blue),
             child:const Row(
               crossAxisAlignment: CrossAxisAlignment.end,
@@ -41,7 +41,7 @@ class _body_mass_indexState extends State<body_mass_index> {
           Container(
              width: MediaQuery.of(context).size.width,
             height: MediaQuery.of(context).size.height,
-            margin: const EdgeInsets.only(top: 100),
+            margin: const EdgeInsets.only(top: 70),
             decoration: const BoxDecoration(
                 borderRadius: BorderRadius.only(
                     topLeft: Radius.circular(20),
@@ -60,6 +60,6 @@ class _body_mass_indexState extends State<body_mass_index> {
           )
         ],
       ),
-    );
+    ));
   }
 }

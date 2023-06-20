@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -33,19 +34,17 @@ class _mainscreenState extends State<mainscreen> {
   String current_date = '';
   String days = '';
   String saveDays = '';
+
 // ignore: non_constant_identifier_names
 
   void getValue() async {
     //SharedPreference getting value with the help of key
     SharedPreferences pr = await SharedPreferences.getInstance();
-    _remeaing_value=pr.getString('achieved').toString();
-    
-
-    //   Date=DateFormat('EEEE').format(DateTime.now());
+    //_remeaing_value=pr.getString('achieved').toString();
 
     setState(() {
       target = pr.getString('total_targets');
-      print('re '+target.toString());
+      print('re ' + target.toString());
       oz = pr.getString('oz');
       days = DateFormat('EEE').format(date);
       pr.setString('saveDays', days);
@@ -56,19 +55,18 @@ class _mainscreenState extends State<mainscreen> {
         oz_remain = oztotal.toStringAsFixed(0);
 
         _remeaing_value = int_rem.toString();
-       
-    
-        
-       
+        pr.setString('achived', _remeaing_value);
+        pr.setString('oz_remain', oz_remain);
+
         double tar = double.parse(target.toString());
         double per = (int_rem / tar) * 100;
         _percent = per.toStringAsFixed(0);
-       int p = int.parse(_percent);
-       if(p<100){
-
-       }else{
-        _percent="100";
-       }
+        pr.setString("_percent", _percent);
+        int p = int.parse(_percent);
+        if (p < 100) {
+        } else {
+          _percent = "100";
+        }
 
         List<BarChartModel> water_data = [];
 
@@ -118,51 +116,68 @@ class _mainscreenState extends State<mainscreen> {
 
           print('object' + water_data.toString());
         }
+      } else if (widget.access_from == 'info') {
+        _remeaing_value = '0';
+      } else {
+        setState(() {
+          _remeaing_value = "0";
+          oz_remain = "0";
+          _remeaing_value = pr.getString('achived') ?? '';
+          oz_remain = pr.getString('oz_remain') ?? '';
+          _percent = pr.getString('_percent') ?? '';
+
+          if(_remeaing_value==''){
+            _remeaing_value='0';
+          }
+          if(oz_remain==''){
+            oz_remain='0';
+          }
+          if(_percent==''){
+            _percent='0';
+          }
+
+          print('data check from other' + _remeaing_value);
+        });
       }
-      // else if(widget.access_from == 'info'){
-      //   setState(()async {
-      //     _remeaing_value="0";
-      //     SharedPreferences pref=await SharedPreferences.getInstance();
-      //   pref.setString('target', _remeaing_value);
-      //   pref.commit();
-      //   });
-      // }
     });
   }
 
   @override
   void initState() {
     getValue();
-
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
+
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+statusBarColor: Colors.blue,
+    ));
     current_date = DateFormat('yyyy-MM-dd').format(date);
 
     print(current_date);
     print(days);
     return WillPopScope(
       onWillPop: () async => false,
-      child: Scaffold(
-        body: Stack(
+      child: SafeArea(child: Scaffold(
+        body: Scaffold(
+        body: DecoratedBox( decoration: BoxDecoration(
+          image: DecorationImage(
+              image: AssetImage("assets/sign_bg.png"), fit: BoxFit.cover),
+        ),
+      
+        child: Stack(
           children: [
-            Container(
-                height: MediaQuery.of(context).size.height,
-                width: MediaQuery.of(context).size.width,
-                child: Image.asset(
-                  "assets/sign_bg.png",
-                  fit: BoxFit.cover,
-                )),
             Padding(
-              padding: EdgeInsets.only(left: 30, right: 30),
-              child: SingleChildScrollView(
+              padding: EdgeInsets.only(left: 24, right: 24),
+             
                 child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisSize: MainAxisSize.max,
+                  mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                    const SizedBox(
-                      height: 30,
-                    ),
+                   
                     Container(
                       alignment: Alignment.topRight,
                       child: InkWell(
@@ -178,13 +193,18 @@ class _mainscreenState extends State<mainscreen> {
                         ),
                       ),
                     ),
-                    Container(
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    mainAxisSize: MainAxisSize.max,
+                    children: [
+  Container(
                       alignment: Alignment.center,
                       child: Center(
                         child: Padding(
-                          padding: const EdgeInsets.only(left: 15, right: 15),
+                          padding: const EdgeInsets.only(left: 0, right: 0),
                           child: Stack(children: [
-                            Image.asset("assets/drop.png"),
+                            Image.asset("assets/drop.png",height: 350,width: MediaQuery.of(context).size.width,),
                             Padding(
                               padding: EdgeInsets.only(top: 110),
                               child: Column(
@@ -239,14 +259,14 @@ class _mainscreenState extends State<mainscreen> {
                                           const SizedBox(
                                             height: 5,
                                           ),
-                                          Text(_remeaing_value + "ml",
+                                          Text(_remeaing_value + " ml",
                                               style: const TextStyle(
                                                   fontSize: 15,
                                                   color: Colors.white)),
                                           const SizedBox(
                                             height: 5,
                                           ),
-                                          Text(oz_remain + "oz",
+                                          Text(oz_remain + " oz",
                                               style: const TextStyle(
                                                   fontSize: 15,
                                                   color: Colors.white))
@@ -273,14 +293,14 @@ class _mainscreenState extends State<mainscreen> {
                                           const SizedBox(
                                             height: 5,
                                           ),
-                                          Text(target.toString() + "ml",
+                                          Text(target.toString() + " ml",
                                               style: const TextStyle(
                                                   fontSize: 15,
                                                   color: Colors.white)),
                                           const SizedBox(
                                             height: 5,
                                           ),
-                                          Text(oz.toString() + "oz",
+                                          Text(oz.toString() + " oz",
                                               style: const TextStyle(
                                                   fontSize: 15,
                                                   color: Colors.white))
@@ -295,7 +315,9 @@ class _mainscreenState extends State<mainscreen> {
                         ),
                       ),
                     ),
-                    Column(
+                   
+                   Padding(padding: EdgeInsets.only(top: 8),
+                   child:  Column(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
                         Row(
@@ -309,7 +331,7 @@ class _mainscreenState extends State<mainscreen> {
 
                                 //
                                 child: Container(
-                                  height: 50,
+                                  height: 58,
                                   child: Card(
                                     elevation: 4,
                                     child: Stack(
@@ -364,7 +386,7 @@ class _mainscreenState extends State<mainscreen> {
                                     addDrinkDilog();
                                   },
                                   child: Container(
-                                    height: 50,
+                                    height: 58,
                                     child: Card(
                                       elevation: 4,
                                       child: Stack(
@@ -412,7 +434,7 @@ class _mainscreenState extends State<mainscreen> {
                           ],
                         ),
                         const SizedBox(
-                          height: 20,
+                          height: 8,
                         ),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -423,7 +445,7 @@ class _mainscreenState extends State<mainscreen> {
                                   addDrinkDilog();
                                 },
                                 child: Container(
-                                  height: 50,
+                                  height: 58,
                                   child: Card(
                                     elevation: 4,
                                     child: Stack(
@@ -478,7 +500,7 @@ class _mainscreenState extends State<mainscreen> {
                                   addDrinkDilog();
                                 },
                                 child: Container(
-                                  height: 50,
+                                  height: 58,
                                   child: Card(
                                     elevation: 4,
                                     child: Stack(
@@ -528,11 +550,25 @@ class _mainscreenState extends State<mainscreen> {
                         )
                       ],
                     ),
-                    const SizedBox(
-                      height: 40,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  )
+                  
+                    ],
+                  )  // const SizedBox(
+                    //   height: 40,
+                    // ),
+                  ],
+                ),
+             
+            ),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisSize: MainAxisSize.max,
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+               Padding(padding: EdgeInsets.only(bottom: 8),
+               child:    Row(
+               // crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.end,
                       children: [
                         InkWell(
                           onTap: () {
@@ -542,20 +578,23 @@ class _mainscreenState extends State<mainscreen> {
                                     builder: (context) =>
                                         adddrink(rem_value: _remeaing_value)));
                           },
+                          child: Padding(padding: EdgeInsets.only(right: 16),
                           child: CircleAvatar(
+                            radius: 25,
                             child: SvgPicture.asset(
                               "assets/addwater.svg",
                               fit: BoxFit.fill,
                               // color: Colors.white,
                             ),
-                          ),
+                          ),)
                         ),
                         CircleAvatar(
                           backgroundColor: Colors.transparent,
-                          radius: 25,
+                          radius: 35,
                           child: Image.asset(
                             "assets/blue_glass.png",
                             fit: BoxFit.cover,
+                            width: 90,height: 90,
                           ),
                         ),
                         InkWell(
@@ -569,31 +608,37 @@ class _mainscreenState extends State<mainscreen> {
                             Navigator.of(context).push(MaterialPageRoute(
                                 builder: (context) => MyBarChart()));
                           },
+                          child: Padding(padding: EdgeInsets.only(left: 16),
                           child: CircleAvatar(
                             backgroundColor: Colors.transparent,
-                            radius: 20,
+                            radius: 25,
                             child: SvgPicture.asset(
                               "assets/statistics.svg",
                               fit: BoxFit.cover,
                             ),
-                          ),
+                          ),)
                         ),
-                        CircleAvatar(
+                       Padding(padding: EdgeInsets.only(left: 32,right: 32),
+                       child:  CircleAvatar(
                           backgroundColor: Colors.white,
-                          radius: 20,
+                          radius: 25,
                           child: SvgPicture.asset(
                             "assets/steps.svg",
                             fit: BoxFit.fitHeight,
                           ),
-                        )
+                        ),)
                       ],
                     )
-                  ],
-                ),
-              ),
+             ,)
+              ],
             )
           ],
         ),
+        
+        )
+      ),
+    
+      )
       ),
     );
   }
@@ -653,6 +698,7 @@ class _mainscreenState extends State<mainscreen> {
                                   print('object');
                                 });
                               }),
+                              min: 0,
                               max: 600,
                               divisions: 100,
                             ),
@@ -726,12 +772,17 @@ class _mainscreenState extends State<mainscreen> {
                                     if (rem >= int_water) {
                                       int total = rem - int_water;
                                       _remeaing_value = total.toString();
-                                     
+                                      double oztotal = total * 0.038;
+                                      oz_remain = oztotal.toStringAsFixed(0);
+                                      pref.setString(
+                                          'achived', _remeaing_value);
+                                      pref.setString('oz_remain', oz_remain);
                                       double tar =
                                           double.parse(target.toString());
 
                                       double per = (total / tar) * 100;
                                       _percent = per.toStringAsFixed(0);
+                                      pref.setString("_percent", _percent);
                                       print('object');
                                       int a = int.parse(_percent);
                                       print('vbn ' + a.toString());
@@ -838,11 +889,14 @@ class _mainscreenState extends State<mainscreen> {
                                   oz_remain = oztotal.toStringAsFixed(0);
 
                                   _remeaing_value = total.toString();
-                                
+                                  pref.setString('achived', _remeaing_value);
+                                  pref.setString('oz_remain', oz_remain);
+
                                   print('sd' + _remeaing_value);
                                   double tar = double.parse(target.toString());
                                   double per = (total / tar) * 100;
                                   _percent = per.toStringAsFixed(0);
+                                  pref.setString("_percent", _percent);
                                   print('sd' + _percent);
                                   print('object');
                                   int a = int.parse(_percent);

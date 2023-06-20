@@ -12,7 +12,7 @@ class setting extends StatefulWidget {
 class _settingState extends State<setting> {
   @override
   Widget build(BuildContext context) {
-    return  Scaffold(
+    return  SafeArea(child: Scaffold(
       body: Stack(
         children: [
            Container(
@@ -250,6 +250,6 @@ class _settingState extends State<setting> {
           )
         ],
       ),
-    );
+    ));
   }
 }

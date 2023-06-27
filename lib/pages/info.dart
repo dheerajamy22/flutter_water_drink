@@ -144,6 +144,8 @@ class _infoState extends State<info> {
                             prefs.setString("total_targets", value);
                             prefs.setString("oz", oz);
                             prefs.setBool('screen', screentype);
+                            prefs.setString('weight', total_weight.toStringAsFixed(0));
+                             prefs.setString('height', _height.text);
                             prefs.commit();
                           } else {
                             double total_weight = double.parse(_weight.text);
@@ -161,6 +163,8 @@ class _infoState extends State<info> {
                             prefs.setString("total_targets", value);
                             prefs.setString("oz", oz);
                             prefs.setBool('screen', screentype);
+                             prefs.setString('weight', total_weight.toStringAsFixed(0));
+                             prefs.setString('height', _height.text);
                             prefs.commit();
                           }
                           // ignore: use_build_context_synchronously
@@ -226,10 +230,10 @@ class _infoState extends State<info> {
                                     children: [
                                       Flexible(
                                           child: Padding(
-                                        padding: EdgeInsets.only(left: 8),
+                                        padding: const EdgeInsets.only(left: 8),
                                         child: TextField(
                                           controller: _height,
-                                          decoration: InputDecoration(
+                                          decoration: const InputDecoration(
                                               hintText: "Height",
                                               hintStyle:
                                                   TextStyle(fontSize: 16),

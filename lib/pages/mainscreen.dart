@@ -34,19 +34,37 @@ class _mainscreenState extends State<mainscreen> {
   String current_date = '';
   String days = '';
   String saveDays = '';
-
+  
 // ignore: non_constant_identifier_names
 
   void getValue() async {
     //SharedPreference getting value with the help of key
     SharedPreferences pr = await SharedPreferences.getInstance();
     //_remeaing_value=pr.getString('achieved').toString();
-
+      String pre_day=pr.getString('day')!;
+       days = DateFormat('EEE').format(date);
+      print('hjmcsc  '+pre_day);
+       print(pre_day);
+      if(pre_day!=days){
+        setState(() {
+          
+          _remeaing_value='0';
+          pr.setString('achived', '0');
+          pr.setString('oz_remain', '0');
+          pr.setString('_percent', '0');
+        pre_day=days;
+           print('hjmcsc7  '+pre_day);
+        });
+        print(_remeaing_value);
+      }
+ 
     setState(() {
+    
       target = pr.getString('total_targets');
       print('re ' + target.toString());
       oz = pr.getString('oz');
-      days = DateFormat('EEE').format(date);
+     
+      pr.setString('day', days);
       pr.setString('saveDays', days);
       if (widget.access_from == 'add_drink') {
         int int_rem = int.parse(widget.cat_water_value);
@@ -126,20 +144,22 @@ class _mainscreenState extends State<mainscreen> {
           oz_remain = pr.getString('oz_remain') ?? '';
           _percent = pr.getString('_percent') ?? '';
 
-          if(_remeaing_value==''){
-            _remeaing_value='0';
+          if (_remeaing_value == '') {
+            _remeaing_value = '0';
           }
-          if(oz_remain==''){
-            oz_remain='0';
+          if (oz_remain == '') {
+            oz_remain = '0';
           }
-          if(_percent==''){
-            _percent='0';
+          if (_percent == '') {
+            _percent = '0';
           }
 
           print('data check from other' + _remeaing_value);
         });
+       
       }
     });
+  
   }
 
   @override
@@ -150,9 +170,8 @@ class _mainscreenState extends State<mainscreen> {
 
   @override
   Widget build(BuildContext context) {
-
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-statusBarColor: Colors.blue,
+      statusBarColor: Colors.blue,
     ));
     current_date = DateFormat('yyyy-MM-dd').format(date);
 
@@ -160,24 +179,23 @@ statusBarColor: Colors.blue,
     print(days);
     return WillPopScope(
       onWillPop: () async => false,
-      child: SafeArea(child: Scaffold(
+      child: SafeArea(
+          child: Scaffold(
         body: Scaffold(
-        body: DecoratedBox( decoration: BoxDecoration(
-          image: DecorationImage(
-              image: AssetImage("assets/sign_bg.png"), fit: BoxFit.cover),
-        ),
-      
-        child: Stack(
-          children: [
-            Padding(
-              padding: EdgeInsets.only(left: 24, right: 24),
-             
+            body: DecoratedBox(
+          decoration: const BoxDecoration(
+            image: DecorationImage(
+                image: AssetImage("assets/sign_bg.png"), fit: BoxFit.cover),
+          ),
+          child: Stack(
+            children: [
+              Padding(
+                padding: EdgeInsets.only(left: 24, right: 24),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisSize: MainAxisSize.max,
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                   
                     Container(
                       alignment: Alignment.topRight,
                       child: InkWell(
@@ -193,453 +211,464 @@ statusBarColor: Colors.blue,
                         ),
                       ),
                     ),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    mainAxisSize: MainAxisSize.max,
-                    children: [
-  Container(
-                      alignment: Alignment.center,
-                      child: Center(
-                        child: Padding(
-                          padding: const EdgeInsets.only(left: 0, right: 0),
-                          child: Stack(children: [
-                            Image.asset("assets/drop.png",height: 350,width: MediaQuery.of(context).size.width,),
-                            Padding(
-                              padding: EdgeInsets.only(top: 110),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.stretch,
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Padding(
-                                    padding: EdgeInsets.only(left: 0),
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        Text(
-                                          _percent,
-                                          style: const TextStyle(
-                                              fontSize: 35,
-                                              color: Colors.white),
-                                        ),
-                                        const Text("%",
-                                            style: TextStyle(
-                                                fontSize: 20,
-                                                color: Colors.white))
-                                      ],
-                                    ),
-                                  ),
-                                  const SizedBox(
-                                    height: 20,
-                                  ),
-                                  const Center(
-                                    child: Text(
-                                      "Achieve Goals",
-                                      style: TextStyle(
-                                          fontSize: 15, color: Colors.white),
-                                    ),
-                                  ),
-                                  const SizedBox(
-                                    height: 30,
-                                  ),
-                                  Row(
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      mainAxisSize: MainAxisSize.max,
+                      children: [
+                        Container(
+                          alignment: Alignment.center,
+                          child: Center(
+                            child: Padding(
+                              padding: const EdgeInsets.only(left: 0, right: 0),
+                              child: Stack(children: [
+                                Image.asset(
+                                  "assets/drop.png",
+                                  height: 350,
+                                  width: MediaQuery.of(context).size.width,
+                                ),
+                                Padding(
+                                  padding: EdgeInsets.only(top: 110),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.stretch,
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
-                                      Column(
+                                      Padding(
+                                        padding: EdgeInsets.only(left: 0),
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: [
+                                            Text(
+                                              _percent,
+                                              style: const TextStyle(
+                                                  fontSize: 35,
+                                                  color: Colors.white),
+                                            ),
+                                            const Text("%",
+                                                style: TextStyle(
+                                                    fontSize: 20,
+                                                    color: Colors.white))
+                                          ],
+                                        ),
+                                      ),
+                                      const SizedBox(
+                                        height: 20,
+                                      ),
+                                      const Center(
+                                        child: Text(
+                                          "Achieve Goals",
+                                          style: TextStyle(
+                                              fontSize: 15,
+                                              color: Colors.white),
+                                        ),
+                                      ),
+                                      const SizedBox(
+                                        height: 30,
+                                      ),
+                                      Row(
                                         mainAxisAlignment:
                                             MainAxisAlignment.center,
                                         children: [
-                                          const Text(
-                                            "Achieved ",
-                                            style: TextStyle(
-                                              color: Colors.white,
-                                            ),
+                                          Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            children: [
+                                              const Text(
+                                                "Achieved ",
+                                                style: TextStyle(
+                                                  color: Colors.white,
+                                                ),
+                                              ),
+                                              const SizedBox(
+                                                height: 5,
+                                              ),
+                                              Text(_remeaing_value + " ml",
+                                                  style: const TextStyle(
+                                                      fontSize: 15,
+                                                      color: Colors.white)),
+                                              const SizedBox(
+                                                height: 5,
+                                              ),
+                                              Text(oz_remain + " oz",
+                                                  style: const TextStyle(
+                                                      fontSize: 15,
+                                                      color: Colors.white))
+                                            ],
                                           ),
                                           const SizedBox(
-                                            height: 5,
+                                            width: 10,
                                           ),
-                                          Text(_remeaing_value + " ml",
-                                              style: const TextStyle(
-                                                  fontSize: 15,
-                                                  color: Colors.white)),
+                                          Container(
+                                            width: 2,
+                                            height: 60,
+                                            alignment: Alignment.center,
+                                            color: Colors.white,
+                                          ),
                                           const SizedBox(
-                                            height: 5,
+                                            width: 10,
                                           ),
-                                          Text(oz_remain + " oz",
-                                              style: const TextStyle(
-                                                  fontSize: 15,
-                                                  color: Colors.white))
-                                        ],
-                                      ),
-                                      const SizedBox(
-                                        width: 10,
-                                      ),
-                                      Container(
-                                        width: 2,
-                                        height: 60,
-                                        alignment: Alignment.center,
-                                        color: Colors.white,
-                                      ),
-                                      const SizedBox(
-                                        width: 10,
-                                      ),
-                                      Column(
-                                        children: [
-                                          const Text("Target",
-                                              style: TextStyle(
-                                                  fontSize: 15,
-                                                  color: Colors.white)),
-                                          const SizedBox(
-                                            height: 5,
+                                          Column(
+                                            children: [
+                                              const Text("Target",
+                                                  style: TextStyle(
+                                                      fontSize: 15,
+                                                      color: Colors.white)),
+                                              const SizedBox(
+                                                height: 5,
+                                              ),
+                                              Text(target.toString() + " ml",
+                                                  style: const TextStyle(
+                                                      fontSize: 15,
+                                                      color: Colors.white)),
+                                              const SizedBox(
+                                                height: 5,
+                                              ),
+                                              Text(oz.toString() + " oz",
+                                                  style: const TextStyle(
+                                                      fontSize: 15,
+                                                      color: Colors.white))
+                                            ],
                                           ),
-                                          Text(target.toString() + " ml",
-                                              style: const TextStyle(
-                                                  fontSize: 15,
-                                                  color: Colors.white)),
-                                          const SizedBox(
-                                            height: 5,
-                                          ),
-                                          Text(oz.toString() + " oz",
-                                              style: const TextStyle(
-                                                  fontSize: 15,
-                                                  color: Colors.white))
                                         ],
                                       ),
                                     ],
                                   ),
-                                ],
-                              ),
-                            )
-                          ]),
+                                )
+                              ]),
+                            ),
+                          ),
                         ),
-                      ),
-                    ),
-                   
-                   Padding(padding: EdgeInsets.only(top: 8),
-                   child:  Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            Flexible(
-                              child: InkWell(
-                                onTap: () async {
-                                  addDrinkDilog();
-                                },
+                        Padding(
+                          padding: EdgeInsets.only(top: 8),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
+                                children: [
+                                  Flexible(
+                                    child: InkWell(
+                                      onTap: () async {
+                                        addDrinkDilog();
+                                      },
 
-                                //
-                                child: Container(
-                                  height: 58,
-                                  child: Card(
-                                    elevation: 4,
-                                    child: Stack(
-                                      children: [
-                                        Container(
-                                          alignment: Alignment.topRight,
-                                          margin:
-                                              EdgeInsets.only(top: 4, right: 6),
-                                          child: SvgPicture.asset(
-                                            'assets/filledlike.svg',
-                                            width: 12,
-                                            height: 12,
+                                      //
+                                      child: Container(
+                                        height: 58,
+                                        child: Card(
+                                          elevation: 4,
+                                          child: Stack(
+                                            children: [
+                                              Container(
+                                                alignment: Alignment.topRight,
+                                                margin: const EdgeInsets.only(
+                                                    top: 4, right: 6),
+                                                child: SvgPicture.asset(
+                                                  'assets/filledlike.svg',
+                                                  width: 12,
+                                                  height: 12,
+                                                ),
+                                              ),
+                                              Padding(
+                                                padding: const EdgeInsets.only(
+                                                    left: 8.0),
+                                                child: Center(
+                                                  child: Row(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment.start,
+                                                    children: [
+                                                      SvgPicture.asset(
+                                                        "assets/water.svg",
+                                                        height: 30,
+                                                        width: 30,
+                                                      ),
+                                                      const SizedBox(
+                                                        width: 10,
+                                                      ),
+                                                      const Text(
+                                                        "Water",
+                                                        style: TextStyle(
+                                                            fontSize: 13),
+                                                      )
+                                                    ],
+                                                  ),
+                                                ),
+                                              )
+                                            ],
                                           ),
                                         ),
-                                        Padding(
-                                          padding:
-                                              const EdgeInsets.only(left: 8.0),
-                                          child: Center(
-                                            child: Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.start,
-                                              children: [
-                                                SvgPicture.asset(
-                                                  "assets/water.svg",
-                                                  height: 30,
-                                                  width: 30,
-                                                ),
-                                                const SizedBox(
-                                                  width: 10,
-                                                ),
-                                                const Text(
-                                                  "Water",
-                                                  style:
-                                                      TextStyle(fontSize: 13),
-                                                )
-                                              ],
-                                            ),
-                                          ),
-                                        )
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ),
-                            const SizedBox(
-                              width: 10,
-                            ),
-                            Flexible(
-                              child: InkWell(
-                                  onTap: () async {
-                                    addDrinkDilog();
-                                  },
-                                  child: Container(
-                                    height: 58,
-                                    child: Card(
-                                      elevation: 4,
-                                      child: Stack(
-                                        children: [
-                                          Container(
-                                            alignment: Alignment.topRight,
-                                            margin: const EdgeInsets.only(
-                                                top: 4, right: 6),
-                                            child: SvgPicture.asset(
-                                              'assets/filledlike.svg',
-                                              width: 12,
-                                              height: 12,
-                                            ),
-                                          ),
-                                          Padding(
-                                            padding: const EdgeInsets.only(
-                                                left: 8.0),
-                                            child: Center(
-                                              child: Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.start,
-                                                children: [
-                                                  SvgPicture.asset(
-                                                    "assets/milk.svg",
-                                                    height: 30,
-                                                    width: 30,
-                                                  ),
-                                                  const SizedBox(
-                                                    width: 10,
-                                                  ),
-                                                  const Text(
-                                                    "Milk",
-                                                    style:
-                                                        TextStyle(fontSize: 13),
-                                                  )
-                                                ],
-                                              ),
-                                            ),
-                                          )
-                                        ],
                                       ),
                                     ),
-                                  )),
-                            )
-                          ],
-                        ),
-                        const SizedBox(
-                          height: 8,
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            Flexible(
-                              child: InkWell(
-                                onTap: () async {
-                                  addDrinkDilog();
-                                },
-                                child: Container(
-                                  height: 58,
-                                  child: Card(
-                                    elevation: 4,
-                                    child: Stack(
-                                      children: [
-                                        Container(
-                                          alignment: Alignment.topRight,
-                                          margin:
-                                              EdgeInsets.only(top: 4, right: 6),
-                                          child: SvgPicture.asset(
-                                            'assets/filledlike.svg',
-                                            width: 12,
-                                            height: 12,
-                                          ),
-                                        ),
-                                        Padding(
-                                          padding:
-                                              const EdgeInsets.only(left: 8.0),
-                                          child: Center(
-                                            child: Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.start,
+                                  ),
+                                  const SizedBox(
+                                    width: 10,
+                                  ),
+                                  Flexible(
+                                    child: InkWell(
+                                        onTap: () async {
+                                          addDrinkDilog();
+                                        },
+                                        child: Container(
+                                          height: 58,
+                                          child: Card(
+                                            elevation: 4,
+                                            child: Stack(
                                               children: [
-                                                SvgPicture.asset(
-                                                  "assets/coconutwater.svg",
-                                                  height: 30,
-                                                  width: 30,
+                                                Container(
+                                                  alignment: Alignment.topRight,
+                                                  margin: const EdgeInsets.only(
+                                                      top: 4, right: 6),
+                                                  child: SvgPicture.asset(
+                                                    'assets/filledlike.svg',
+                                                    width: 12,
+                                                    height: 12,
+                                                  ),
                                                 ),
-                                                const SizedBox(
-                                                  width: 10,
-                                                ),
-                                                const Text(
-                                                  "Coconut Water",
-                                                  style:
-                                                      TextStyle(fontSize: 13),
+                                                Padding(
+                                                  padding:
+                                                      const EdgeInsets.only(
+                                                          left: 8.0),
+                                                  child: Center(
+                                                    child: Row(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .start,
+                                                      children: [
+                                                        SvgPicture.asset(
+                                                          "assets/milk.svg",
+                                                          height: 30,
+                                                          width: 30,
+                                                        ),
+                                                        const SizedBox(
+                                                          width: 10,
+                                                        ),
+                                                        const Text(
+                                                          "Milk",
+                                                          style: TextStyle(
+                                                              fontSize: 13),
+                                                        )
+                                                      ],
+                                                    ),
+                                                  ),
                                                 )
                                               ],
                                             ),
                                           ),
-                                        )
-                                      ],
-                                    ),
-                                  ),
-                                ),
+                                        )),
+                                  )
+                                ],
                               ),
-                            ),
-                            const SizedBox(
-                              width: 10,
-                            ),
-                            Flexible(
-                              child: InkWell(
-                                onTap: () async {
-                                  addDrinkDilog();
-                                },
-                                child: Container(
-                                  height: 58,
-                                  child: Card(
-                                    elevation: 4,
-                                    child: Stack(
-                                      children: [
-                                        Container(
-                                          alignment: Alignment.topRight,
-                                          margin:
-                                              EdgeInsets.only(top: 4, right: 6),
-                                          child: SvgPicture.asset(
-                                            'assets/filledlike.svg',
-                                            width: 12,
-                                            height: 12,
+                              const SizedBox(
+                                height: 8,
+                              ),
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
+                                children: [
+                                  Flexible(
+                                    child: InkWell(
+                                      onTap: () async {
+                                        addDrinkDilog();
+                                      },
+                                      child: Container(
+                                        height: 58,
+                                        child: Card(
+                                          elevation: 4,
+                                          child: Stack(
+                                            children: [
+                                              Container(
+                                                alignment: Alignment.topRight,
+                                                margin: const EdgeInsets.only(
+                                                    top: 4, right: 6),
+                                                child: SvgPicture.asset(
+                                                  'assets/filledlike.svg',
+                                                  width: 12,
+                                                  height: 12,
+                                                ),
+                                              ),
+                                              Padding(
+                                                padding: const EdgeInsets.only(
+                                                    left: 8.0),
+                                                child: Center(
+                                                  child: Row(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment.start,
+                                                    children: [
+                                                      SvgPicture.asset(
+                                                        "assets/coconutwater.svg",
+                                                        height: 30,
+                                                        width: 30,
+                                                      ),
+                                                      const SizedBox(
+                                                        width: 10,
+                                                      ),
+                                                      const Text(
+                                                        "Coconut Water",
+                                                        style: TextStyle(
+                                                            fontSize: 13),
+                                                      )
+                                                    ],
+                                                  ),
+                                                ),
+                                              )
+                                            ],
                                           ),
                                         ),
-                                        Padding(
-                                          padding:
-                                              const EdgeInsets.only(left: 8.0),
-                                          child: Center(
-                                            child: Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.start,
-                                              children: [
-                                                SvgPicture.asset(
-                                                  "assets/energydrink.svg",
-                                                  height: 30,
-                                                  width: 30,
-                                                ),
-                                                const SizedBox(
-                                                  width: 10,
-                                                ),
-                                                const Text(
-                                                  "Energy Drink",
-                                                  style:
-                                                      TextStyle(fontSize: 13),
-                                                )
-                                              ],
-                                            ),
-                                          ),
-                                        )
-                                      ],
+                                      ),
                                     ),
                                   ),
-                                ),
-                              ),
-                            )
-                          ],
+                                  const SizedBox(
+                                    width: 10,
+                                  ),
+                                  Flexible(
+                                    child: InkWell(
+                                      onTap: () async {
+                                        addDrinkDilog();
+                                      },
+                                      child: Container(
+                                        height: 58,
+                                        child: Card(
+                                          elevation: 4,
+                                          child: Stack(
+                                            children: [
+                                              Container(
+                                                alignment: Alignment.topRight,
+                                                margin: const EdgeInsets.only(
+                                                    top: 4, right: 6),
+                                                child: SvgPicture.asset(
+                                                  'assets/filledlike.svg',
+                                                  width: 12,
+                                                  height: 12,
+                                                ),
+                                              ),
+                                              Padding(
+                                                padding: const EdgeInsets.only(
+                                                    left: 8.0),
+                                                child: Center(
+                                                  child: Row(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment.start,
+                                                    children: [
+                                                      SvgPicture.asset(
+                                                        "assets/energydrink.svg",
+                                                        height: 30,
+                                                        width: 30,
+                                                      ),
+                                                      const SizedBox(
+                                                        width: 10,
+                                                      ),
+                                                      const Text(
+                                                        "Energy Drink",
+                                                        style: TextStyle(
+                                                            fontSize: 13),
+                                                      )
+                                                    ],
+                                                  ),
+                                                ),
+                                              )
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  )
+                                ],
+                              )
+                            ],
+                          ),
                         )
                       ],
-                    ),
-                  )
-                  
-                    ],
-                  )  // const SizedBox(
+                    ) // const SizedBox(
                     //   height: 40,
                     // ),
                   ],
                 ),
-             
-            ),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisSize: MainAxisSize.max,
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-               Padding(padding: EdgeInsets.only(bottom: 8),
-               child:    Row(
-               // crossAxisAlignment: CrossAxisAlignment.center,
+              ),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisSize: MainAxisSize.max,
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  Padding(
+                    padding: EdgeInsets.only(bottom: 8),
+                    child: Row(
+                      // crossAxisAlignment: CrossAxisAlignment.center,
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
                         InkWell(
-                          onTap: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) =>
-                                        adddrink(rem_value: _remeaing_value)));
-                          },
-                          child: Padding(padding: EdgeInsets.only(right: 16),
-                          child: CircleAvatar(
-                            radius: 25,
-                            child: SvgPicture.asset(
-                              "assets/addwater.svg",
-                              fit: BoxFit.fill,
-                              // color: Colors.white,
-                            ),
-                          ),)
-                        ),
+                            onTap: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => adddrink(
+                                          rem_value: _remeaing_value)));
+                            },
+                            child: Padding(
+                              padding: EdgeInsets.only(right: 16),
+                              child: CircleAvatar(
+                                radius: 25,
+                                child: SvgPicture.asset(
+                                  "assets/addwater.svg",
+                                  fit: BoxFit.fill,
+                                  // color: Colors.white,
+                                ),
+                              ),
+                            )),
                         CircleAvatar(
                           backgroundColor: Colors.transparent,
                           radius: 35,
                           child: Image.asset(
                             "assets/blue_glass.png",
                             fit: BoxFit.cover,
-                            width: 90,height: 90,
+                            width: 90,
+                            height: 90,
                           ),
                         ),
                         InkWell(
-                          onTap: () async {
-                            //sharedPrefrence assigning key and value
-                            SharedPreferences prefs =
-                                await SharedPreferences.getInstance();
-                            prefs.setString("target", _remeaing_value);
-                            prefs.commit();
+                            onTap: () async {
+                              //sharedPrefrence assigning key and value
+                              SharedPreferences prefs =
+                                  await SharedPreferences.getInstance();
+                              prefs.setString("target", _remeaing_value);
+                              prefs.commit();
 
-                            Navigator.of(context).push(MaterialPageRoute(
-                                builder: (context) => MyBarChart()));
-                          },
-                          child: Padding(padding: EdgeInsets.only(left: 16),
+                              Navigator.of(context).push(MaterialPageRoute(
+                                  builder: (context) => MyBarChart()));
+                            },
+                            child: Padding(
+                              padding: EdgeInsets.only(left: 16),
+                              child: CircleAvatar(
+                                backgroundColor: Colors.transparent,
+                                radius: 25,
+                                child: SvgPicture.asset(
+                                  "assets/statistics.svg",
+                                  fit: BoxFit.cover,
+                                ),
+                              ),
+                            )),
+                        Padding(
+                          padding: EdgeInsets.only(left: 32, right: 32),
                           child: CircleAvatar(
-                            backgroundColor: Colors.transparent,
+                            backgroundColor: Colors.white,
                             radius: 25,
                             child: SvgPicture.asset(
-                              "assets/statistics.svg",
-                              fit: BoxFit.cover,
+                              "assets/steps.svg",
+                              fit: BoxFit.fitHeight,
                             ),
-                          ),)
-                        ),
-                       Padding(padding: EdgeInsets.only(left: 32,right: 32),
-                       child:  CircleAvatar(
-                          backgroundColor: Colors.white,
-                          radius: 25,
-                          child: SvgPicture.asset(
-                            "assets/steps.svg",
-                            fit: BoxFit.fitHeight,
                           ),
-                        ),)
+                        )
                       ],
-                    )
-             ,)
-              ],
-            )
-          ],
-        ),
-        
-        )
-      ),
-    
-      )
-      ),
+                    ),
+                  )
+                ],
+              )
+            ],
+          ),
+        )),
+      )),
     );
   }
 

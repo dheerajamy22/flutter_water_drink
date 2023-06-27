@@ -1,3 +1,5 @@
+import 'package:flutter/material.dart';
+
 class BarChartModel{
   final String days;
   final int water_quantity;

@@ -34,38 +34,28 @@ class _mainscreenState extends State<mainscreen> {
   String current_date = '';
   String days = '';
   String saveDays = '';
-  
+
 // ignore: non_constant_identifier_names
 
   void getValue() async {
     //SharedPreference getting value with the help of key
     SharedPreferences pr = await SharedPreferences.getInstance();
     //_remeaing_value=pr.getString('achieved').toString();
-      String pre_day=pr.getString('day')!;
-       days = DateFormat('EEE').format(date);
-      print('hjmcsc  '+pre_day);
-       print(pre_day);
-      if(pre_day!=days){
-        setState(() {
-          
-          _remeaing_value='0';
-          pr.setString('achived', '0');
-          pr.setString('oz_remain', '0');
-          pr.setString('_percent', '0');
-        pre_day=days;
-           print('hjmcsc7  '+pre_day);
-        });
-        print(_remeaing_value);
-      }
- 
+//  String pre_day = pr.getString('day')!;
+//       days = DateFormat('EEE').format(date);
     setState(() {
+      
+
+      
     
       target = pr.getString('total_targets');
       print('re ' + target.toString());
       oz = pr.getString('oz');
-     
       pr.setString('day', days);
       pr.setString('saveDays', days);
+
+     
+
       if (widget.access_from == 'add_drink') {
         int int_rem = int.parse(widget.cat_water_value);
 
@@ -143,6 +133,7 @@ class _mainscreenState extends State<mainscreen> {
           _remeaing_value = pr.getString('achived') ?? '';
           oz_remain = pr.getString('oz_remain') ?? '';
           _percent = pr.getString('_percent') ?? '';
+          print('vhnbm,z xnjbxnbnj');
 
           if (_remeaing_value == '') {
             _remeaing_value = '0';
@@ -156,10 +147,23 @@ class _mainscreenState extends State<mainscreen> {
 
           print('data check from other' + _remeaing_value);
         });
-       
       }
+    
     });
-  
+      //   print('hjmcsc  ' + pre_day);
+      // print(pre_day);
+      // if (pre_day != days) {
+      //   setState(() {
+      //     _remeaing_value = '0';
+      //     pr.setString('achived', '0');
+      //     pr.setString('oz_remain', '0');
+      //     pr.setString('_percent', '0');
+      //     pre_day = days;
+      //     print('hjmcsc7  ' + pre_day);
+      //     pr.commit();
+      //   });
+      //   print(_remeaing_value);
+      // }
   }
 
   @override
@@ -593,7 +597,7 @@ class _mainscreenState extends State<mainscreen> {
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   Padding(
-                    padding: EdgeInsets.only(bottom: 8),
+                    padding: EdgeInsets.only(bottom: 0),
                     child: Row(
                       // crossAxisAlignment: CrossAxisAlignment.center,
                       mainAxisAlignment: MainAxisAlignment.end,

@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+ import 'package:flutter/material.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:water_tracker/pages/onbaord2.dart';
 import 'package:water_tracker/pages/onboard1.dart';

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:water_tracker/pages/steps/stepcounter.dart';
 import 'package:water_tracker/pages/bmi.dart';
 
 class setting extends StatefulWidget {
@@ -98,36 +99,44 @@ class _settingState extends State<setting> {
                   ),
                   Padding(
                     padding: const EdgeInsets.only(left: 10, right: 10),
-                    child: Container(
-                      height: 50,
-                      margin: const EdgeInsets.only(top: 20),
-                      decoration: BoxDecoration(
-                          color: const Color.fromARGB(255, 241, 241, 241),
-                          borderRadius: BorderRadius.circular(10)),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceAround,
-                            children: [
-                              const SizedBox(
-                                width: 20,
-                              ),
-                              SvgPicture.asset(
-                                "assets/steps.svg",
-                                height: 30,
-                              ),
-                              const SizedBox(
-                                width: 40,
-                              ),
-                              const Text("Step Counter"),
-                            ],
-                          ),
-                          const Icon(
-                            Icons.arrow_forward_ios,
-                            color: Colors.blue,
-                          ),
-                        ],
+                    child: InkWell(
+                      onTap: (){
+                         Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) =>  step_counter()));
+                      },
+                      child: Container(
+                        height: 50,
+                        margin: const EdgeInsets.only(top: 20),
+                        decoration: BoxDecoration(
+                            color: const Color.fromARGB(255, 241, 241, 241),
+                            borderRadius: BorderRadius.circular(10)),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                              children: [
+                                const SizedBox(
+                                  width: 20,
+                                ),
+                                SvgPicture.asset(
+                                  "assets/steps.svg",
+                                  height: 30,
+                                ),
+                                const SizedBox(
+                                  width: 40,
+                                ),
+                                const Text("Step Counter"),
+                              ],
+                            ),
+                            const Icon(
+                              Icons.arrow_forward_ios,
+                              color: Colors.blue,
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                   ),

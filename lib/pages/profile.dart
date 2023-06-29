@@ -21,41 +21,34 @@ class _profileState extends State<profile> {
         body: Stack(
           children: [
             Container(
-            //  alignment: Alignment.centerLeft,
-              padding: const EdgeInsets.only(left: 20),
-              height: 120,
-              decoration: const BoxDecoration(color: Colors.blue),
-              child: Padding(padding: EdgeInsets.only(top: 16),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [ 
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                     crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      InkWell(
-                        onTap: () {
-                          Navigator.of(context).pop(context);
-                        },
-                        child: const Icon(
-                          Icons.arrow_back_ios,
-                          color: Colors.white,
-                        ),
-                      ),
-                      const SizedBox(
-                        width: 20,
-                      ),
-                      const Text(
-                        "Profile",
-                        style: TextStyle(fontSize: 16, color: Colors.white),
-                      ),
-                    ],
-                  ),
-                  // const SizedBox(
-                  //   width: 230,
-                  // ),
-                  IconButton(
+          alignment: Alignment.centerLeft,
+          padding: const EdgeInsets.only(left: 20),
+          height: 120,
+          decoration: const BoxDecoration(color: Colors.blue),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Row(
+                children: [
+                    InkWell(
+                  onTap: () {
+                    Navigator.of(context).pop("context");
+                  },
+                  child: const Icon(
+                    Icons.arrow_back_ios,
+                    color: Colors.white,
+                  )),
+              const SizedBox(
+                width: 20,
+              ),
+              const Text(
+                "Profile",
+                style: TextStyle(fontSize: 20, color: Colors.white),
+              ),
+                ],
+              ),
+            
+              IconButton(
                     onPressed: () {
                       Navigator.push(context,
                           MaterialPageRoute(builder: (context) => setting()));
@@ -63,9 +56,10 @@ class _profileState extends State<profile> {
                     icon: Icon(Icons.settings,weight: 25),
                     color: Colors.white,
                   )
-                ],
-              ),
-            ),),
+            ],
+          ),
+        ),
+             
             Container(
               width: MediaQuery.of(context).size.width,
               height: MediaQuery.of(context).size.height,

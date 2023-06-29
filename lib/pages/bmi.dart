@@ -56,38 +56,41 @@ class _body_mass_indexState extends State<body_mass_index> {
         body: Stack(
           children: [
             Container(
-              alignment: Alignment.centerLeft,
-              padding: const EdgeInsets.only(left: 20),
-              height: 70,
-              decoration: const BoxDecoration(color: Colors.blue),
-              child: const Row(
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: [
-                  Icon(
+          alignment: Alignment.centerLeft,
+          padding: const EdgeInsets.only(left: 20),
+          height: 120,
+          decoration: const BoxDecoration(color: Colors.blue),
+          child: Row(
+            children: [
+              InkWell(
+                  onTap: () {
+                    Navigator.of(context).pop("context");
+                  },
+                  child: const Icon(
                     Icons.arrow_back_ios,
                     color: Colors.white,
-                  ),
-                  SizedBox(
-                    width: 20,
-                  ),
-                  Text(
-                    "BMI Calculator",
-                    style: TextStyle(fontSize: 20, color: Colors.white),
-                  ),
-                ],
+                  )),
+              const SizedBox(
+                width: 20,
               ),
-            ),
+              const Text(
+                "BMI Calculator",
+                style: TextStyle(fontSize: 20, color: Colors.white),
+              )
+            ],
+          ),
+        ),
             Container(
                 width: MediaQuery.of(context).size.width,
                 height: MediaQuery.of(context).size.height,
-                margin: const EdgeInsets.only(top: 70),
+                margin: const EdgeInsets.only(top: 100),
                 decoration: const BoxDecoration(
                     borderRadius: BorderRadius.only(
                         topLeft: Radius.circular(20),
                         topRight: Radius.circular(20)),
                     color: Colors.white),
                 child: Padding(
-                    padding: EdgeInsets.only(left: 24, right: 24, top: 16),
+                    padding: EdgeInsets.only(left: 20, right: 20, top: 16),
                     child: SingleChildScrollView(
                       child: Column(
                         children: [
@@ -273,7 +276,7 @@ class _body_mass_indexState extends State<body_mass_index> {
                                       ),
                                     ),
                                     const SizedBox(
-                                      width: 16,
+                                      width: 12,
                                     ),
                                     Flexible(
                                       child: Column(
@@ -449,7 +452,7 @@ class _body_mass_indexState extends State<body_mass_index> {
                                           style: TextStyle(
                                               color: check < 16.0
                                                   ? Colors.green
-                                                  : Colors.black)),
+                                                  : Colors.black,fontFamily: 'Open_sans',fontSize: 14)),
                                     ],
                                   ),
                                   Text(
@@ -457,7 +460,7 @@ class _body_mass_indexState extends State<body_mass_index> {
                                     style: TextStyle(
                                         color: check < 16.0
                                             ? Colors.green
-                                            : Colors.black),
+                                            : Colors.black,fontFamily: 'Open_sans',fontSize: 14),
                                   )
                                 ],
                               ),
@@ -470,12 +473,12 @@ class _body_mass_indexState extends State<body_mass_index> {
                                       style: TextStyle(
                                           color: (check < 16.9 && check > 16.0)
                                               ? Colors.green
-                                              : Colors.black)),
+                                              : Colors.black,fontFamily: 'Open_sans',fontSize: 14)),
                                   Text("16.0 - 16.9",
                                       style: TextStyle(
                                           color: (check < 16.9 && check > 16.0)
                                               ? Colors.green
-                                              : Colors.black))
+                                              : Colors.black,fontFamily: 'Open_sans',fontSize: 14))
                                 ],
                               ),
                               SizedBox(height: 6),
@@ -487,12 +490,12 @@ class _body_mass_indexState extends State<body_mass_index> {
                                       style: TextStyle(
                                           color: (check < 18.5 && check > 16.9)
                                               ? Colors.green
-                                              : Colors.black)),
+                                              : Colors.black,fontFamily: 'Open_sans',fontSize: 14)),
                                   Text("17 - 18.4",
                                       style: TextStyle(
                                           color: (check < 18.5 && check > 16.9)
                                               ? Colors.green
-                                              : Colors.black))
+                                              : Colors.black,fontFamily: 'Open_sans',fontSize: 14))
                                 ],
                               ),
                               SizedBox(height: 6),
@@ -504,12 +507,12 @@ class _body_mass_indexState extends State<body_mass_index> {
                                       style: TextStyle(
                                           color: (check < 25.0 && check > 18.4)
                                               ? Colors.green
-                                              : Colors.black)),
+                                              : Colors.black,fontFamily: 'Open_sans',fontSize: 14)),
                                   Text("18.5 - 24.9",
                                       style: TextStyle(
                                           color: (check < 25.0 && check > 18.4)
                                               ? Colors.green
-                                              : Colors.black))
+                                              : Colors.black,fontFamily: 'Open_sans',fontSize: 14))
                                 ],
                               ),
                               SizedBox(height: 6),
@@ -521,12 +524,12 @@ class _body_mass_indexState extends State<body_mass_index> {
                                       style: TextStyle(
                                           color: (check < 30.0 && check > 24.9)
                                               ? Colors.green
-                                              : Colors.black)),
+                                              : Colors.black,fontFamily: 'Open_sans',fontSize: 14)),
                                   Text("25.0 - 29.9",
                                       style: TextStyle(
                                           color: (check < 30.0 && check > 24.9)
                                               ? Colors.green
-                                              : Colors.black))
+                                              : Colors.black,fontFamily: 'Open_sans',fontSize: 14))
                                 ],
                               ),
                               SizedBox(height: 6),
@@ -538,12 +541,12 @@ class _body_mass_indexState extends State<body_mass_index> {
                                       style: TextStyle(
                                           color: (check < 35.0 && check > 29.9)
                                               ? Colors.green
-                                              : Colors.black)),
+                                              : Colors.black,fontFamily: 'Open_sans',fontSize: 14)),
                                   Text("30.0 - 34.9",
                                       style: TextStyle(
                                           color: (check < 35.0 && check > 29.9)
                                               ? Colors.green
-                                              : Colors.black))
+                                              : Colors.black,fontFamily: 'Open_sans',fontSize: 14))
                                 ],
                               ),
                               SizedBox(height: 6),
@@ -555,12 +558,12 @@ class _body_mass_indexState extends State<body_mass_index> {
                                       style: TextStyle(
                                           color: (check < 40.0 && check > 34.9)
                                               ? Colors.green
-                                              : Colors.black)),
+                                              : Colors.black,fontFamily: 'Open_sans',fontSize: 14)),
                                   Text("35.0 - 39.9",
                                       style: TextStyle(
                                           color: (check < 40.0 && check > 34.9)
                                               ? Colors.green
-                                              : Colors.black))
+                                              : Colors.black,fontFamily: 'Open_sans',fontSize: 14))
                                 ],
                               ),
                               SizedBox(height: 6),
@@ -572,12 +575,12 @@ class _body_mass_indexState extends State<body_mass_index> {
                                       style: TextStyle(
                                           color: (check > 40.0)
                                               ? Colors.green
-                                              : Colors.black)),
+                                              : Colors.black,fontFamily: 'Open_sans',fontSize: 14)),
                                   Text(">= 40.0",
                                       style: TextStyle(
                                           color: (check > 40.0)
                                               ? Colors.green
-                                              : Colors.black))
+                                              : Colors.black,fontFamily: 'Open_sans',fontSize: 14))
                                 ],
                               ),
                             ]),
@@ -596,8 +599,8 @@ class _body_mass_indexState extends State<body_mass_index> {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Text("Normal Weight"),
-                              Text(avg_weight),
+                              Text("Normal Weight",style: TextStyle(fontFamily: 'Open_sans',fontSize: 14),),
+                              Text(avg_weight,style: TextStyle(fontFamily: 'Open_sans',fontSize: 14)),
                             ],
                           ),
                           const SizedBox(

@@ -1,3 +1,4 @@
+import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -39,386 +40,410 @@ class _adddrinkState extends State<adddrink> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        body: Stack(
-      children: [
-        Container(
-          alignment: Alignment.centerLeft,
-          padding: const EdgeInsets.only(left: 20),
-          height: 120,
-          decoration: const BoxDecoration(color: Colors.blue),
-          child: Row(
-            children: [
-              InkWell(
-                  onTap: () {
-                    Navigator.of(context).pop("context");
-                  },
-                  child: const Icon(
-                    Icons.arrow_back_ios,
-                    color: Colors.white,
-                  )),
-              const SizedBox(
-                width: 20,
-              ),
-              const Text(
-                "Add Drink",
-                style: TextStyle(fontSize: 20, color: Colors.white),
-              )
-            ],
-          ),
-        ),
-        Container(
-          width: MediaQuery.of(context).size.width,
-          height: MediaQuery.of(context).size.height,
-          margin: const EdgeInsets.only(top: 100),
-          decoration: const BoxDecoration(
-              borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(20), topRight: Radius.circular(20)),
-              color: Colors.white),
-          child: SingleChildScrollView(
-            child: Column(
+    return SafeArea(
+      child: Scaffold(
+          body: Stack(
+        children: [
+          Container(
+            alignment: Alignment.centerLeft,
+            padding: const EdgeInsets.only(left: 20),
+            height: 120,
+            decoration: const BoxDecoration(color: Colors.blue),
+            child: Row(
               children: [
-                Padding(
-                  padding: const EdgeInsets.only(top: 15.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      Stack(
-                        children: [
-                          InkWell(
-                            onTap: () {
-                              addDrinkDilog();
-                            },
-                            child: Container(
-                              height: 130,
-                              width: 150,
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(10),
-                                  color:
-                                      const Color.fromARGB(255, 168, 211, 247)),
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  SvgPicture.asset("assets/water.svg"),
-                                  const SizedBox(
-                                    height: 15,
-                                  ),
-                                  Text("Water")
-                                ],
-                              ),
-                            ),
-                          ),
-                          Container(
-                            margin:
-                                EdgeInsets.only(right: 10, left: 120, top: 10),
-                            child: SvgPicture.asset("assets/filledlike.svg"),
-                          ),
-                        ],
-                      ),
-                      Stack(
-                        children: [
-                          InkWell(
-                            onTap: () {
-                              addDrinkDilog();
-                            },
-                            child: Container(
-                              height: 130,
-                              width: 150,
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(10),
-                                  color:
-                                      const Color.fromARGB(255, 168, 211, 247)),
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  SvgPicture.asset("assets/coconutwater.svg"),
-                                  const SizedBox(
-                                    height: 15,
-                                  ),
-                                  Text("Coconut Water")
-                                ],
-                              ),
-                            ),
-                          ),
-                          Container(
-                            margin:
-                                EdgeInsets.only(right: 10, left: 120, top: 10),
-                            child: InkWell(
-                                onTap: () {
-                                  setState(() {
-                                    _visiblec = true;
-                                  });
-                                },
-                                child: Stack(
-                                  children: [
-                                    Visibility(
-                                        child: SvgPicture.asset(
-                                            "assets/unlike.svg")),
-                                    InkWell(
-                                        onTap: () {
-                                          setState(() {
-                                            _visiblec = false;
-                                          });
-                                        },
-                                        child: Visibility(
-                                            visible: _visiblec,
-                                            child: SvgPicture.asset(
-                                                "assets/filledlike.svg"))),
-                                  ],
-                                )),
-                          ),
-                        ],
-                      )
-                    ],
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(top: 15.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      Stack(
-                        children: [
-                          InkWell(
-                            onTap: () {
-                              addDrinkDilog();
-                            },
-                            child: Container(
-                              height: 130,
-                              width: 150,
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(10),
-                                  color:
-                                      const Color.fromARGB(255, 168, 211, 247)),
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  SvgPicture.asset("assets/colddrink.svg"),
-                                  const SizedBox(
-                                    height: 15,
-                                  ),
-                                  Text("Cold Drink")
-                                ],
-                              ),
-                            ),
-                          ),
-                          Container(
-                            margin:
-                                EdgeInsets.only(right: 10, left: 120, top: 10),
-                            child: SvgPicture.asset("assets/unlike.svg"),
-                          ),
-                        ],
-                      ),
-                      Stack(
-                        children: [
-                          InkWell(
-                            onTap: () {
-                              addDrinkDilog();
-                            },
-                            child: Container(
-                              height: 130,
-                              width: 150,
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(10),
-                                  color:
-                                      const Color.fromARGB(255, 168, 211, 247)),
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  SvgPicture.asset("assets/cocktail.svg"),
-                                  const SizedBox(
-                                    height: 15,
-                                  ),
-                                  const Text("CockTail")
-                                ],
-                              ),
-                            ),
-                          ),
-                          Container(
-                            margin:
-                                EdgeInsets.only(right: 10, left: 120, top: 10),
-                            child: SvgPicture.asset("assets/unlike.svg"),
-                          ),
-                        ],
-                      )
-                    ],
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(top: 15.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      Stack(
-                        children: [
-                          InkWell(
-                            onTap: () {
-                              addDrinkDilog();
-                            },
-                            child: Container(
-                              height: 130,
-                              width: 150,
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(10),
-                                  color:
-                                      const Color.fromARGB(255, 168, 211, 247)),
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  SvgPicture.asset("assets/energydrink.svg"),
-                                  const SizedBox(
-                                    height: 15,
-                                  ),
-                                  Text("Energy Drink")
-                                ],
-                              ),
-                            ),
-                          ),
-                          Container(
-                            margin:
-                                EdgeInsets.only(right: 10, left: 120, top: 10),
-                            child: SvgPicture.asset("assets/unlike.svg"),
-                          ),
-                        ],
-                      ),
-                      Stack(
-                        children: [
-                          InkWell(
-                            onTap: () {
-                              addDrinkDilog();
-                            },
-                            child: Container(
-                              height: 130,
-                              width: 150,
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(10),
-                                  color:
-                                      const Color.fromARGB(255, 168, 211, 247)),
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  SvgPicture.asset("assets/milk.svg"),
-                                  const SizedBox(
-                                    height: 15,
-                                  ),
-                                  Text("Milk")
-                                ],
-                              ),
-                            ),
-                          ),
-                          Container(
-                            margin:
-                                EdgeInsets.only(right: 10, left: 120, top: 10),
-                            child: SvgPicture.asset("assets/unlike.svg"),
-                          ),
-                        ],
-                      )
-                    ],
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(top: 15.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      Stack(
-                        children: [
-                          InkWell(
-                            onTap: () {
-                              addDrinkDilog();
-                            },
-                            child: Container(
-                              height: 130,
-                              width: 150,
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(10),
-                                  color:
-                                      const Color.fromARGB(255, 168, 211, 247)),
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  SvgPicture.asset("assets/mocktail.svg"),
-                                  const SizedBox(
-                                    height: 15,
-                                  ),
-                                  Text("Mocktail")
-                                ],
-                              ),
-                            ),
-                          ),
-                          Container(
-                            margin:
-                                EdgeInsets.only(right: 10, left: 120, top: 10),
-                            child: SvgPicture.asset("assets/unlike.svg"),
-                          ),
-                        ],
-                      ),
-                      Stack(
-                        children: [
-                          InkWell(
-                            onTap: () {
-                              addDrinkDilog();
-                            },
-                            child: Container(
-                              height: 130,
-                              width: 150,
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(10),
-                                  color:
-                                      const Color.fromARGB(255, 168, 211, 247)),
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  SvgPicture.asset("assets/proteinshake.svg"),
-                                  const SizedBox(
-                                    height: 15,
-                                  ),
-                                  Text("Protein Shake")
-                                ],
-                              ),
-                            ),
-                          ),
-                          Container(
-                            margin:
-                                EdgeInsets.only(right: 10, left: 120, top: 10),
-                            child: Stack(
-                              children: [
-                                InkWell(
-                                    onTap: () {
-                                      setState(() {
-                                        _visiblep = true;
-                                      });
-                                    },
-                                    child:
-                                        SvgPicture.asset("assets/unlike.svg")),
-                                Visibility(
-                                    visible: _visiblep,
-                                    child: InkWell(
-                                      onTap: () {
-                                        setState(() {
-                                          _visiblep = false;
-                                        });
-                                      },
-                                      child: SvgPicture.asset(
-                                          "assets/filledlike.svg"),
-                                    )),
-                              ],
-                            ),
-                          ),
-                        ],
-                      )
-                    ],
-                  ),
-                ),
+                InkWell(
+                    onTap: () {
+                      Navigator.of(context).pop("context");
+                    },
+                    child: const Icon(
+                      Icons.arrow_back_ios,
+                      color: Colors.white,
+                    )),
                 const SizedBox(
-                  height: 30,
+                  width: 20,
+                ),
+                const Text(
+                  "Add Drink",
+                  style: TextStyle(
+                      fontSize: 20,
+                      color: Colors.white,
+                      fontFamily: "Open_sans"),
                 )
               ],
             ),
           ),
-        )
-      ],
-    ));
+          Container(
+            width: MediaQuery.of(context).size.width,
+            height: MediaQuery.of(context).size.height,
+            margin: const EdgeInsets.only(top: 100),
+            decoration: const BoxDecoration(
+                borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(20),
+                    topRight: Radius.circular(20)),
+                color: Colors.white),
+            child: SingleChildScrollView(
+              child: Column(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(top: 15.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        Stack(
+                          children: [
+                            InkWell(
+                              onTap: () {
+                                addDrinkDilog();
+                              },
+                              child: Container(
+                                height: 130,
+                                width: 150,
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(10),
+                                    color: const Color.fromARGB(
+                                        255, 168, 211, 247)),
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    SvgPicture.asset("assets/water.svg"),
+                                    const SizedBox(
+                                      height: 15,
+                                    ),
+                                    const Text(
+                                      "Water",
+                                      style: TextStyle(fontFamily: "Open_sans"),
+                                    )
+                                  ],
+                                ),
+                              ),
+                            ),
+                            Container(
+                              margin: const EdgeInsets.only(
+                                  right: 10, left: 120, top: 10),
+                              child: SvgPicture.asset("assets/filledlike.svg"),
+                            ),
+                          ],
+                        ),
+                        Stack(
+                          children: [
+                            InkWell(
+                              onTap: () {
+                                addDrinkDilog();
+                              },
+                              child: Container(
+                                height: 130,
+                                width: 150,
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(10),
+                                    color: const Color.fromARGB(
+                                        255, 168, 211, 247)),
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    SvgPicture.asset("assets/coconutwater.svg"),
+                                    const SizedBox(
+                                      height: 15,
+                                    ),
+                                    const Text(
+                                      "Coconut Water",
+                                      style: TextStyle(fontFamily: "Open_sans"),
+                                    )
+                                  ],
+                                ),
+                              ),
+                            ),
+                            Container(
+                              margin: const EdgeInsets.only(
+                                  right: 10, left: 120, top: 10),
+                              child: InkWell(
+                                  onTap: () {
+                                    setState(() {
+                                      _visiblec = true;
+                                    });
+                                  },
+                                  child: Stack(
+                                    children: [
+                                      Visibility(
+                                          child: SvgPicture.asset(
+                                              "assets/unlike.svg")),
+                                      InkWell(
+                                          onTap: () {
+                                            setState(() {
+                                              _visiblec = false;
+                                            });
+                                          },
+                                          child: Visibility(
+                                              visible: _visiblec,
+                                              child: SvgPicture.asset(
+                                                  "assets/filledlike.svg"))),
+                                    ],
+                                  )),
+                            ),
+                          ],
+                        )
+                      ],
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 15.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        Stack(
+                          children: [
+                            InkWell(
+                              onTap: () {
+                                addDrinkDilog();
+                              },
+                              child: Container(
+                                height: 130,
+                                width: 150,
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(10),
+                                    color: const Color.fromARGB(
+                                        255, 168, 211, 247)),
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    SvgPicture.asset("assets/colddrink.svg"),
+                                    const SizedBox(
+                                      height: 15,
+                                    ),
+                                    const Text("Cold Drink",
+                                        style:
+                                            TextStyle(fontFamily: "Open_sans"))
+                                  ],
+                                ),
+                              ),
+                            ),
+                            Container(
+                              margin: const EdgeInsets.only(
+                                  right: 10, left: 120, top: 10),
+                              child: SvgPicture.asset("assets/unlike.svg"),
+                            ),
+                          ],
+                        ),
+                        Stack(
+                          children: [
+                            InkWell(
+                              onTap: () {
+                                addDrinkDilog();
+                              },
+                              child: Container(
+                                height: 130,
+                                width: 150,
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(10),
+                                    color: const Color.fromARGB(
+                                        255, 168, 211, 247)),
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    SvgPicture.asset("assets/cocktail.svg"),
+                                    const SizedBox(
+                                      height: 15,
+                                    ),
+                                    const Text("CockTail",
+                                        style:
+                                            TextStyle(fontFamily: "Open_sans"))
+                                  ],
+                                ),
+                              ),
+                            ),
+                            Container(
+                              margin: const EdgeInsets.only(
+                                  right: 10, left: 120, top: 10),
+                              child: SvgPicture.asset("assets/unlike.svg"),
+                            ),
+                          ],
+                        )
+                      ],
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 15.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        Stack(
+                          children: [
+                            InkWell(
+                              onTap: () {
+                                addDrinkDilog();
+                              },
+                              child: Container(
+                                height: 130,
+                                width: 150,
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(10),
+                                    color: const Color.fromARGB(
+                                        255, 168, 211, 247)),
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    SvgPicture.asset("assets/energydrink.svg"),
+                                    const SizedBox(
+                                      height: 15,
+                                    ),
+                                    const Text("Energy Drink",
+                                        style:
+                                            TextStyle(fontFamily: "Open_sans"))
+                                  ],
+                                ),
+                              ),
+                            ),
+                            Container(
+                              margin: const EdgeInsets.only(
+                                  right: 10, left: 120, top: 10),
+                              child: SvgPicture.asset("assets/unlike.svg"),
+                            ),
+                          ],
+                        ),
+                        Stack(
+                          children: [
+                            InkWell(
+                              onTap: () {
+                                addDrinkDilog();
+                              },
+                              child: Container(
+                                height: 130,
+                                width: 150,
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(10),
+                                    color: const Color.fromARGB(
+                                        255, 168, 211, 247)),
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    SvgPicture.asset("assets/milk.svg"),
+                                    const SizedBox(
+                                      height: 15,
+                                    ),
+                                    const Text("Milk",
+                                        style:
+                                            TextStyle(fontFamily: "Open_sans"))
+                                  ],
+                                ),
+                              ),
+                            ),
+                            Container(
+                              margin: const EdgeInsets.only(
+                                  right: 10, left: 120, top: 10),
+                              child: SvgPicture.asset("assets/unlike.svg"),
+                            ),
+                          ],
+                        )
+                      ],
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 15.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        Stack(
+                          children: [
+                            InkWell(
+                              onTap: () {
+                                addDrinkDilog();
+                              },
+                              child: Container(
+                                height: 130,
+                                width: 150,
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(10),
+                                    color: const Color.fromARGB(
+                                        255, 168, 211, 247)),
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    SvgPicture.asset("assets/mocktail.svg"),
+                                    const SizedBox(
+                                      height: 15,
+                                    ),
+                                    const Text("Mocktail",
+                                        style:
+                                            TextStyle(fontFamily: "Open_sans"))
+                                  ],
+                                ),
+                              ),
+                            ),
+                            Container(
+                              margin: const EdgeInsets.only(
+                                  right: 10, left: 120, top: 10),
+                              child: SvgPicture.asset("assets/unlike.svg"),
+                            ),
+                          ],
+                        ),
+                        Stack(
+                          children: [
+                            InkWell(
+                              onTap: () {
+                                addDrinkDilog();
+                              },
+                              child: Container(
+                                height: 130,
+                                width: 150,
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(10),
+                                    color: const Color.fromARGB(
+                                        255, 168, 211, 247)),
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    SvgPicture.asset("assets/proteinshake.svg"),
+                                    const SizedBox(
+                                      height: 15,
+                                    ),
+                                    const Text("Protein Shake",
+                                        style:
+                                            TextStyle(fontFamily: "Open_sans"))
+                                  ],
+                                ),
+                              ),
+                            ),
+                            Container(
+                              margin: const EdgeInsets.only(
+                                  right: 10, left: 120, top: 10),
+                              child: Stack(
+                                children: [
+                                  InkWell(
+                                      onTap: () {
+                                        setState(() {
+                                          _visiblep = true;
+                                        });
+                                      },
+                                      child: SvgPicture.asset(
+                                          "assets/unlike.svg")),
+                                  Visibility(
+                                      visible: _visiblep,
+                                      child: InkWell(
+                                        onTap: () {
+                                          setState(() {
+                                            _visiblep = false;
+                                          });
+                                        },
+                                        child: SvgPicture.asset(
+                                            "assets/filledlike.svg"),
+                                      )),
+                                ],
+                              ),
+                            ),
+                          ],
+                        )
+                      ],
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 30,
+                  )
+                ],
+              ),
+            ),
+          )
+        ],
+      )),
+    );
   }
 
   void addDrinkDilog() async {
@@ -441,7 +466,8 @@ class _adddrinkState extends State<adddrink> {
                             color: Colors.blue,
                           )),
                     ),
-                    const Text("How Much Did You Drink Last?"),
+                    const Text("How Much Did You Drink Last?",
+                        style: TextStyle(fontFamily: "Open_sans")),
                     StatefulBuilder(
                       builder: (context, state) {
                         return Column(
@@ -449,11 +475,13 @@ class _adddrinkState extends State<adddrink> {
                             Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                Text(water_value + " ml"),
-                                SizedBox(
+                                Text(water_value + " ml",
+                                    style: TextStyle(fontFamily: "Open_sans")),
+                                const SizedBox(
                                   width: 30,
                                 ),
-                                Text(oz_value + " oz"),
+                                Text(oz_value + " oz",
+                                    style: TextStyle(fontFamily: "Open_sans")),
                               ],
                             ),
                             Slider(
@@ -542,34 +570,12 @@ class _adddrinkState extends State<adddrink> {
                                   int.parse(water_value);
                               Navigator.of(context).push(MaterialPageRoute(
                                   builder: (context) => mainscreen(
-                                      access_from: 'add_drink',
-                                      cat_water_value: a.toString(),)));
-
-                              // setState(() {
-                              //   state(
-                              //     () {
-                              //       int watr = int.parse(water_value);
-                              //       int rem = int.parse(_remeaing_value);
-
-                              //       if (rem >= watr) {
-                              //         int total = rem - watr;
-                              //         _remeaing_value = total.toString();
-                              //         double tar =
-                              //             double.parse(target.toString());
-                              //         double per = (total / tar) * 100;
-                              //         _percent = per.toStringAsFixed(0);
-                              //         Navigator.of(context).pop(context);
-                              //       } else {
-                              //         ScaffoldMessenger.of(context)
-                              //             .showSnackBar(SnackBar(
-                              //                 content: Text(
-                              //                     'Please select valid value')));
-                              //       }
-                              //     },
-                              //   );
-                              // });
+                                        access_from: 'add_drink',
+                                        cat_water_value: a.toString(),
+                                      )));
                             },
-                            child: Text("UNDO"),
+                            child: const Text("UNDO",
+                                style: TextStyle(fontFamily: "Open_sans")),
                           ),
                           const SizedBox(
                             width: 100,
@@ -578,30 +584,19 @@ class _adddrinkState extends State<adddrink> {
                             onPressed: () {
                               int a = int.parse(widget.rem_value.toString()) +
                                   int.parse(water_value);
+                              AssetsAudioPlayer.newPlayer().open(
+                                Audio("assets/audio/water_drop.mp3"),
+                                autoStart: true,
+                                showNotification: false,
+                              );
                               Navigator.of(context).push(MaterialPageRoute(
-                                  builder: (context) => new mainscreen(
-                                      access_from: 'add_drink',
-                                      cat_water_value: a.toString(),)));
-                              // int int_rem = int.parse(_remeaing_value);
-                              // int int_water = int.parse(water_value);
-                              // int total = int_rem + int_water;
-                              // double oztotal = total * 0.038;
-                              // oz_remain = oztotal.toStringAsFixed(0);
-
-                              // _remeaing_value = total.toString();
-                              // double tar = double.parse(target.toString());
-                              // double per = (total / tar) * 100;
-                              // _percent = per.toStringAsFixed(0);
-                              // if (_percent == 100) {
-                              //   ScaffoldMessenger.of(context).showSnackBar(
-                              //       SnackBar(
-                              //           content: Text(
-                              //               "You Achieved Your Target")));
-                              // }
-
-                              //Navigator.of(context).pop(context);
+                                  builder: (context) => mainscreen(
+                                        access_from: 'add_drink',
+                                        cat_water_value: a.toString(),
+                                      )));
                             },
-                            child: Text("ADD"),
+                            child: const Text("ADD",
+                                style: TextStyle(fontFamily: "Open_sans")),
                           ),
                         ],
                       );

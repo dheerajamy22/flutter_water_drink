@@ -5,9 +5,12 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:water_tracker/pages/adddrink.dart';
-import 'package:water_tracker/pages/bar.dart';
+import 'package:water_tracker/pages/water_bar_charts/waterbar.dart';
 import 'package:water_tracker/pages/profile.dart';
-import 'bar_charts/barChartModel.dart';
+import 'package:water_tracker/pages/stepcounter.dart';
+import 'water_bar_charts/waterbarChartModel.dart';
+import 'package:audioplayers/audioplayers.dart';
+import 'package:assets_audio_player/assets_audio_player.dart';
 
 class mainscreen extends StatefulWidget {
   final String access_from, cat_water_value;
@@ -16,6 +19,8 @@ class mainscreen extends StatefulWidget {
     required this.access_from,
     required this.cat_water_value,
   });
+
+ 
 
   @override
   _mainscreenState createState() => _mainscreenState();
@@ -34,28 +39,23 @@ class _mainscreenState extends State<mainscreen> {
   String current_date = '';
   String days = '';
   String saveDays = '';
-
+  late AudioPlayer player;
 // ignore: non_constant_identifier_names
+
 
   void getValue() async {
     //SharedPreference getting value with the help of key
     SharedPreferences pr = await SharedPreferences.getInstance();
     //_remeaing_value=pr.getString('achieved').toString();
-//  String pre_day = pr.getString('day')!;
-//       days = DateFormat('EEE').format(date);
+      //   String? pre_day = pr.getString('days');
+      days = DateFormat('EEE').format(date);
+      print("abcdefghi"+days);
     setState(() {
-      
-
-      
-    
       target = pr.getString('total_targets');
       print('re ' + target.toString());
       oz = pr.getString('oz');
-      pr.setString('day', days);
+      // pr.setString('day', days);
       pr.setString('saveDays', days);
-
-     
-
       if (widget.access_from == 'add_drink') {
         int int_rem = int.parse(widget.cat_water_value);
 
@@ -76,7 +76,7 @@ class _mainscreenState extends State<mainscreen> {
           _percent = "100";
         }
 
-        List<BarChartModel> water_data = [];
+        List<WaterBarChartModel> water_data = [];
 
         List<String> getListAlready = pr.getStringList('salesList') ?? [];
         print('object  ' + getListAlready.toString());
@@ -84,13 +84,13 @@ class _mainscreenState extends State<mainscreen> {
         String? saveday = pr.getString('saveDays');
         print('dys ' + saveday.toString());
         if (getListAlready == 0) {
-          water_data.add(BarChartModel(
+          water_data.add(WaterBarChartModel(
               days: days, water_quantity: int_rem, wtr_date: current_date));
         } else {
           setState(() {
             water_data = getListAlready
                 .map((jsonString) =>
-                    BarChartModel.fromJson(jsonDecode(jsonString)))
+                    WaterBarChartModel.fromJson(jsonDecode(jsonString)))
                 .toList();
           });
 
@@ -100,19 +100,19 @@ class _mainscreenState extends State<mainscreen> {
               //sdata.add(_SalesData(year: sdata[a].year, sales: sdata[a].sales));
 
               water_data.setAll(a, [
-                BarChartModel(
+                WaterBarChartModel(
                     days: water_data[a].days,
                     water_quantity: int_rem,
                     wtr_date: current_date)
               ]);
               print('right');
             } else {
-              water_data.add(BarChartModel(
+              water_data.add(WaterBarChartModel(
                   days: days, water_quantity: int_rem, wtr_date: current_date));
               print('wrong');
             }
           } else {
-            water_data.add(BarChartModel(
+            water_data.add(WaterBarChartModel(
                 days: days, water_quantity: int_rem, wtr_date: current_date));
           }
           print('werytuiop');
@@ -148,27 +148,27 @@ class _mainscreenState extends State<mainscreen> {
           print('data check from other' + _remeaing_value);
         });
       }
-    
     });
-      //   print('hjmcsc  ' + pre_day);
-      // print(pre_day);
-      // if (pre_day != days) {
-      //   setState(() {
-      //     _remeaing_value = '0';
-      //     pr.setString('achived', '0');
-      //     pr.setString('oz_remain', '0');
-      //     pr.setString('_percent', '0');
-      //     pre_day = days;
-      //     print('hjmcsc7  ' + pre_day);
-      //     pr.commit();
-      //   });
-      //   print(_remeaing_value);
-      // }
+    //   print('hjmcsc  ' + pre_day);
+    // print(pre_day);
+    // if (pre_day != days) {
+    //   setState(() {
+    //     _remeaing_value = '0';
+    //     pr.setString('achived', '0');
+    //     pr.setString('oz_remain', '0');
+    //     pr.setString('_percent', '0');
+    //     pre_day = days;
+    //     print('hjmcsc7  ' + pre_day);
+    //     pr.commit();
+    //   });
+    //   print(_remeaing_value);
+    // }
   }
 
   @override
   void initState() {
     getValue();
+    player = AudioPlayer();
     super.initState();
   }
 
@@ -253,7 +253,7 @@ class _mainscreenState extends State<mainscreen> {
                                             const Text("%",
                                                 style: TextStyle(
                                                     fontSize: 20,
-                                                    color: Colors.white))
+                                                    color: Colors.white,fontFamily: "Open_sans"))
                                           ],
                                         ),
                                       ),
@@ -265,7 +265,7 @@ class _mainscreenState extends State<mainscreen> {
                                           "Achieve Goals",
                                           style: TextStyle(
                                               fontSize: 15,
-                                              color: Colors.white),
+                                              color: Colors.white,fontFamily: "Open_sans"),
                                         ),
                                       ),
                                       const SizedBox(
@@ -282,7 +282,7 @@ class _mainscreenState extends State<mainscreen> {
                                               const Text(
                                                 "Achieved ",
                                                 style: TextStyle(
-                                                  color: Colors.white,
+                                                  color: Colors.white,fontFamily: "Open_sans"
                                                 ),
                                               ),
                                               const SizedBox(
@@ -291,14 +291,14 @@ class _mainscreenState extends State<mainscreen> {
                                               Text(_remeaing_value + " ml",
                                                   style: const TextStyle(
                                                       fontSize: 15,
-                                                      color: Colors.white)),
+                                                      color: Colors.white,fontFamily: "Open_sans")),
                                               const SizedBox(
                                                 height: 5,
                                               ),
                                               Text(oz_remain + " oz",
                                                   style: const TextStyle(
                                                       fontSize: 15,
-                                                      color: Colors.white))
+                                                      color: Colors.white,fontFamily: "Open_sans"))
                                             ],
                                           ),
                                           const SizedBox(
@@ -318,21 +318,21 @@ class _mainscreenState extends State<mainscreen> {
                                               const Text("Target",
                                                   style: TextStyle(
                                                       fontSize: 15,
-                                                      color: Colors.white)),
+                                                      color: Colors.white,fontFamily: "Open_sans")),
                                               const SizedBox(
                                                 height: 5,
                                               ),
                                               Text(target.toString() + " ml",
                                                   style: const TextStyle(
                                                       fontSize: 15,
-                                                      color: Colors.white)),
+                                                      color: Colors.white,fontFamily: "Open_sans")),
                                               const SizedBox(
                                                 height: 5,
                                               ),
                                               Text(oz.toString() + " oz",
                                                   style: const TextStyle(
                                                       fontSize: 15,
-                                                      color: Colors.white))
+                                                      color: Colors.white,fontFamily: "Open_sans"))
                                             ],
                                           ),
                                         ],
@@ -395,7 +395,7 @@ class _mainscreenState extends State<mainscreen> {
                                                       const Text(
                                                         "Water",
                                                         style: TextStyle(
-                                                            fontSize: 13),
+                                                            fontSize: 13,fontFamily: "Open_sans"),
                                                       )
                                                     ],
                                                   ),
@@ -452,7 +452,7 @@ class _mainscreenState extends State<mainscreen> {
                                                         const Text(
                                                           "Milk",
                                                           style: TextStyle(
-                                                              fontSize: 13),
+                                                              fontSize: 13,fontFamily: "Open_sans"),
                                                         )
                                                       ],
                                                     ),
@@ -512,7 +512,7 @@ class _mainscreenState extends State<mainscreen> {
                                                       const Text(
                                                         "Coconut Water",
                                                         style: TextStyle(
-                                                            fontSize: 13),
+                                                            fontSize: 13,fontFamily: "Open_sans"),
                                                       )
                                                     ],
                                                   ),
@@ -567,7 +567,7 @@ class _mainscreenState extends State<mainscreen> {
                                                       const Text(
                                                         "Energy Drink",
                                                         style: TextStyle(
-                                                            fontSize: 13),
+                                                            fontSize: 13,fontFamily: "Open_sans"),
                                                       )
                                                     ],
                                                   ),
@@ -655,12 +655,17 @@ class _mainscreenState extends State<mainscreen> {
                             )),
                         Padding(
                           padding: EdgeInsets.only(left: 32, right: 32),
-                          child: CircleAvatar(
-                            backgroundColor: Colors.white,
-                            radius: 25,
-                            child: SvgPicture.asset(
-                              "assets/steps.svg",
-                              fit: BoxFit.fitHeight,
+                          child: InkWell(
+                            onTap: () {
+                              Navigator.push(context, MaterialPageRoute(builder: (context)=>StepCounterPage()));
+                            },
+                            child: CircleAvatar(
+                              backgroundColor: Colors.white,
+                              radius: 25,
+                              child: SvgPicture.asset(
+                                "assets/steps.svg",
+                                fit: BoxFit.fitHeight,
+                              ),
                             ),
                           ),
                         )
@@ -696,7 +701,7 @@ class _mainscreenState extends State<mainscreen> {
                             color: Colors.blue,
                           )),
                     ),
-                    const Text("How Much Did You Drink Last?"),
+                     Text("How Much Did You Drink Last?",style: TextStyle(fontFamily: "Open_sans"),),
                     StatefulBuilder(
                       builder: (context, state) {
                         return Column(
@@ -704,11 +709,11 @@ class _mainscreenState extends State<mainscreen> {
                             Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                Text(water_value + " ml"),
+                                Text(water_value + " ml",style: TextStyle(fontFamily: "Open_sans"),),
                                 const SizedBox(
                                   width: 30,
                                 ),
-                                Text(oz_value + " oz"),
+                                Text(oz_value + " oz",style: TextStyle(fontFamily: "Open_sans"),),
                               ],
                             ),
                             Slider(
@@ -820,7 +825,7 @@ class _mainscreenState extends State<mainscreen> {
                                       int a = int.parse(_percent);
                                       print('vbn ' + a.toString());
 
-                                      List<BarChartModel> water_data = [];
+                                      List<WaterBarChartModel> water_data = [];
 
                                       List<String> getListAlready =
                                           pref.getStringList('salesList') ?? [];
@@ -831,7 +836,7 @@ class _mainscreenState extends State<mainscreen> {
                                           pref.getString('saveDays');
                                       print('dys ' + saveday.toString());
                                       if (getListAlready == 0) {
-                                        water_data.add(BarChartModel(
+                                        water_data.add(WaterBarChartModel(
                                             days: days,
                                             water_quantity: int_water,
                                             wtr_date: current_date));
@@ -839,7 +844,7 @@ class _mainscreenState extends State<mainscreen> {
                                         setState(() {
                                           water_data = getListAlready
                                               .map((jsonString) =>
-                                                  BarChartModel.fromJson(
+                                                  WaterBarChartModel.fromJson(
                                                       jsonDecode(jsonString)))
                                               .toList();
                                         });
@@ -855,21 +860,21 @@ class _mainscreenState extends State<mainscreen> {
                                                     int_water;
                                             print(c);
                                             water_data.setAll(a, [
-                                              BarChartModel(
+                                              WaterBarChartModel(
                                                   days: water_data[a].days,
                                                   water_quantity: c,
                                                   wtr_date: current_date)
                                             ]);
                                             print('right');
                                           } else {
-                                            water_data.add(BarChartModel(
+                                            water_data.add(WaterBarChartModel(
                                                 days: days,
                                                 water_quantity: int_water,
                                                 wtr_date: current_date));
                                             print('wrong');
                                           }
                                         } else {
-                                          water_data.add(BarChartModel(
+                                          water_data.add(WaterBarChartModel(
                                               days: days,
                                               water_quantity: int_water,
                                               wtr_date: current_date));
@@ -902,7 +907,7 @@ class _mainscreenState extends State<mainscreen> {
                                 );
                               });
                             },
-                            child: Text("UNDO"),
+                            child: Text("UNDO",style: TextStyle(fontFamily: "Open_sans"),),
                           ),
                           const SizedBox(
                             width: 100,
@@ -939,7 +944,7 @@ class _mainscreenState extends State<mainscreen> {
                                     _percent = '100';
                                   }
 
-                                  List<BarChartModel> water_data = [];
+                                  List<WaterBarChartModel> water_data = [];
 
                                   List<String> getListAlready =
                                       pref.getStringList('salesList') ?? [];
@@ -948,7 +953,7 @@ class _mainscreenState extends State<mainscreen> {
                                   String? saveday = pref.getString('saveDays');
                                   print('dys ' + saveday.toString());
                                   if (getListAlready == 0) {
-                                    water_data.add(BarChartModel(
+                                    water_data.add(WaterBarChartModel(
                                         days: days,
                                         water_quantity: int_water,
                                         wtr_date: current_date));
@@ -956,7 +961,7 @@ class _mainscreenState extends State<mainscreen> {
                                     setState(() {
                                       water_data = getListAlready
                                           .map((jsonString) =>
-                                              BarChartModel.fromJson(
+                                              WaterBarChartModel.fromJson(
                                                   jsonDecode(jsonString)))
                                           .toList();
                                     });
@@ -971,21 +976,21 @@ class _mainscreenState extends State<mainscreen> {
                                             water_data[a].water_quantity;
 
                                         water_data.setAll(a, [
-                                          BarChartModel(
+                                          WaterBarChartModel(
                                               days: water_data[a].days,
                                               water_quantity: c,
                                               wtr_date: current_date)
                                         ]);
                                         print('right');
                                       } else {
-                                        water_data.add(BarChartModel(
+                                        water_data.add(WaterBarChartModel(
                                             days: days,
                                             water_quantity: int_water,
                                             wtr_date: current_date));
                                         print('wrong');
                                       }
                                     } else {
-                                      water_data.add(BarChartModel(
+                                      water_data.add(WaterBarChartModel(
                                           days: days,
                                           water_quantity: int_water,
                                           wtr_date: current_date));
@@ -1011,9 +1016,15 @@ class _mainscreenState extends State<mainscreen> {
                                   }
                                 });
                               });
+                              // player.play(AssetSource("assets/audio/water_drop.mp3"));
+                              AssetsAudioPlayer.newPlayer().open(
+    Audio("assets/audio/water_drop.mp3"),
+    autoStart: true,
+    showNotification: false,
+);
                               Navigator.of(context).pop(context);
                             },
-                            child: Text("ADD"),
+                            child: Text("ADD",style: TextStyle(fontFamily: "Open_sans"),),
                           ),
                         ],
                       );

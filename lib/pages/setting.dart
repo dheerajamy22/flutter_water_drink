@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:water_tracker/pages/steps/stepcounter.dart';
+import 'package:water_tracker/pages/stepcounter.dart';
 import 'package:water_tracker/pages/bmi.dart';
 
 class setting extends StatefulWidget {
@@ -39,7 +39,7 @@ class _settingState extends State<setting> {
                 ),
                 const Text(
                   "Settings",
-                  style: TextStyle(fontSize: 20, color: Colors.white),
+                  style: TextStyle(fontSize: 20, color: Colors.white,fontFamily: "Open_sans"),
                 ),
               ],
             ),
@@ -85,7 +85,7 @@ class _settingState extends State<setting> {
                                 const SizedBox(
                                   width: 40,
                                 ),
-                                const Text("BMI Calculator"),
+                                const Text("BMI Calculator",style: TextStyle(fontFamily: "Open_sans"),),
                               ],
                             ),
                             const Icon(
@@ -104,7 +104,7 @@ class _settingState extends State<setting> {
                          Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) =>  step_counter()));
+                                builder: (context) =>  StepCounterPage()));
                       },
                       child: Container(
                         height: 50,
@@ -128,7 +128,7 @@ class _settingState extends State<setting> {
                                 const SizedBox(
                                   width: 40,
                                 ),
-                                const Text("Step Counter"),
+                                const Text("Step Counter",style: TextStyle(fontFamily: "Open_sans"),),
                               ],
                             ),
                             const Icon(
@@ -164,7 +164,7 @@ class _settingState extends State<setting> {
                               SizedBox(
                                 width: 40,
                               ),
-                              Text("Reminder"),
+                              Text("Reminder",style: TextStyle(fontFamily: "Open_sans"),),
                             ],
                           ),
                           Icon(
@@ -199,7 +199,7 @@ class _settingState extends State<setting> {
                               SizedBox(
                                 width: 40,
                               ),
-                              Text("History"),
+                              Text("History",style: TextStyle(fontFamily: "Open_sans"),),
                             ],
                           ),
                           Icon(
@@ -234,7 +234,7 @@ class _settingState extends State<setting> {
                               const SizedBox(
                                 width: 40,
                               ),
-                              const Text("Cleaning Data"),
+                              const Text("Cleaning Data",style: TextStyle(fontFamily: "Open_sans"),),
                             ],
                           ),
                           const Icon(
@@ -269,7 +269,7 @@ class _settingState extends State<setting> {
                               SizedBox(
                                 width: 40,
                               ),
-                              Text("Sound"),
+                              Text("Sound",style: TextStyle(fontFamily: "Open_sans"),),
                             ],
                           ),
                           Icon(
@@ -304,7 +304,7 @@ class _settingState extends State<setting> {
                               SizedBox(
                                 width: 40,
                               ),
-                              Text("Privacy and Policy"),
+                              Text("Privacy and Policy",style: TextStyle(fontFamily: "Open_sans"),),
                             ],
                           ),
                           Icon(

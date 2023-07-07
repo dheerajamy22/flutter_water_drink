@@ -58,7 +58,7 @@ bool onlastpage=false;
                         },
                         child: const Text("Skip",
                         style: TextStyle(color: Colors.white,
-                        fontWeight: FontWeight.w700,fontSize: 15
+                        fontWeight: FontWeight.w700,fontSize: 15,fontFamily: "Open_sans"
                         ),
                         ),
                         ),
@@ -69,7 +69,7 @@ bool onlastpage=false;
                         },
                         child:const Text("Done",
                         style: TextStyle(color: Colors.white,
-                        fontWeight: FontWeight.w700,fontSize: 15
+                        fontWeight: FontWeight.w700,fontSize: 15,fontFamily: "Open_sans"
                         ),
                         ),
 
@@ -82,7 +82,7 @@ bool onlastpage=false;
                         },
                         child:const Text("Next",
                         style: TextStyle(color: Colors.white,
-                        fontWeight: FontWeight.w700,fontSize: 15
+                        fontWeight: FontWeight.w700,fontSize: 15,fontFamily: "Open_sans"
                         ),
                         ),
                         ),

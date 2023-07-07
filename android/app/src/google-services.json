@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "957135562181",
+    "project_id": "water-tracker-12333",
+    "storage_bucket": "water-tracker-12333.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:957135562181:android:023a3c2738eb91a7a757ac",
+        "android_client_info": {
+          "package_name": "com.example.water_tracker"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "957135562181-cv5f5a6e1bdt66epgqsievtal94rtsu6.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDHfJYkzJBpJalqBbIoAiLwvl4RBGJie1s"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "957135562181-cv5f5a6e1bdt66epgqsievtal94rtsu6.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

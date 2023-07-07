@@ -4,6 +4,8 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:water_tracker/pages/mainscreen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import 'notification_service.dart';
+
 class info extends StatefulWidget {
   const info({super.key});
 
@@ -14,12 +16,13 @@ class info extends StatefulWidget {
 class _infoState extends State<info> {
   final TextEditingController _weight = TextEditingController();
   final TextEditingController _height = TextEditingController();
+  //NotificationService notificationService = NotificationService();
 
   @override
   void initState() {
     _weight.text = '';
     _height.text = '';
-
+   // notificationService.initialNotification();
     super.initState();
   }
 
@@ -101,9 +104,9 @@ class _infoState extends State<info> {
     return WillPopScope(
       onWillPop: () async => false,
       child: SafeArea(
-        child: Scaffold(
+          child: Scaffold(
         body: DecoratedBox(
-          decoration: BoxDecoration(
+          decoration: const BoxDecoration(
             image: DecorationImage(
                 image: AssetImage("assets/sign_bg.png"), fit: BoxFit.cover),
           ),
@@ -144,8 +147,9 @@ class _infoState extends State<info> {
                             prefs.setString("total_targets", value);
                             prefs.setString("oz", oz);
                             prefs.setBool('screen', screentype);
-                            prefs.setString('weight', total_weight.toStringAsFixed(0));
-                             prefs.setString('height', _height.text);
+                            prefs.setString(
+                                'weight', total_weight.toStringAsFixed(0));
+                            prefs.setString('height', _height.text);
                             prefs.commit();
                           } else {
                             double total_weight = double.parse(_weight.text);
@@ -163,10 +167,13 @@ class _infoState extends State<info> {
                             prefs.setString("total_targets", value);
                             prefs.setString("oz", oz);
                             prefs.setBool('screen', screentype);
-                             prefs.setString('weight', total_weight.toStringAsFixed(0));
-                             prefs.setString('height', _height.text);
+                            prefs.setString(
+                                'weight', total_weight.toStringAsFixed(0));
+                            prefs.setString('height', _height.text);
                             prefs.commit();
                           }
+
+                         // NotificationService().scheduleNotification("Water Tracker", "It's tym to drink water");
                           // ignore: use_build_context_synchronously
                           Navigator.push(
                               context,
@@ -176,8 +183,9 @@ class _infoState extends State<info> {
                                       cat_water_value: '')));
                         },
                         child: const Text(
-                          "Done",
-                          style: TextStyle(fontSize: 18),
+                          "Done", 
+                          style:
+                              TextStyle(fontSize: 16, fontFamily: "Open_sans"),
                         ),
                       ),
                     )
@@ -195,7 +203,8 @@ class _infoState extends State<info> {
                             "Can you please help us with some information to customer experience for you?",
                             style: TextStyle(
                                 color: const Color.fromARGB(255, 19, 137, 233),
-                                fontSize: 16),
+                                fontSize: 16,
+                                fontFamily: "Open_sans"),
                           ),
                         ),
                         const SizedBox(
@@ -205,7 +214,8 @@ class _infoState extends State<info> {
                           alignment: Alignment.centerLeft,
                           child: const Text(
                             "Height",
-                            style: TextStyle(fontSize: 16),
+                            style: TextStyle(
+                                fontSize: 16, fontFamily: "Open_sans"),
                           ),
                         ),
                         const SizedBox(
@@ -244,7 +254,11 @@ class _infoState extends State<info> {
                                           alignment: Alignment.center,
                                           padding: const EdgeInsets.only(
                                               right: 10, bottom: 0),
-                                          child: Text("${height}"))
+                                          child: Text(
+                                            "${height}",
+                                            style: TextStyle(
+                                                fontFamily: "Open_sans"),
+                                          ))
                                     ],
                                   ),
                                 ),
@@ -295,7 +309,8 @@ class _infoState extends State<info> {
                           alignment: Alignment.centerLeft,
                           child: const Text(
                             "Weight",
-                            style: TextStyle(fontSize: 16),
+                            style: TextStyle(
+                                fontSize: 16, fontFamily: "Open_sans"),
                           ),
                         ),
                         const SizedBox(
@@ -333,7 +348,11 @@ class _infoState extends State<info> {
                                           alignment: Alignment.center,
                                           padding: const EdgeInsets.only(
                                               right: 10, bottom: 0),
-                                          child: Text("${weight}"))
+                                          child: Text(
+                                            "${weight}",
+                                            style: TextStyle(
+                                                fontFamily: "Open_sans"),
+                                          ))
                                     ],
                                   ),
                                 ),
@@ -384,7 +403,8 @@ class _infoState extends State<info> {
                           alignment: Alignment.centerLeft,
                           child: const Text(
                             "Wakeup and Sleep Time",
-                            style: TextStyle(fontSize: 16),
+                            style: TextStyle(
+                                fontSize: 16, fontFamily: "Open_sans"),
                           ),
                         ),
                         const SizedBox(
@@ -441,7 +461,8 @@ class _infoState extends State<info> {
                             "Reminder Interval",
                             style: TextStyle(
                                 fontSize: 16,
-                                color: const Color.fromARGB(255, 19, 137, 233)),
+                                color: const Color.fromARGB(255, 19, 137, 233),
+                                fontFamily: "Open_sans"),
                           ),
                         ),
                         const SizedBox(
@@ -476,10 +497,10 @@ class _infoState extends State<info> {
                                           child: Text(
                                         "30 MInutes",
                                         style: TextStyle(
-                                          color: visi == true
-                                              ? Colors.black
-                                              : Colors.white,
-                                        ),
+                                            color: visi == true
+                                                ? Colors.black
+                                                : Colors.white,
+                                            fontFamily: "Open_sans"),
                                       )),
                                     ),
                                   ),
@@ -513,7 +534,8 @@ class _infoState extends State<info> {
                                         style: TextStyle(
                                             color: hour_1_visi == true
                                                 ? Colors.black
-                                                : Colors.white),
+                                                : Colors.white,
+                                            fontFamily: "Open_sans"),
                                       )),
                                     ),
                                   ),
@@ -541,18 +563,19 @@ class _infoState extends State<info> {
                                       height: 50,
                                       // width: 140,
                                       decoration: BoxDecoration(
-                                          color: hour_1_5_visi == true
-                                              ? Colors.white
-                                              : Colors.blue,
-                                          borderRadius:
-                                              BorderRadius.circular(5)),
+                                        color: hour_1_5_visi == true
+                                            ? Colors.white
+                                            : Colors.blue,
+                                        borderRadius: BorderRadius.circular(5),
+                                      ),
                                       child: Center(
                                           child: Text(
                                         "1.5 Hours",
                                         style: TextStyle(
                                             color: hour_1_5_visi == true
                                                 ? Colors.black
-                                                : Colors.white),
+                                                : Colors.white,
+                                            fontFamily: "Open_sans"),
                                       )),
                                     ),
                                   ),
@@ -585,7 +608,8 @@ class _infoState extends State<info> {
                                               style: TextStyle(
                                                   color: hour_2_visi == true
                                                       ? Colors.black
-                                                      : Colors.white))),
+                                                      : Colors.white,
+                                                  fontFamily: "Open_sans"))),
                                     ),
                                   ),
                                 )
@@ -596,7 +620,8 @@ class _infoState extends State<info> {
                             ),
                             Text(
                               "During the non-break time,we will fire a remainder every ${h}",
-                              style: TextStyle(fontSize: 15),
+                              style: TextStyle(
+                                  fontSize: 15, fontFamily: "Open_sans"),
                             ),
                             const SizedBox(
                               height: 20,
@@ -611,8 +636,7 @@ class _infoState extends State<info> {
             ]),
           ),
         ),
-        )
-      ),
+      )),
     );
   }
 }

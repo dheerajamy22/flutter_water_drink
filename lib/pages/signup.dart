@@ -30,7 +30,7 @@ class _signupState extends State<signup> {
                       "Create an Account",
                       style: TextStyle(
                           fontSize: 30,
-                          color: const Color.fromARGB(255, 19, 137, 233)),
+                          color: const Color.fromARGB(255, 19, 137, 233),fontFamily: "Open_sans"),
                     ),
                   ),
                   const SizedBox(
@@ -99,7 +99,7 @@ class _signupState extends State<signup> {
                       padding: EdgeInsets.only(left: 50, right: 50),
                       child: const Text(
                         "Sign up",
-                        style: TextStyle(color: Colors.white, fontSize: 20),
+                        style: TextStyle(color: Colors.white, fontSize: 20,fontFamily: "Open_sans"),
                       ),
                     ),
                   ),
@@ -115,7 +115,7 @@ class _signupState extends State<signup> {
                               height: 50,
                             )),
                       ),
-                      const Text("OR"),
+                      const Text("OR",style: TextStyle(fontFamily: "Open_sans"),),
                       Expanded(
                         child: Container(
                             margin:
@@ -132,7 +132,7 @@ class _signupState extends State<signup> {
                   ),
                   const Text(
                     "Sign in with",
-                    style: TextStyle(fontSize: 16),
+                    style: TextStyle(fontSize: 16,fontFamily: "Open_sans"),
                   ),
                   const SizedBox(
                     height: 10,
@@ -165,7 +165,7 @@ class _signupState extends State<signup> {
                     children: [
                      const Text(
                         "Don't have an account?",
-                        style: TextStyle(fontSize: 16),
+                        style: TextStyle(fontSize: 16,fontFamily: "Open_sans"),
                       ),
                       InkWell(
                           onTap: () {
@@ -178,7 +178,7 @@ class _signupState extends State<signup> {
                             "Sign in",
                             style: TextStyle(
                                 fontSize: 16,
-                                color: const Color.fromARGB(255, 0, 140, 255)),
+                                color: const Color.fromARGB(255, 0, 140, 255),fontFamily: "Open_sans"),
                           ))
                     ],
                   ),

@@ -43,7 +43,7 @@ class _profileState extends State<profile> {
               ),
               const Text(
                 "Profile",
-                style: TextStyle(fontSize: 20, color: Colors.white),
+                style: TextStyle(fontSize: 20, color: Colors.white,fontFamily: "Open_sans"),
               ),
                 ],
               ),

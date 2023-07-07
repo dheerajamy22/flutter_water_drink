@@ -75,7 +75,7 @@ class _body_mass_indexState extends State<body_mass_index> {
               ),
               const Text(
                 "BMI Calculator",
-                style: TextStyle(fontSize: 20, color: Colors.white),
+                style: TextStyle(fontSize: 20, color: Colors.white,fontFamily: "Open_sans"),
               )
             ],
           ),
@@ -106,7 +106,7 @@ class _body_mass_indexState extends State<body_mass_index> {
                                         Text(
                                           'Age',
                                           style: TextStyle(
-                                              color: Colors.blue, fontSize: 16),
+                                              color: Colors.blue, fontSize: 16,fontFamily: "Open_sans"),
                                         ),
                                         Padding(
                                           padding: EdgeInsets.only(top: 8),
@@ -132,7 +132,7 @@ class _body_mass_indexState extends State<body_mass_index> {
                                         const Text(
                                           'Height',
                                           style: TextStyle(
-                                              color: Colors.blue, fontSize: 16),
+                                              color: Colors.blue, fontSize: 16,fontFamily: "Open_sans"),
                                         ),
                                         Padding(
                                           padding: EdgeInsets.only(top: 8),
@@ -159,7 +159,7 @@ class _body_mass_indexState extends State<body_mass_index> {
                                         const Text(
                                           '',
                                           style: TextStyle(
-                                              color: Colors.blue, fontSize: 16),
+                                              color: Colors.blue, fontSize: 16,fontFamily: "Open_sans"),
                                         ),
                                         Padding(
                                             padding: EdgeInsets.only(top: 8),
@@ -222,7 +222,7 @@ class _body_mass_indexState extends State<body_mass_index> {
                                             '',
                                             style: TextStyle(
                                                 color: Colors.blue,
-                                                fontSize: 16),
+                                                fontSize: 16,fontFamily: "Open_sans"),
                                           ),
                                           Padding(
                                             padding: EdgeInsets.only(top: 0),
@@ -285,7 +285,7 @@ class _body_mass_indexState extends State<body_mass_index> {
                                             'Weight',
                                             style: TextStyle(
                                                 color: Colors.blue,
-                                                fontSize: 16),
+                                                fontSize: 16,fontFamily: "Open_sans"),
                                           ),
                                           Padding(
                                             padding: EdgeInsets.only(top: 8),
@@ -315,7 +315,7 @@ class _body_mass_indexState extends State<body_mass_index> {
                                             '',
                                             style: TextStyle(
                                                 color: Colors.blue,
-                                                fontSize: 16),
+                                                fontSize: 16,fontFamily: "Open_sans"),
                                           ),
                                           Padding(
                                               padding: EdgeInsets.only(top: 8),
@@ -376,7 +376,7 @@ class _body_mass_indexState extends State<body_mass_index> {
                                   child: const Text(
                                     'Calculate',
                                     style: TextStyle(
-                                        color: Colors.white, fontSize: 16),
+                                        color: Colors.white, fontSize: 16,fontFamily: "Open_sans"),
                                   ),
                                 ),
                                 onTap: () {
@@ -420,12 +420,12 @@ class _body_mass_indexState extends State<body_mass_index> {
                                 Text(
                                   bmi_status,
                                   style: const TextStyle(
-                                      fontSize: 16, color: Colors.green),
+                                      fontSize: 16, color: Colors.green,fontFamily: "Open_sans"),
                                 ),
                                 Text(
                                   "BMI: ${bmi_cal}",
                                   style: const TextStyle(
-                                      color: Colors.green, fontSize: 16),
+                                      color: Colors.green, fontSize: 16,fontFamily: "Open_sans"),
                                 ),
                               ],
                             ),

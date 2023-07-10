@@ -47,6 +47,9 @@ dependencies:
   firebase_auth: ^4.6.3
   google_sign_in: ^6.1.4
   http: ^0.13.4
+  flutter_facebook_auth: ^5.0.11
+  flutter_file_downloader: ^1.1.2
+  
 
  
 

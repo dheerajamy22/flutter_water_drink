@@ -1,23 +1,28 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:water_tracker/pages/google.dart';
+import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
+import 'package:water_tracker/pages/facebooklogin.dart';
+import 'package:water_tracker/pages/googlelogin.dart';
 import 'package:water_tracker/pages/info.dart';
 import 'package:water_tracker/pages/signup.dart';
+import 'package:http/http.dart' as http;
 
 class signin extends StatefulWidget {
   const signin({super.key});
 
   @override
-  
   State<signin> createState() => _signinState();
 }
 
 class _signinState extends State<signin> {
-  TextEditingController _email=TextEditingController();
-  TextEditingController _password= TextEditingController();
-  
+  bool pass_visi = true;
+  TextEditingController _email = TextEditingController();
+  TextEditingController _password = TextEditingController();
+  // bool _isLoggedIn=false;
+  // Map _userObj={};
+
   @override
-  
   Widget build(BuildContext context) {
     SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
       // systemNavigationBarColor: Colors.blue, // navigation bar color
@@ -41,7 +46,10 @@ class _signinState extends State<signin> {
                   padding: EdgeInsets.only(top: 0),
                   child: Text(
                     'Singin',
-                    style: TextStyle(fontSize: 28, color: Colors.blue,fontFamily: "Open_sans"),
+                    style: TextStyle(
+                        fontSize: 28,
+                        color: Colors.blue,
+                        fontFamily: "Open_sans"),
                   ),
                 ),
               ),
@@ -71,7 +79,7 @@ class _signinState extends State<signin> {
                                     decoration: BoxDecoration(
                                         border: Border.all(color: Colors.grey),
                                         borderRadius: BorderRadius.circular(5)),
-                                    child:  Padding(
+                                    child: Padding(
                                       padding: EdgeInsets.only(left: 8),
                                       child: TextField(
                                         controller: _email,
@@ -90,14 +98,25 @@ class _signinState extends State<signin> {
                                     border: Border.all(color: Colors.grey),
                                     borderRadius: BorderRadius.circular(5),
                                   ),
-                                  child:  Padding(
+                                  child: Padding(
                                     padding: EdgeInsets.only(left: 8),
                                     child: TextField(
                                       controller: _password,
-                                      decoration: const InputDecoration(
+                                      decoration: InputDecoration(
+                                        suffixIcon: GestureDetector(
+                                          onTap: () {
+                                            setState(() {
+                                              pass_visi = false;
+                                            });
+                                          },
+                                          child: Icon(pass_visi
+                                              ? Icons.visibility_off
+                                              : Icons.visibility),
+                                        ),
                                         hintText: "Password",
                                         border: InputBorder.none,
                                       ),
+                                      obscureText: pass_visi,
                                     ),
                                   )),
                               const SizedBox(height: 8),
@@ -109,7 +128,8 @@ class _signinState extends State<signin> {
                                     "Forgot password ?",
                                     style: TextStyle(
                                         color: Color.fromARGB(255, 0, 140, 255),
-                                        fontSize: 14,fontFamily: "Open_sans"),
+                                        fontSize: 14,
+                                        fontFamily: "Open_sans"),
                                   ),
                                 ),
                               ),
@@ -117,11 +137,39 @@ class _signinState extends State<signin> {
                                 height: 32,
                               ),
                               InkWell(
-                                onTap: () {
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) => const info()));
+                                onTap: () async {
+                                
+                                  var response = await http.post(
+                                      Uri.parse(
+                                          'https://ennaya.co/dev/appMDDAPI/source=Mobapp_API?action=EMPLOGIN'),
+                                      body: {
+                                        'u_username': _email.text,
+                                        'u_password': _password.text,
+                                        'u_device_token': '',
+                                        'type': ''
+                                      });
+                                  var jsonObject = json.decode(response.body);
+                                  if (response.statusCode == 200) {
+                                    if (jsonObject['Status'] == '1') {
+                                        // ignore: use_build_context_synchronously
+                                        showDialog(
+                                      context: context,
+                                      builder: (context) {
+                                        return const Center(
+                                            child: CircularProgressIndicator());
+                                      });
+                                      // ignore: use_build_context_synchronously
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) => info()));
+                                    } else {
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(const SnackBar(
+                                              content: Text(
+                                                  "You Enter Wrong Email And Password")));
+                                    }
+                                  } else {}
                                 },
                                 child: Container(
                                   height: 48,
@@ -132,7 +180,9 @@ class _signinState extends State<signin> {
                                   child: const Text(
                                     "Sign in",
                                     style: TextStyle(
-                                        color: Colors.white, fontSize: 16,fontFamily: "Open_sans"),
+                                        color: Colors.white,
+                                        fontSize: 16,
+                                        fontFamily: "Open_sans"),
                                   ),
                                 ),
                               ),
@@ -165,7 +215,11 @@ class _signinState extends State<signin> {
                                 color: Colors.black,
                               ),
                             ),
-                            const Flexible(child: Text('OR',style: TextStyle(fontFamily: "Open_sans"),)),
+                            const Flexible(
+                                child: Text(
+                              'OR',
+                              style: TextStyle(fontFamily: "Open_sans"),
+                            )),
                             Flexible(
                               child: Container(
                                 height: 1,
@@ -179,7 +233,8 @@ class _signinState extends State<signin> {
                         ),
                         const Text(
                           "Sign in with",
-                          style: TextStyle(fontSize: 16,fontFamily: "Open_sans"),
+                          style:
+                              TextStyle(fontSize: 16, fontFamily: "Open_sans"),
                           textAlign: TextAlign.center,
                         ),
                         const SizedBox(
@@ -188,12 +243,28 @@ class _signinState extends State<signin> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            CircleAvatar(
-                              radius: 20,
-                              child: Image.asset(
-                                'assets/Fb_icon.png',
-                                width: 40,
-                                height: 40,
+                            InkWell(
+                              onTap: () {
+                                signInFacebook();
+                                // FacebookAuth.instance.login(permissions: [
+                                //   "public_profile",
+                                //   'email'
+                                // ]).then((value) {
+                                //   FacebookAuth.instance.getUserData().then((userData){
+                                //     setState(() {
+                                //       _isLoggedIn=true;
+                                //       _userObj=userData;
+                                //     });
+                                //   });
+                                // });
+                              },
+                              child: CircleAvatar(
+                                radius: 20,
+                                child: Image.asset(
+                                  'assets/Fb_icon.png',
+                                  width: 40,
+                                  height: 40,
+                                ),
                               ),
                             ),
                             const SizedBox(
@@ -223,20 +294,28 @@ class _signinState extends State<signin> {
                           children: [
                             const Text(
                               "Don't have an account?",
-                              style: TextStyle(fontSize: 16,fontFamily: "Open_sans"),
+                              style: TextStyle(
+                                  fontSize: 16, fontFamily: "Open_sans"),
                             ),
                             InkWell(
                                 onTap: () {
                                   Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                          builder: (context) => const signup()));
+                                          builder: (context) =>
+                                              const signup()));
                                 },
                                 child: const Text(
                                   " Sign up",
                                   style: TextStyle(
                                       fontSize: 16,
-                                      color: Color.fromARGB(255, 0, 140, 255,),fontFamily: "Open_sans"),
+                                      color: Color.fromARGB(
+                                        255,
+                                        0,
+                                        140,
+                                        255,
+                                      ),
+                                      fontFamily: "Open_sans"),
                                 ))
                           ],
                         ),

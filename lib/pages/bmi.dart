@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -19,7 +17,7 @@ class _body_mass_indexState extends State<body_mass_index> {
   String bmi_cal = '';
   double check = 0.0;
   String avg_weight = '';
-  final Color _iconColor = Colors.blue;
+  //final Color _iconColor = Colors.blue;
 
   var height_type_array = ['cm', 'ft'];
   String height_type = 'cm';
@@ -90,7 +88,7 @@ class _body_mass_indexState extends State<body_mass_index> {
                         topRight: Radius.circular(20)),
                     color: Colors.white),
                 child: Padding(
-                    padding: EdgeInsets.only(left: 20, right: 20, top: 16),
+                    padding: const EdgeInsets.only(left: 20, right: 20, top: 16),
                     child: SingleChildScrollView(
                       child: Column(
                         children: [
@@ -135,7 +133,7 @@ class _body_mass_indexState extends State<body_mass_index> {
                                               color: Colors.blue, fontSize: 16,fontFamily: "Open_sans"),
                                         ),
                                         Padding(
-                                          padding: EdgeInsets.only(top: 8),
+                                          padding: const EdgeInsets.only(top: 8),
                                           child: TextField(
                                               controller: height_controller,
                                               textAlignVertical:
@@ -162,11 +160,11 @@ class _body_mass_indexState extends State<body_mass_index> {
                                               color: Colors.blue, fontSize: 16,fontFamily: "Open_sans"),
                                         ),
                                         Padding(
-                                            padding: EdgeInsets.only(top: 8),
+                                            padding: const EdgeInsets.only(top: 8),
                                             child: Container(
                                               height: 52,
                                               alignment: Alignment.center,
-                                              decoration: BoxDecoration(),
+                                              decoration: const BoxDecoration(),
                                               child: Padding(
                                                 padding: const EdgeInsets.only(
                                                     left: 10, right: 10),
@@ -208,7 +206,7 @@ class _body_mass_indexState extends State<body_mass_index> {
                             ],
                           ),
                           Padding(
-                            padding: EdgeInsets.only(top: 4),
+                            padding: const EdgeInsets.only(top: 4),
                             child: Column(
                               children: [
                                 Row(

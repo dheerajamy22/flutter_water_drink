@@ -7,7 +7,9 @@ import 'package:pedometer/pedometer.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 import 'package:water_tracker/pages/Insight.dart';
+import 'package:water_tracker/pages/step_bar_chart/step_week_array.dart';
 import 'package:water_tracker/pages/step_bar_chart/stepbarchartmodel.dart';
+import 'package:water_tracker/pages/water_bar_charts/water_week_array.dart';
 
 class StepCounterPage extends StatefulWidget {
   @override
@@ -23,6 +25,7 @@ class _StepCounterPageState extends State<StepCounterPage> {
   final DateTime date = DateTime.now();
   String current_date = '';
   String days = '';
+   List<WeekStepBarChartModel> step_array = [];
 
   @override
   void initState() {
@@ -30,60 +33,7 @@ class _StepCounterPageState extends State<StepCounterPage> {
     _loadInitialStepCount();
     _startListening();
   }
-//   void stepbar()async{
-//     SharedPreferences pr=await SharedPreferences.getInstance();
-//     print("steps");
-//     print(_currentStepCount);
 
-// setState(() {
-
-//         String? saveday = pr.getString('saveDays');
-//         print('dys ' + saveday.toString());
-//         if (stepgetListAlready == 0) {
-//           Step_data.add(StepBarChartModel(
-//               days: days, steps: _currentStepCount, step_date: current_date));
-//         } else {
-//           setState(() {
-//             Step_data = stepgetListAlready
-//                 .map((jsonString) =>
-//                     StepBarChartModel.fromJson(jsonDecode(jsonString)))
-//                 .toList();
-//           });
-
-//           if (Step_data.length != 0) {
-//             if (Step_data[Step_data.length - 1].days == saveday) {
-//               int a = Step_data.length - 1;
-//               //sdata.add(_SalesData(year: sdata[a].year, sales: sdata[a].sales));
-
-//               Step_data.setAll(a, [
-//                 StepBarChartModel(
-//                     days: Step_data[a].days,
-//                     steps: _currentStepCount,
-//                     step_date: current_date)
-//               ]);
-//               print('right');
-//             } else {
-//               Step_data.add(StepBarChartModel(
-//                   days: days, steps: _currentStepCount, step_date: current_date));
-//               print('wrong');
-//             }
-//           } else {
-//             Step_data.add(StepBarChartModel(
-//                 days: days, steps: _currentStepCount, step_date: current_date));
-//           }
-//           print('werytuiop');
-//           List<String> jsonList = Step_data
-//               .map((sales_list) => jsonEncode(sales_list.toJson()))
-//               .toList();
-//           pr.setStringList('salesList', jsonList);
-//           pr.commit();
-
-//           print('object' + Step_data.toString());
-//         }
-
-// });
-
-//   }
 
   void _loadInitialStepCount() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -108,60 +58,57 @@ class _StepCounterPageState extends State<StepCounterPage> {
       }
     });
     //  stepbar();
-    current_date = DateFormat('yyyy-MM-dd').format(date);
+    current_date = DateFormat('MM-dd').format(date);
     days = DateFormat('EEE').format(date);
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setInt('stepCount', _initialStepCount);
     String? saveday = prefs.getString('saveDays');
 
     print('daaaaiyidaifiydfdl   '+saveday.toString());
-    List<StepBarChartModel> Step_data = [];
+    List<StepBarChartModel> Step_bar_data = [];
     List<String> stepgetListAlready = prefs.getStringList('stepList') ?? [];
 
     int a = stepgetListAlready.length;
 
     if (a == 0) {
-      Step_data.add(StepBarChartModel(
+      Step_bar_data.add(StepBarChartModel(
           days: days, steps: _currentStepCount, step_date: current_date));
       print('ertftcjcj  1');
     }
-    // } else if (Step_data[Step_data.length - 1].days != saveday) {
-    //   Step_data.add(StepBarChartModel(
-    //       days: days, steps: _currentStepCount, step_date: current_date));
-    //       print('ertftcjcj  2');
-    // }
+
     else {
          setState(() {
-          Step_data = stepgetListAlready
+          Step_bar_data = stepgetListAlready
               .map((jsonString) =>
                   StepBarChartModel.fromJson(jsonDecode(jsonString)))
               .toList();
         });
       if (a != 0) {
      
-        if (Step_data[Step_data.length - 1].days == saveday) {
-          int a = Step_data.length - 1;
+        if (Step_bar_data[Step_bar_data.length - 1].days == saveday) {
+          int a = Step_bar_data.length - 1;
               //sdata.add(_SalesData(year: sdata[a].year, sales: sdata[a].sales));
 
-              Step_data.setAll(a, [
+              Step_bar_data.setAll(a, [
                 StepBarChartModel(
-                    days: Step_data[a].days,
+                    days: Step_bar_data[a].days,
                     steps: _currentStepCount,
                     step_date: current_date)
               ]);
               print('right');
         } else {
-                Step_data.add(StepBarChartModel(
+                Step_bar_data.add(StepBarChartModel(
           days: days, steps: _currentStepCount, step_date: current_date));
         }
       }else{
-          Step_data.add(StepBarChartModel(
+          Step_bar_data.add(StepBarChartModel(
           days: days, steps: _currentStepCount, step_date: current_date));
       }
-    
+   
     }
+     step_weekData(days, _currentStepCount, current_date);
     List<String> jsonList =
-        Step_data.map((sales_list) => jsonEncode(sales_list.toJson())).toList();
+        Step_bar_data.map((sales_list) => jsonEncode(sales_list.toJson())).toList();
     prefs.setStringList('stepList', jsonList);
     // prefs.commit();
 
@@ -433,5 +380,829 @@ class _StepCounterPageState extends State<StepCounterPage> {
         ),
       ),
     );
+  }
+  void step_weekData(String day, int steps, String date) async {
+    SharedPreferences pr = await SharedPreferences.getInstance();
+    List<String> getList = pr.getStringList('step_data') ?? [];
+    print('week  ' + getList.toString());
+    if (!getList.isEmpty) {
+      print('if week  ' + getList.toString());
+      step_array = getList
+          .map((jsonString) =>
+              WeekStepBarChartModel.fromJson(jsonDecode(jsonString)))
+          .toList();
+      print('week data ' + step_array.toString());
+      print('week length ' + step_array.length.toString());
+      if (step_array != 0) {
+        print('week if');
+
+        switch (day) {
+          case 'Sun':
+            if (step_array[0].steps == '0') {
+              step_array.setAll(0, [
+                WeekStepBarChartModel(
+                    days: 'Sun', steps: steps, step_date: date)
+              ]);
+              step_array.setAll(1, [
+                WeekStepBarChartModel(
+                    days: 'Mon',
+                    steps: step_array[1].steps,
+                    step_date: date)
+              ]);
+              step_array.setAll(2, [
+                WeekStepBarChartModel(
+                    days: 'Tue',
+                    steps: step_array[2].steps,
+                    step_date: date)
+              ]);
+              step_array.setAll(3, [
+                WeekStepBarChartModel(
+                    days: 'Wed',
+                    steps: step_array[3].steps,
+                    step_date: date)
+              ]);
+              step_array.setAll(4, [
+                WeekStepBarChartModel(
+                    days: 'Thu',
+                    steps: step_array[4].steps,
+                    step_date: date)
+              ]);
+              step_array.setAll(5, [
+                WeekStepBarChartModel(
+                    days: 'Fri',
+                    steps: step_array[5].steps,
+                    step_date: date)
+              ]);
+              step_array.setAll(6, [
+                WeekStepBarChartModel(
+                    days: 'Sat',
+                    steps: step_array[6].steps,
+                    step_date: date)
+              ]);
+            } else {
+              int abc = steps + step_array[0].steps;
+              step_array.setAll(0, [
+                WeekStepBarChartModel(
+                    days: 'Sun', steps: abc, step_date: date)
+              ]);
+              step_array.setAll(1, [
+                WeekStepBarChartModel(
+                    days: 'Mon',
+                    steps: step_array[1].steps,
+                    step_date: date)
+              ]);
+              step_array.setAll(2, [
+                WeekStepBarChartModel(
+                    days: 'Tue',
+                    steps: step_array[2].steps,
+                    step_date: date)
+              ]);
+              step_array.setAll(3, [
+                WeekStepBarChartModel(
+                    days: 'Wed',
+                    steps: step_array[3].steps,
+                    step_date: date)
+              ]);
+              step_array.setAll(4, [
+                WeekStepBarChartModel(
+                    days: 'Thu',
+                    steps: step_array[4].steps,
+                    step_date: date)
+              ]);
+              step_array.setAll(5, [
+                WeekStepBarChartModel(
+                    days: 'Fri',
+                    steps: step_array[5].steps,
+                    step_date: date)
+              ]);
+              step_array.setAll(6, [
+                WeekStepBarChartModel(
+                    days: 'Sat',
+                    steps: step_array[6].steps,
+                    step_date: date)
+              ]);
+            }
+            List<String> jsonList = step_array
+                .map((step_data) => jsonEncode(step_data.toJson()))
+                .toList();
+            pr.setStringList('step_data', jsonList);
+            pr.commit();
+            break;
+
+          case 'Mon':
+            if (step_array[1].steps == '0') {
+              step_array.setAll(0, [
+                WeekStepBarChartModel(
+                    days: 'Sun',
+                    steps: step_array[0].steps,
+                    step_date: date)
+              ]);
+              step_array.setAll(1, [
+                WeekStepBarChartModel(
+                    days: 'Mon', steps: _currentStepCount, step_date: date)
+              ]);
+              step_array.setAll(2, [
+                WeekStepBarChartModel(
+                    days: 'Tue',
+                    steps: step_array[2].steps,
+                    step_date: date)
+              ]);
+              step_array.setAll(3, [
+                WeekStepBarChartModel(
+                    days: 'Wed',
+                    steps: step_array[3].steps,
+                    step_date: date)
+              ]);
+              step_array.setAll(4, [
+                WeekStepBarChartModel(
+                    days: 'Thu',
+                    steps: step_array[4].steps,
+                    step_date: date)
+              ]);
+              step_array.setAll(5, [
+                WeekStepBarChartModel(
+                    days: 'Fri',
+                    steps: step_array[5].steps,
+                    step_date: date)
+              ]);
+              step_array.setAll(6, [
+                WeekStepBarChartModel(
+                    days: 'Sat',
+                    steps: step_array[6].steps,
+                    step_date: date)
+              ]);
+            } else {
+              int abc = steps + step_array[1].steps;
+              step_array.setAll(0, [
+                WeekStepBarChartModel(
+                    days: 'Sun',
+                    steps: step_array[0].steps,
+                    step_date: date)
+              ]);
+              step_array.setAll(1, [
+                WeekStepBarChartModel(
+                    days: 'Mon', steps: abc, step_date: date)
+              ]);
+              step_array.setAll(2, [
+                WeekStepBarChartModel(
+                    days: 'Tue',
+                    steps: step_array[2].steps,
+                    step_date: date)
+              ]);
+              step_array.setAll(3, [
+                WeekStepBarChartModel(
+                    days: 'Wed',
+                    steps: step_array[3].steps,
+                    step_date: date)
+              ]);
+              step_array.setAll(4, [
+                WeekStepBarChartModel(
+                    days: 'Thu',
+                    steps: step_array[4].steps,
+                    step_date: date)
+              ]);
+              step_array.setAll(5, [
+                WeekStepBarChartModel(
+                    days: 'Fri',
+                    steps: step_array[5].steps,
+                    step_date: date)
+              ]);
+              step_array.setAll(6, [
+                WeekStepBarChartModel(
+                    days: 'Sat',
+                    steps: step_array[6].steps,
+                    step_date: date)
+              ]);
+            }
+            List<String> jsonList = step_array
+                .map((step_data) => jsonEncode(step_data.toJson()))
+                .toList();
+            pr.setStringList('step_data', jsonList);
+            pr.commit();
+            break;
+
+          case 'Tue':
+            if (step_array[2].steps == '0') {
+              step_array.setAll(0, [
+                WeekStepBarChartModel(
+                    days: 'Sun',
+                    steps: step_array[0].steps,
+                    step_date: date)
+              ]);
+              step_array.setAll(1, [
+                WeekStepBarChartModel(
+                    days: 'Mon',
+                    steps: step_array[1].steps,
+                    step_date: date)
+              ]);
+              step_array.setAll(2, [
+                WeekStepBarChartModel(
+                    days: 'Tue', steps: steps, step_date: date)
+              ]);
+              step_array.setAll(3, [
+                WeekStepBarChartModel(
+                    days: 'Wed',
+                    steps: step_array[3].steps,
+                    step_date: date)
+              ]);
+              step_array.setAll(4, [
+                WeekStepBarChartModel(
+                    days: 'Thu',
+                    steps: step_array[4].steps,
+                    step_date: date)
+              ]);
+              step_array.setAll(5, [
+                WeekStepBarChartModel(
+                    days: 'Fri',
+                    steps: step_array[5].steps,
+                    step_date: date)
+              ]);
+              step_array.setAll(6, [
+                WeekStepBarChartModel(
+                    days: 'Sat',
+                    steps: step_array[6].steps,
+                    step_date: date)
+              ]);
+            } else {
+              int abc = steps + step_array[2].steps;
+              step_array.setAll(0, [
+                WeekStepBarChartModel(
+                    days: 'Sun',
+                    steps: step_array[0].steps,
+                    step_date: date)
+              ]);
+              step_array.setAll(1, [
+                WeekStepBarChartModel(
+                    days: 'Mon',
+                    steps: step_array[1].steps,
+                    step_date: date)
+              ]);
+              step_array.setAll(2, [
+                WeekStepBarChartModel(
+                    days: 'Tue', steps: abc, step_date: date)
+              ]);
+              step_array.setAll(3, [
+                WeekStepBarChartModel(
+                    days: 'Wed',
+                    steps: step_array[3].steps,
+                    step_date: date)
+              ]);
+              step_array.setAll(4, [
+                WeekStepBarChartModel(
+                    days: 'Thu',
+                    steps: step_array[4].steps,
+                    step_date: date)
+              ]);
+              step_array.setAll(5, [
+                WeekStepBarChartModel(
+                    days: 'Fri',
+                    steps: step_array[5].steps,
+                    step_date: date)
+              ]);
+              step_array.setAll(6, [
+                WeekStepBarChartModel(
+                    days: 'Sat',
+                    steps: step_array[6].steps,
+                    step_date: date)
+              ]);
+            }
+            List<String> jsonList = step_array
+                .map((step_data) => jsonEncode(step_data.toJson()))
+                .toList();
+            pr.setStringList('step_data', jsonList);
+            pr.commit();
+            break;
+
+          case 'Wed':
+            if (step_array[3].steps == '0') {
+              step_array.setAll(0, [
+                WeekStepBarChartModel(
+                    days: 'Sun',
+                    steps: step_array[0].steps,
+                    step_date: date)
+              ]);
+              step_array.setAll(1, [
+                WeekStepBarChartModel(
+                    days: 'Mon',
+                    steps: step_array[1].steps,
+                    step_date: date)
+              ]);
+              step_array.setAll(2, [
+                WeekStepBarChartModel(
+                    days: 'Tue',
+                    steps: step_array[2].steps,
+                    step_date: date)
+              ]);
+              step_array.setAll(3, [
+                WeekStepBarChartModel(
+                    days: 'Wed', steps: steps, step_date: date)
+              ]);
+              step_array.setAll(4, [
+                WeekStepBarChartModel(
+                    days: 'Thu',
+                    steps: step_array[4].steps,
+                    step_date: date)
+              ]);
+              step_array.setAll(5, [
+                WeekStepBarChartModel(
+                    days: 'Fri',
+                    steps: step_array[5].steps,
+                    step_date: date)
+              ]);
+              step_array.setAll(6, [
+                WeekStepBarChartModel(
+                    days: 'Sat',
+                    steps: step_array[6].steps,
+                    step_date: date)
+              ]);
+            } else {
+              int abc = steps + step_array[3].steps;
+              step_array.setAll(0, [
+                WeekStepBarChartModel(
+                    days: 'Sun',
+                    steps: step_array[0].steps,
+                    step_date: date)
+              ]);
+              step_array.setAll(1, [
+                WeekStepBarChartModel(
+                    days: 'Mon',
+                    steps: step_array[1].steps,
+                    step_date: date)
+              ]);
+              step_array.setAll(2, [
+                WeekStepBarChartModel(
+                    days: 'Tue',
+                    steps: step_array[2].steps,
+                    step_date: date)
+              ]);
+              step_array.setAll(3, [
+                WeekStepBarChartModel(
+                    days: 'Wed', steps: abc, step_date: date)
+              ]);
+              step_array.setAll(4, [
+                WeekStepBarChartModel(
+                    days: 'Thu',
+                    steps: step_array[4].steps,
+                    step_date: date)
+              ]);
+              step_array.setAll(5, [
+                WeekStepBarChartModel(
+                    days: 'Fri',
+                    steps: step_array[5].steps,
+                    step_date: date)
+              ]);
+              step_array.setAll(6, [
+                WeekStepBarChartModel(
+                    days: 'Sat',
+                    steps: step_array[6].steps,
+                    step_date: date)
+              ]);
+            }
+            List<String> jsonList = step_array
+                .map((step_data) => jsonEncode(step_data.toJson()))
+                .toList();
+            pr.setStringList('step_data', jsonList);
+            pr.commit();
+            break;
+
+          case 'Thu':
+            if (step_array[4].steps == '0') {
+              step_array.setAll(0, [
+                WeekStepBarChartModel(
+                    days: 'Sun',
+                    steps: step_array[0].steps,
+                    step_date: date)
+              ]);
+              step_array.setAll(1, [
+                WeekStepBarChartModel(
+                    days: 'Mon',
+                    steps: step_array[1].steps,
+                    step_date: date)
+              ]);
+              step_array.setAll(2, [
+                WeekStepBarChartModel(
+                    days: 'Tue',
+                    steps: step_array[2].steps,
+                    step_date: date)
+              ]);
+              step_array.setAll(3, [
+                WeekStepBarChartModel(
+                    days: 'Wed',
+                    steps: step_array[3].steps,
+                    step_date: date)
+              ]);
+              step_array.setAll(4, [
+                WeekStepBarChartModel(
+                    days: 'Thu', steps: steps, step_date: date)
+              ]);
+              step_array.setAll(5, [
+                WeekStepBarChartModel(
+                    days: 'Fri',
+                    steps: step_array[5].steps,
+                    step_date: date)
+              ]);
+              step_array.setAll(6, [
+                WeekStepBarChartModel(
+                    days: 'Sat',
+                    steps: step_array[6].steps,
+                    step_date: date)
+              ]);
+            } else {
+              int abc = steps + step_array[4].steps;
+              step_array.setAll(0, [
+                WeekStepBarChartModel(
+                    days: 'Sun',
+                    steps: step_array[0].steps,
+                    step_date: date)
+              ]);
+              step_array.setAll(1, [
+                WeekStepBarChartModel(
+                    days: 'Mon',
+                    steps: step_array[1].steps,
+                    step_date: date)
+              ]);
+              step_array.setAll(2, [
+                WeekStepBarChartModel(
+                    days: 'Tue',
+                    steps: step_array[2].steps,
+                    step_date: date)
+              ]);
+              step_array.setAll(3, [
+                WeekStepBarChartModel(
+                    days: 'Wed',
+                    steps: step_array[3].steps,
+                    step_date: date)
+              ]);
+              step_array.setAll(4, [
+                WeekStepBarChartModel(
+                    days: 'Thu', steps: abc, step_date: date)
+              ]);
+              step_array.setAll(5, [
+                WeekStepBarChartModel(
+                    days: 'Fri',
+                    steps: step_array[5].steps,
+                    step_date: date)
+              ]);
+              step_array.setAll(6, [
+                WeekStepBarChartModel(
+                    days: 'Sat',
+                    steps: step_array[6].steps,
+                    step_date: date)
+              ]);
+            }
+            List<String> jsonList = step_array
+                .map((step_data) => jsonEncode(step_data.toJson()))
+                .toList();
+            pr.setStringList('step_data', jsonList);
+            pr.commit();
+            break;
+
+          case 'Fri':
+            if (step_array[5].steps == '0') {
+              step_array.setAll(0, [
+                WeekStepBarChartModel(
+                    days: 'Sun',
+                    steps: step_array[0].steps,
+                    step_date: date)
+              ]);
+              step_array.setAll(1, [
+                WeekStepBarChartModel(
+                    days: 'Mon',
+                    steps: step_array[1].steps,
+                    step_date: date)
+              ]);
+              step_array.setAll(2, [
+                WeekStepBarChartModel(
+                    days: 'Tue',
+                    steps: step_array[2].steps,
+                    step_date: date)
+              ]);
+              step_array.setAll(3, [
+                WeekStepBarChartModel(
+                    days: 'Wed',
+                    steps: step_array[3].steps,
+                    step_date: date)
+              ]);
+              step_array.setAll(4, [
+                WeekStepBarChartModel(
+                    days: 'Thu',
+                    steps: step_array[4].steps,
+                    step_date: date)
+              ]);
+              step_array.setAll(5, [
+                WeekStepBarChartModel(
+                    days: 'Fri', steps: steps, step_date: date)
+              ]);
+              step_array.setAll(6, [
+                WeekStepBarChartModel(
+                    days: 'Sat',
+                    steps: step_array[6].steps,
+                    step_date: date)
+              ]);
+            } else {
+              int abc = steps + step_array[5].steps;
+              step_array.setAll(0, [
+                WeekStepBarChartModel(
+                    days: 'Sun',
+                    steps: step_array[0].steps,
+                    step_date: date)
+              ]);
+              step_array.setAll(1, [
+                WeekStepBarChartModel(
+                    days: 'Mon',
+                    steps: step_array[1].steps,
+                    step_date: date)
+              ]);
+              step_array.setAll(2, [
+                WeekStepBarChartModel(
+                    days: 'Tue',
+                    steps: step_array[2].steps,
+                    step_date: date)
+              ]);
+              step_array.setAll(3, [
+                WeekStepBarChartModel(
+                    days: 'Wed',
+                    steps: step_array[3].steps,
+                    step_date: date)
+              ]);
+              step_array.setAll(4, [
+                WeekStepBarChartModel(
+                    days: 'Thu',
+                    steps: step_array[4].steps,
+                    step_date: date)
+              ]);
+              step_array.setAll(5, [
+                WeekStepBarChartModel(
+                    days: 'Fri', steps: abc, step_date: date)
+              ]);
+              step_array.setAll(6, [
+                WeekStepBarChartModel(
+                    days: 'Sat',
+                    steps: step_array[6].steps,
+                    step_date: date)
+              ]);
+            }
+            List<String> jsonList = step_array
+                .map((step_data) => jsonEncode(step_data.toJson()))
+                .toList();
+            pr.setStringList('step_data', jsonList);
+            pr.commit();
+            break;
+
+          case 'Sat':
+            if (step_array[6].steps == '0') {
+              step_array.setAll(0, [
+                WeekStepBarChartModel(
+                    days: 'Sun',
+                    steps: step_array[0].steps,
+                    step_date: date)
+              ]);
+              step_array.setAll(1, [
+                WeekStepBarChartModel(
+                    days: 'Mon',
+                    steps: step_array[1].steps,
+                    step_date: date)
+              ]);
+              step_array.setAll(2, [
+                WeekStepBarChartModel(
+                    days: 'Tue',
+                    steps: step_array[2].steps,
+                    step_date: date)
+              ]);
+              step_array.setAll(3, [
+                WeekStepBarChartModel(
+                    days: 'Wed',
+                    steps: step_array[3].steps,
+                    step_date: date)
+              ]);
+              step_array.setAll(4, [
+                WeekStepBarChartModel(
+                    days: 'Thu',
+                    steps: step_array[4].steps,
+                    step_date: date)
+              ]);
+              step_array.setAll(5, [
+                WeekStepBarChartModel(
+                    days: 'Fri',
+                    steps: step_array[5].steps,
+                    step_date: date)
+              ]);
+              step_array.setAll(6, [
+                WeekStepBarChartModel(
+                    days: 'Sat', steps: steps, step_date: date)
+              ]);
+            } else {
+              int abc = steps + step_array[6].steps;
+              step_array.setAll(0, [
+                WeekStepBarChartModel(
+                    days: 'Sun',
+                    steps: step_array[0].steps,
+                    step_date: date)
+              ]);
+              step_array.setAll(1, [
+                WeekStepBarChartModel(
+                    days: 'Mon',
+                    steps: step_array[1].steps,
+                    step_date: date)
+              ]);
+              step_array.setAll(2, [
+                WeekStepBarChartModel(
+                    days: 'Tue',
+                    steps: step_array[2].steps,
+                    step_date: date)
+              ]);
+              step_array.setAll(3, [
+                WeekStepBarChartModel(
+                    days: 'Wed',
+                    steps: step_array[3].steps,
+                    step_date: date)
+              ]);
+              step_array.setAll(4, [
+                WeekStepBarChartModel(
+                    days: 'Thu',
+                    steps: step_array[4].steps,
+                    step_date: date)
+              ]);
+              step_array.setAll(5, [
+                WeekStepBarChartModel(
+                    days: 'Fri',
+                    steps: step_array[5].steps,
+                    step_date: date)
+              ]);
+              step_array.setAll(6, [
+                WeekStepBarChartModel(
+                    days: 'Sat', steps: abc, step_date: date)
+              ]);
+            }
+            List<String> jsonList = step_array
+                .map((step_data) => jsonEncode(step_data.toJson()))
+                .toList();
+            pr.setStringList('step_data', jsonList);
+            pr.commit();
+            break;
+        }
+      }
+    } else {
+      print('yes week else');
+      print(_currentStepCount);
+      switch (day) {
+        case 'Sun':
+          step_array.add(WeekStepBarChartModel(
+              days: 'Sun', steps: steps, step_date: date));
+          step_array.add(WeekStepBarChartModel(
+              days: 'Mon', steps: 0, step_date: date));
+          step_array.add(WeekStepBarChartModel(
+              days: 'Tue', steps: 0, step_date: date));
+          step_array.add(WeekStepBarChartModel(
+              days: 'Wed', steps: 0, step_date: date));
+          step_array.add(WeekStepBarChartModel(
+              days: 'Thu', steps: 0, step_date: date));
+          step_array.add(WeekStepBarChartModel(
+              days: 'Fri', steps: 0, step_date: date));
+          step_array.add(WeekStepBarChartModel(
+              days: 'Sat', steps: 0, step_date: date));
+          List<String> jsonList = step_array
+              .map((step_data) => jsonEncode(step_data.toJson()))
+              .toList();
+          pr.setStringList('step_data', jsonList);
+          pr.commit();
+          break;
+
+        case 'Mon':
+          step_array.add(WeekStepBarChartModel(
+              days: 'Sun', steps: 0, step_date: date));
+          step_array.add(WeekStepBarChartModel(
+              days: 'Mon', steps: steps, step_date: date));
+          step_array.add(WeekStepBarChartModel(
+              days: 'Tue', steps: 0, step_date: date));
+          step_array.add(WeekStepBarChartModel(
+              days: 'Wed', steps: 0, step_date: date));
+          step_array.add(WeekStepBarChartModel(
+              days: 'Thu', steps: 0, step_date: date));
+          step_array.add(WeekStepBarChartModel(
+              days: 'Fri', steps: 0, step_date: date));
+          step_array.add(WeekStepBarChartModel(
+              days: 'Sat', steps: 0, step_date: date));
+          List<String> jsonList = step_array
+              .map((step_data) => jsonEncode(step_data.toJson()))
+              .toList();
+          pr.setStringList('step_data', jsonList);
+          pr.commit();
+
+          break;
+
+        case 'Tue':
+          step_array.add(WeekStepBarChartModel(
+              days: 'Sun', steps: 0, step_date: date));
+          step_array.add(WeekStepBarChartModel(
+              days: 'Mon', steps: 0, step_date: date));
+          step_array.add(WeekStepBarChartModel(
+              days: 'Tue', steps: steps, step_date: date));
+          step_array.add(WeekStepBarChartModel(
+              days: 'Wed', steps: 0, step_date: date));
+          step_array.add(WeekStepBarChartModel(
+              days: 'Thu', steps: 0, step_date: date));
+          step_array.add(WeekStepBarChartModel(
+              days: 'Fri', steps: 0, step_date: date));
+          step_array.add(WeekStepBarChartModel(
+              days: 'Sat', steps: 0, step_date: date));
+          List<String> jsonList = step_array
+              .map((step_data) => jsonEncode(step_data.toJson()))
+              .toList();
+          pr.setStringList('step_data', jsonList);
+          pr.commit();
+
+          break;
+
+        case 'Wed':
+          step_array.add(WeekStepBarChartModel(
+              days: 'Sun', steps: 0, step_date: date));
+          step_array.add(WeekStepBarChartModel(
+              days: 'Mon', steps: 0, step_date: date));
+          step_array.add(WeekStepBarChartModel(
+              days: 'Tue', steps: 0, step_date: date));
+          step_array.add(WeekStepBarChartModel(
+              days: 'Wed', steps: steps, step_date: date));
+          step_array.add(WeekStepBarChartModel(
+              days: 'Thu', steps: 0, step_date: date));
+          step_array.add(WeekStepBarChartModel(
+              days: 'Fri', steps: 0, step_date: date));
+          step_array.add(WeekStepBarChartModel(
+              days: 'Sat', steps: 0, step_date: date));
+          List<String> jsonList = step_array
+              .map((step_data) => jsonEncode(step_data.toJson()))
+              .toList();
+          pr.setStringList('step_data', jsonList);
+          pr.commit();
+
+          break;
+
+        case 'Thu':
+          step_array.add(WeekStepBarChartModel(
+              days: 'Sun', steps: 0, step_date: date));
+          step_array.add(WeekStepBarChartModel(
+              days: 'Mon', steps: 0, step_date: date));
+          step_array.add(WeekStepBarChartModel(
+              days: 'Tue', steps: 0, step_date: date));
+          step_array.add(WeekStepBarChartModel(
+              days: 'Wed', steps: 0, step_date: date));
+          step_array.add(WeekStepBarChartModel(
+              days: 'Thu', steps: steps, step_date: date));
+          step_array.add(WeekStepBarChartModel(
+              days: 'Fri', steps: 0, step_date: date));
+          step_array.add(WeekStepBarChartModel(
+              days: 'Sat', steps: 0, step_date: date));
+          List<String> jsonList = step_array
+              .map((step_data) => jsonEncode(step_data.toJson()))
+              .toList();
+          pr.setStringList('step_data', jsonList);
+          pr.commit();
+
+          break;
+        case 'Fri':
+          step_array.add(WeekStepBarChartModel(
+              days: 'Sun', steps: 0, step_date: date));
+          step_array.add(WeekStepBarChartModel(
+              days: 'Mon', steps: 0, step_date: date));
+          step_array.add(WeekStepBarChartModel(
+              days: 'Tue', steps: 0, step_date: date));
+          step_array.add(WeekStepBarChartModel(
+              days: 'Wed', steps: 0, step_date: date));
+          step_array.add(WeekStepBarChartModel(
+              days: 'Thu', steps: 0, step_date: date));
+          step_array.add(WeekStepBarChartModel(
+              days: 'Fri', steps: steps, step_date: date));
+          step_array.add(WeekStepBarChartModel(
+              days: 'Sat', steps: 0, step_date: date));
+
+          List<String> jsonList = step_array
+              .map((step_data) => jsonEncode(step_data.toJson()))
+              .toList();
+          pr.setStringList('step_data', jsonList);
+          pr.commit();
+          break;
+        case 'Sat':
+          step_array.add(WeekStepBarChartModel(
+              days: 'Sun', steps: 0, step_date: date));
+          step_array.add(WeekStepBarChartModel(
+              days: 'Mon', steps: 0, step_date: date));
+          step_array.add(WeekStepBarChartModel(
+              days: 'Tue', steps: 0, step_date: date));
+          step_array.add(WeekStepBarChartModel(
+              days: 'Wed', steps: 0, step_date: date));
+          step_array.add(WeekStepBarChartModel(
+              days: 'Thu', steps: 0, step_date: date));
+          step_array.add(WeekStepBarChartModel(
+              days: 'Fri', steps: 0, step_date: date));
+          step_array.add(WeekStepBarChartModel(
+              days: 'Sat', steps: steps, step_date: date));
+          List<String> jsonList = step_array
+              .map((step_data) => jsonEncode(step_data.toJson()))
+              .toList();
+          pr.setStringList('step_data', jsonList);
+          pr.commit();
+          break;
+      }
+    }
   }
 }

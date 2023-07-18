@@ -1,4 +1,8 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:google_sign_in/google_sign_in.dart';
+import 'package:water_tracker/pages/facebooklogin.dart';
+import 'package:water_tracker/pages/info.dart';
 import 'package:water_tracker/pages/signin.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -220,19 +224,60 @@ class _signupState extends State<signup> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      CircleAvatar(
-                        radius: 24,
-                        child: Image.asset(
-                          'assets/Fb_icon.png',
-                          fit: BoxFit.cover,
+                      InkWell(
+                        onTap: () {
+                           signInFacebook();
+                        },
+                        child: CircleAvatar(
+                          radius: 24,
+                          child: Image.asset(
+                            'assets/Fb_icon.png',
+                            fit: BoxFit.cover,
+                          ),
                         ),
                       ),
                       const SizedBox(width: 20),
-                      CircleAvatar(
-                        radius: 27,
-                        child: Image.asset(
-                          'assets/Gmail_icon.png',
-                          fit: BoxFit.cover,
+                      InkWell(
+                        onTap:()async {
+                          //mDSgENUh54dOZxv6H60Yw4bUYTu1
+                         GoogleSignInAccount? googleuser =
+                                    await GoogleSignIn().signIn();
+                                GoogleSignInAuthentication? googleauth =
+                                    await googleuser?.authentication;
+
+                                AuthCredential credential =
+                                    GoogleAuthProvider.credential(
+                                  accessToken: googleauth?.accessToken,
+                                  idToken: googleauth?.idToken,
+                                );
+
+                                UserCredential userCredential =
+                                    await FirebaseAuth.instance
+                                        .signInWithCredential(credential);
+
+                                if (userCredential != null) {
+                                  print(userCredential.user?.displayName);
+                                  print(userCredential.user?.email);
+                                   print(userCredential.user?.uid);
+                                  print(userCredential.user?.getIdToken());
+
+                                 // jsonD = jsonDecode()
+                                  Send_SocialLogin_Data(
+                                      userCredential.user!.displayName
+                                          as String,
+                                      userCredential.user!.email as String,
+                                      userCredential.user?.uid as String
+                                      );
+                                } else {
+                                  print('invalid cread');
+                                }
+                        },
+                        child: CircleAvatar(
+                          radius: 27,
+                          child: Image.asset(
+                            'assets/Gmail_icon.png',
+                            fit: BoxFit.cover,
+                          ),
                         ),
                       ),
                     ],
@@ -273,5 +318,41 @@ class _signupState extends State<signup> {
         ],
       ),
     );
+  }
+  void Send_SocialLogin_Data(String name, String email, String id)async {
+     var response = await http.post(
+                                      Uri.parse(
+                                          'https://ennaya.co/dev/appMDDAPI/source=Mobapp_API?action=SOCIALLOGIN'),
+                                      body: {
+                                        'u_name': name,
+                                        'u_email': email,
+                                        'u_mobile': '',
+                                        'u_device_token': '',
+                                        'u_join_source': 'Google',
+                                        'u_social_id':id
+                                      });
+                                  var jsonObject = json.decode(response.body);
+                                  if (response.statusCode == 200) {
+                                    if (jsonObject['Status'] == '1') {
+                                      // ignore: use_build_context_synchronously
+                                      showDialog(
+                                          context: context,
+                                          builder: (context) {
+                                            return const Center(
+                                                child:
+                                                    CircularProgressIndicator());
+                                          });
+                                      // ignore: use_build_context_synchronously
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>info()));
+                                    } else {
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(const SnackBar(
+                                              content: Text(
+                                                  "Please Enter Valid Google Account")));
+                                    }
+                                  } else {}
   }
 }

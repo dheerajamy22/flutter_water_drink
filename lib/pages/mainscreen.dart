@@ -5,6 +5,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:water_tracker/pages/adddrink.dart';
+import 'package:water_tracker/pages/water_bar_charts/water_week_array.dart';
 import 'package:water_tracker/pages/water_bar_charts/waterbar.dart';
 import 'package:water_tracker/pages/profile.dart';
 import 'package:water_tracker/pages/stepcounter.dart';
@@ -19,8 +20,6 @@ class mainscreen extends StatefulWidget {
     required this.access_from,
     required this.cat_water_value,
   });
-
- 
 
   @override
   _mainscreenState createState() => _mainscreenState();
@@ -40,16 +39,17 @@ class _mainscreenState extends State<mainscreen> {
   String days = '';
   String saveDays = '';
   late AudioPlayer player;
-// ignore: non_constant_identifier_names
+  List<WeekWaterBarChartModel> week_array = [];
 
+// ignore: non_constant_identifier_names
 
   void getValue() async {
     //SharedPreference getting value with the help of key
     SharedPreferences pr = await SharedPreferences.getInstance();
     //_remeaing_value=pr.getString('achieved').toString();
-      //   String? pre_day = pr.getString('days');
-      days = DateFormat('EEE').format(date);
-      print("abcdefghi"+days);
+    //   String? pre_day = pr.getString('days');
+    days = DateFormat('EEE').format(date);
+    print("abcdefghi" + days);
     setState(() {
       target = pr.getString('total_targets');
       print('re ' + target.toString());
@@ -177,10 +177,11 @@ class _mainscreenState extends State<mainscreen> {
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
       statusBarColor: Colors.blue,
     ));
-    current_date = DateFormat('yyyy-MM-dd').format(date);
+    current_date = DateFormat('MM-dd').format(date);
 
     print(current_date);
     print(days);
+    print(date.day);
     return WillPopScope(
       onWillPop: () async => false,
       child: SafeArea(
@@ -253,7 +254,8 @@ class _mainscreenState extends State<mainscreen> {
                                             const Text("%",
                                                 style: TextStyle(
                                                     fontSize: 20,
-                                                    color: Colors.white,fontFamily: "Open_sans"))
+                                                    color: Colors.white,
+                                                    fontFamily: "Open_sans"))
                                           ],
                                         ),
                                       ),
@@ -265,7 +267,8 @@ class _mainscreenState extends State<mainscreen> {
                                           "Achieve Goals",
                                           style: TextStyle(
                                               fontSize: 15,
-                                              color: Colors.white,fontFamily: "Open_sans"),
+                                              color: Colors.white,
+                                              fontFamily: "Open_sans"),
                                         ),
                                       ),
                                       const SizedBox(
@@ -282,8 +285,8 @@ class _mainscreenState extends State<mainscreen> {
                                               const Text(
                                                 "Achieved ",
                                                 style: TextStyle(
-                                                  color: Colors.white,fontFamily: "Open_sans"
-                                                ),
+                                                    color: Colors.white,
+                                                    fontFamily: "Open_sans"),
                                               ),
                                               const SizedBox(
                                                 height: 5,
@@ -291,14 +294,16 @@ class _mainscreenState extends State<mainscreen> {
                                               Text(_remeaing_value + " ml",
                                                   style: const TextStyle(
                                                       fontSize: 15,
-                                                      color: Colors.white,fontFamily: "Open_sans")),
+                                                      color: Colors.white,
+                                                      fontFamily: "Open_sans")),
                                               const SizedBox(
                                                 height: 5,
                                               ),
                                               Text(oz_remain + " oz",
                                                   style: const TextStyle(
                                                       fontSize: 15,
-                                                      color: Colors.white,fontFamily: "Open_sans"))
+                                                      color: Colors.white,
+                                                      fontFamily: "Open_sans"))
                                             ],
                                           ),
                                           const SizedBox(
@@ -318,21 +323,24 @@ class _mainscreenState extends State<mainscreen> {
                                               const Text("Target",
                                                   style: TextStyle(
                                                       fontSize: 15,
-                                                      color: Colors.white,fontFamily: "Open_sans")),
+                                                      color: Colors.white,
+                                                      fontFamily: "Open_sans")),
                                               const SizedBox(
                                                 height: 5,
                                               ),
                                               Text(target.toString() + " ml",
                                                   style: const TextStyle(
                                                       fontSize: 15,
-                                                      color: Colors.white,fontFamily: "Open_sans")),
+                                                      color: Colors.white,
+                                                      fontFamily: "Open_sans")),
                                               const SizedBox(
                                                 height: 5,
                                               ),
                                               Text(oz.toString() + " oz",
                                                   style: const TextStyle(
                                                       fontSize: 15,
-                                                      color: Colors.white,fontFamily: "Open_sans"))
+                                                      color: Colors.white,
+                                                      fontFamily: "Open_sans"))
                                             ],
                                           ),
                                         ],
@@ -395,7 +403,9 @@ class _mainscreenState extends State<mainscreen> {
                                                       const Text(
                                                         "Water",
                                                         style: TextStyle(
-                                                            fontSize: 13,fontFamily: "Open_sans"),
+                                                            fontSize: 13,
+                                                            fontFamily:
+                                                                "Open_sans"),
                                                       )
                                                     ],
                                                   ),
@@ -452,7 +462,9 @@ class _mainscreenState extends State<mainscreen> {
                                                         const Text(
                                                           "Milk",
                                                           style: TextStyle(
-                                                              fontSize: 13,fontFamily: "Open_sans"),
+                                                              fontSize: 13,
+                                                              fontFamily:
+                                                                  "Open_sans"),
                                                         )
                                                       ],
                                                     ),
@@ -512,7 +524,9 @@ class _mainscreenState extends State<mainscreen> {
                                                       const Text(
                                                         "Coconut Water",
                                                         style: TextStyle(
-                                                            fontSize: 13,fontFamily: "Open_sans"),
+                                                            fontSize: 13,
+                                                            fontFamily:
+                                                                "Open_sans"),
                                                       )
                                                     ],
                                                   ),
@@ -567,7 +581,9 @@ class _mainscreenState extends State<mainscreen> {
                                                       const Text(
                                                         "Energy Drink",
                                                         style: TextStyle(
-                                                            fontSize: 13,fontFamily: "Open_sans"),
+                                                            fontSize: 13,
+                                                            fontFamily:
+                                                                "Open_sans"),
                                                       )
                                                     ],
                                                   ),
@@ -657,7 +673,10 @@ class _mainscreenState extends State<mainscreen> {
                           padding: EdgeInsets.only(left: 32, right: 32),
                           child: InkWell(
                             onTap: () {
-                              Navigator.push(context, MaterialPageRoute(builder: (context)=>StepCounterPage()));
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => StepCounterPage()));
                             },
                             child: CircleAvatar(
                               backgroundColor: Colors.white,
@@ -701,7 +720,10 @@ class _mainscreenState extends State<mainscreen> {
                             color: Colors.blue,
                           )),
                     ),
-                     Text("How Much Did You Drink Last?",style: TextStyle(fontFamily: "Open_sans"),),
+                    Text(
+                      "How Much Did You Drink Last?",
+                      style: TextStyle(fontFamily: "Open_sans"),
+                    ),
                     StatefulBuilder(
                       builder: (context, state) {
                         return Column(
@@ -709,11 +731,17 @@ class _mainscreenState extends State<mainscreen> {
                             Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                Text(water_value + " ml",style: TextStyle(fontFamily: "Open_sans"),),
+                                Text(
+                                  water_value + " ml",
+                                  style: TextStyle(fontFamily: "Open_sans"),
+                                ),
                                 const SizedBox(
                                   width: 30,
                                 ),
-                                Text(oz_value + " oz",style: TextStyle(fontFamily: "Open_sans"),),
+                                Text(
+                                  oz_value + " oz",
+                                  style: TextStyle(fontFamily: "Open_sans"),
+                                ),
                               ],
                             ),
                             Slider(
@@ -907,7 +935,10 @@ class _mainscreenState extends State<mainscreen> {
                                 );
                               });
                             },
-                            child: Text("UNDO",style: TextStyle(fontFamily: "Open_sans"),),
+                            child: Text(
+                              "UNDO",
+                              style: TextStyle(fontFamily: "Open_sans"),
+                            ),
                           ),
                           const SizedBox(
                             width: 100,
@@ -1005,7 +1036,7 @@ class _mainscreenState extends State<mainscreen> {
 
                                     print('object' + water_data.toString());
                                   }
-
+                                  add_weekData(days, int_water, current_date);
                                   // water_data.add(BarChartModel(days: days, water_quantity: int_water, wtr_date: current_date));
 
                                   if (_percent == 100) {
@@ -1018,13 +1049,16 @@ class _mainscreenState extends State<mainscreen> {
                               });
                               // player.play(AssetSource("assets/audio/water_drop.mp3"));
                               AssetsAudioPlayer.newPlayer().open(
-    Audio("assets/audio/water_drop.mp3"),
-    autoStart: true,
-    showNotification: false,
-);
+                                Audio("assets/audio/water_drop.mp3"),
+                                autoStart: true,
+                                showNotification: false,
+                              );
                               Navigator.of(context).pop(context);
                             },
-                            child: Text("ADD",style: TextStyle(fontFamily: "Open_sans"),),
+                            child: Text(
+                              "ADD",
+                              style: TextStyle(fontFamily: "Open_sans"),
+                            ),
                           ),
                         ],
                       );
@@ -1033,5 +1067,829 @@ class _mainscreenState extends State<mainscreen> {
                 )),
           );
         });
+  }
+
+  void add_weekData(String day, int water_quantity, String date) async {
+    SharedPreferences pr = await SharedPreferences.getInstance();
+    List<String> getList = pr.getStringList('week_data') ?? [];
+    print('week  ' + getList.toString());
+    if (!getList.isEmpty) {
+      print('if week  ' + getList.toString());
+      week_array = getList
+          .map((jsonString) =>
+              WeekWaterBarChartModel.fromJson(jsonDecode(jsonString)))
+          .toList();
+      print('week data ' + week_array.toString());
+      print('week length ' + week_array.length.toString());
+      if (week_array != 0) {
+        print('week if');
+
+        switch (day) {
+          case 'Sun':
+            if (week_array[0].water_quantity == '0') {
+              week_array.setAll(0, [
+                WeekWaterBarChartModel(
+                    days: 'Sun', water_quantity: water_quantity, wtr_date: date)
+              ]);
+              week_array.setAll(1, [
+                WeekWaterBarChartModel(
+                    days: 'Mon',
+                    water_quantity: week_array[1].water_quantity,
+                    wtr_date: date)
+              ]);
+              week_array.setAll(2, [
+                WeekWaterBarChartModel(
+                    days: 'Tue',
+                    water_quantity: week_array[2].water_quantity,
+                    wtr_date: date)
+              ]);
+              week_array.setAll(3, [
+                WeekWaterBarChartModel(
+                    days: 'Wed',
+                    water_quantity: week_array[3].water_quantity,
+                    wtr_date: date)
+              ]);
+              week_array.setAll(4, [
+                WeekWaterBarChartModel(
+                    days: 'Thu',
+                    water_quantity: week_array[4].water_quantity,
+                    wtr_date: date)
+              ]);
+              week_array.setAll(5, [
+                WeekWaterBarChartModel(
+                    days: 'Fri',
+                    water_quantity: week_array[5].water_quantity,
+                    wtr_date: date)
+              ]);
+              week_array.setAll(6, [
+                WeekWaterBarChartModel(
+                    days: 'Sat',
+                    water_quantity: week_array[6].water_quantity,
+                    wtr_date: date)
+              ]);
+            } else {
+              int abc = water_quantity + week_array[0].water_quantity;
+              week_array.setAll(0, [
+                WeekWaterBarChartModel(
+                    days: 'Sun', water_quantity: abc, wtr_date: date)
+              ]);
+              week_array.setAll(1, [
+                WeekWaterBarChartModel(
+                    days: 'Mon',
+                    water_quantity: week_array[1].water_quantity,
+                    wtr_date: date)
+              ]);
+              week_array.setAll(2, [
+                WeekWaterBarChartModel(
+                    days: 'Tue',
+                    water_quantity: week_array[2].water_quantity,
+                    wtr_date: date)
+              ]);
+              week_array.setAll(3, [
+                WeekWaterBarChartModel(
+                    days: 'Wed',
+                    water_quantity: week_array[3].water_quantity,
+                    wtr_date: date)
+              ]);
+              week_array.setAll(4, [
+                WeekWaterBarChartModel(
+                    days: 'Thu',
+                    water_quantity: week_array[4].water_quantity,
+                    wtr_date: date)
+              ]);
+              week_array.setAll(5, [
+                WeekWaterBarChartModel(
+                    days: 'Fri',
+                    water_quantity: week_array[5].water_quantity,
+                    wtr_date: date)
+              ]);
+              week_array.setAll(6, [
+                WeekWaterBarChartModel(
+                    days: 'Sat',
+                    water_quantity: week_array[6].water_quantity,
+                    wtr_date: date)
+              ]);
+            }
+            List<String> jsonList = week_array
+                .map((week_data) => jsonEncode(week_data.toJson()))
+                .toList();
+            pr.setStringList('week_data', jsonList);
+            pr.commit();
+            break;
+
+          case 'Mon':
+            if (week_array[1].water_quantity == '0') {
+              week_array.setAll(0, [
+                WeekWaterBarChartModel(
+                    days: 'Sun',
+                    water_quantity: week_array[0].water_quantity,
+                    wtr_date: date)
+              ]);
+              week_array.setAll(1, [
+                WeekWaterBarChartModel(
+                    days: 'Mon', water_quantity: water_quantity, wtr_date: date)
+              ]);
+              week_array.setAll(2, [
+                WeekWaterBarChartModel(
+                    days: 'Tue',
+                    water_quantity: week_array[2].water_quantity,
+                    wtr_date: date)
+              ]);
+              week_array.setAll(3, [
+                WeekWaterBarChartModel(
+                    days: 'Wed',
+                    water_quantity: week_array[3].water_quantity,
+                    wtr_date: date)
+              ]);
+              week_array.setAll(4, [
+                WeekWaterBarChartModel(
+                    days: 'Thu',
+                    water_quantity: week_array[4].water_quantity,
+                    wtr_date: date)
+              ]);
+              week_array.setAll(5, [
+                WeekWaterBarChartModel(
+                    days: 'Fri',
+                    water_quantity: week_array[5].water_quantity,
+                    wtr_date: date)
+              ]);
+              week_array.setAll(6, [
+                WeekWaterBarChartModel(
+                    days: 'Sat',
+                    water_quantity: week_array[6].water_quantity,
+                    wtr_date: date)
+              ]);
+            } else {
+              int abc = water_quantity + week_array[1].water_quantity;
+              week_array.setAll(0, [
+                WeekWaterBarChartModel(
+                    days: 'Sun',
+                    water_quantity: week_array[0].water_quantity,
+                    wtr_date: date)
+              ]);
+              week_array.setAll(1, [
+                WeekWaterBarChartModel(
+                    days: 'Mon', water_quantity: abc, wtr_date: date)
+              ]);
+              week_array.setAll(2, [
+                WeekWaterBarChartModel(
+                    days: 'Tue',
+                    water_quantity: week_array[2].water_quantity,
+                    wtr_date: date)
+              ]);
+              week_array.setAll(3, [
+                WeekWaterBarChartModel(
+                    days: 'Wed',
+                    water_quantity: week_array[3].water_quantity,
+                    wtr_date: date)
+              ]);
+              week_array.setAll(4, [
+                WeekWaterBarChartModel(
+                    days: 'Thu',
+                    water_quantity: week_array[4].water_quantity,
+                    wtr_date: date)
+              ]);
+              week_array.setAll(5, [
+                WeekWaterBarChartModel(
+                    days: 'Fri',
+                    water_quantity: week_array[5].water_quantity,
+                    wtr_date: date)
+              ]);
+              week_array.setAll(6, [
+                WeekWaterBarChartModel(
+                    days: 'Sat',
+                    water_quantity: week_array[6].water_quantity,
+                    wtr_date: date)
+              ]);
+            }
+            List<String> jsonList = week_array
+                .map((week_data) => jsonEncode(week_data.toJson()))
+                .toList();
+            pr.setStringList('week_data', jsonList);
+            pr.commit();
+            break;
+
+          case 'Tue':
+            if (week_array[2].water_quantity == '0') {
+              week_array.setAll(0, [
+                WeekWaterBarChartModel(
+                    days: 'Sun',
+                    water_quantity: week_array[0].water_quantity,
+                    wtr_date: date)
+              ]);
+              week_array.setAll(1, [
+                WeekWaterBarChartModel(
+                    days: 'Mon',
+                    water_quantity: week_array[1].water_quantity,
+                    wtr_date: date)
+              ]);
+              week_array.setAll(2, [
+                WeekWaterBarChartModel(
+                    days: 'Tue', water_quantity: water_quantity, wtr_date: date)
+              ]);
+              week_array.setAll(3, [
+                WeekWaterBarChartModel(
+                    days: 'Wed',
+                    water_quantity: week_array[3].water_quantity,
+                    wtr_date: date)
+              ]);
+              week_array.setAll(4, [
+                WeekWaterBarChartModel(
+                    days: 'Thu',
+                    water_quantity: week_array[4].water_quantity,
+                    wtr_date: date)
+              ]);
+              week_array.setAll(5, [
+                WeekWaterBarChartModel(
+                    days: 'Fri',
+                    water_quantity: week_array[5].water_quantity,
+                    wtr_date: date)
+              ]);
+              week_array.setAll(6, [
+                WeekWaterBarChartModel(
+                    days: 'Sat',
+                    water_quantity: week_array[6].water_quantity,
+                    wtr_date: date)
+              ]);
+            } else {
+              int abc = water_quantity + week_array[2].water_quantity;
+              week_array.setAll(0, [
+                WeekWaterBarChartModel(
+                    days: 'Sun',
+                    water_quantity: week_array[0].water_quantity,
+                    wtr_date: date)
+              ]);
+              week_array.setAll(1, [
+                WeekWaterBarChartModel(
+                    days: 'Mon',
+                    water_quantity: week_array[1].water_quantity,
+                    wtr_date: date)
+              ]);
+              week_array.setAll(2, [
+                WeekWaterBarChartModel(
+                    days: 'Tue', water_quantity: abc, wtr_date: date)
+              ]);
+              week_array.setAll(3, [
+                WeekWaterBarChartModel(
+                    days: 'Wed',
+                    water_quantity: week_array[3].water_quantity,
+                    wtr_date: date)
+              ]);
+              week_array.setAll(4, [
+                WeekWaterBarChartModel(
+                    days: 'Thu',
+                    water_quantity: week_array[4].water_quantity,
+                    wtr_date: date)
+              ]);
+              week_array.setAll(5, [
+                WeekWaterBarChartModel(
+                    days: 'Fri',
+                    water_quantity: week_array[5].water_quantity,
+                    wtr_date: date)
+              ]);
+              week_array.setAll(6, [
+                WeekWaterBarChartModel(
+                    days: 'Sat',
+                    water_quantity: week_array[6].water_quantity,
+                    wtr_date: date)
+              ]);
+            }
+            List<String> jsonList = week_array
+                .map((week_data) => jsonEncode(week_data.toJson()))
+                .toList();
+            pr.setStringList('week_data', jsonList);
+            pr.commit();
+            break;
+
+          case 'Wed':
+            if (week_array[3].water_quantity == '0') {
+              week_array.setAll(0, [
+                WeekWaterBarChartModel(
+                    days: 'Sun',
+                    water_quantity: week_array[0].water_quantity,
+                    wtr_date: date)
+              ]);
+              week_array.setAll(1, [
+                WeekWaterBarChartModel(
+                    days: 'Mon',
+                    water_quantity: week_array[1].water_quantity,
+                    wtr_date: date)
+              ]);
+              week_array.setAll(2, [
+                WeekWaterBarChartModel(
+                    days: 'Tue',
+                    water_quantity: week_array[2].water_quantity,
+                    wtr_date: date)
+              ]);
+              week_array.setAll(3, [
+                WeekWaterBarChartModel(
+                    days: 'Wed', water_quantity: water_quantity, wtr_date: date)
+              ]);
+              week_array.setAll(4, [
+                WeekWaterBarChartModel(
+                    days: 'Thu',
+                    water_quantity: week_array[4].water_quantity,
+                    wtr_date: date)
+              ]);
+              week_array.setAll(5, [
+                WeekWaterBarChartModel(
+                    days: 'Fri',
+                    water_quantity: week_array[5].water_quantity,
+                    wtr_date: date)
+              ]);
+              week_array.setAll(6, [
+                WeekWaterBarChartModel(
+                    days: 'Sat',
+                    water_quantity: week_array[6].water_quantity,
+                    wtr_date: date)
+              ]);
+            } else {
+              int abc = water_quantity + week_array[3].water_quantity;
+              week_array.setAll(0, [
+                WeekWaterBarChartModel(
+                    days: 'Sun',
+                    water_quantity: week_array[0].water_quantity,
+                    wtr_date: date)
+              ]);
+              week_array.setAll(1, [
+                WeekWaterBarChartModel(
+                    days: 'Mon',
+                    water_quantity: week_array[1].water_quantity,
+                    wtr_date: date)
+              ]);
+              week_array.setAll(2, [
+                WeekWaterBarChartModel(
+                    days: 'Tue',
+                    water_quantity: week_array[2].water_quantity,
+                    wtr_date: date)
+              ]);
+              week_array.setAll(3, [
+                WeekWaterBarChartModel(
+                    days: 'Wed', water_quantity: abc, wtr_date: date)
+              ]);
+              week_array.setAll(4, [
+                WeekWaterBarChartModel(
+                    days: 'Thu',
+                    water_quantity: week_array[4].water_quantity,
+                    wtr_date: date)
+              ]);
+              week_array.setAll(5, [
+                WeekWaterBarChartModel(
+                    days: 'Fri',
+                    water_quantity: week_array[5].water_quantity,
+                    wtr_date: date)
+              ]);
+              week_array.setAll(6, [
+                WeekWaterBarChartModel(
+                    days: 'Sat',
+                    water_quantity: week_array[6].water_quantity,
+                    wtr_date: date)
+              ]);
+            }
+            List<String> jsonList = week_array
+                .map((week_data) => jsonEncode(week_data.toJson()))
+                .toList();
+            pr.setStringList('week_data', jsonList);
+            pr.commit();
+            break;
+
+          case 'Thu':
+            if (week_array[4].water_quantity == '0') {
+              week_array.setAll(0, [
+                WeekWaterBarChartModel(
+                    days: 'Sun',
+                    water_quantity: week_array[0].water_quantity,
+                    wtr_date: date)
+              ]);
+              week_array.setAll(1, [
+                WeekWaterBarChartModel(
+                    days: 'Mon',
+                    water_quantity: week_array[1].water_quantity,
+                    wtr_date: date)
+              ]);
+              week_array.setAll(2, [
+                WeekWaterBarChartModel(
+                    days: 'Tue',
+                    water_quantity: week_array[2].water_quantity,
+                    wtr_date: date)
+              ]);
+              week_array.setAll(3, [
+                WeekWaterBarChartModel(
+                    days: 'Wed',
+                    water_quantity: week_array[3].water_quantity,
+                    wtr_date: date)
+              ]);
+              week_array.setAll(4, [
+                WeekWaterBarChartModel(
+                    days: 'Thu', water_quantity: water_quantity, wtr_date: date)
+              ]);
+              week_array.setAll(5, [
+                WeekWaterBarChartModel(
+                    days: 'Fri',
+                    water_quantity: week_array[5].water_quantity,
+                    wtr_date: date)
+              ]);
+              week_array.setAll(6, [
+                WeekWaterBarChartModel(
+                    days: 'Sat',
+                    water_quantity: week_array[6].water_quantity,
+                    wtr_date: date)
+              ]);
+            } else {
+              int abc = water_quantity + week_array[4].water_quantity;
+              week_array.setAll(0, [
+                WeekWaterBarChartModel(
+                    days: 'Sun',
+                    water_quantity: week_array[0].water_quantity,
+                    wtr_date: date)
+              ]);
+              week_array.setAll(1, [
+                WeekWaterBarChartModel(
+                    days: 'Mon',
+                    water_quantity: week_array[1].water_quantity,
+                    wtr_date: date)
+              ]);
+              week_array.setAll(2, [
+                WeekWaterBarChartModel(
+                    days: 'Tue',
+                    water_quantity: week_array[2].water_quantity,
+                    wtr_date: date)
+              ]);
+              week_array.setAll(3, [
+                WeekWaterBarChartModel(
+                    days: 'Wed',
+                    water_quantity: week_array[3].water_quantity,
+                    wtr_date: date)
+              ]);
+              week_array.setAll(4, [
+                WeekWaterBarChartModel(
+                    days: 'Thu', water_quantity: abc, wtr_date: date)
+              ]);
+              week_array.setAll(5, [
+                WeekWaterBarChartModel(
+                    days: 'Fri',
+                    water_quantity: week_array[5].water_quantity,
+                    wtr_date: date)
+              ]);
+              week_array.setAll(6, [
+                WeekWaterBarChartModel(
+                    days: 'Sat',
+                    water_quantity: week_array[6].water_quantity,
+                    wtr_date: date)
+              ]);
+            }
+            List<String> jsonList = week_array
+                .map((week_data) => jsonEncode(week_data.toJson()))
+                .toList();
+            pr.setStringList('week_data', jsonList);
+            pr.commit();
+            break;
+
+          case 'Fri':
+            if (week_array[5].water_quantity == '0') {
+              week_array.setAll(0, [
+                WeekWaterBarChartModel(
+                    days: 'Sun',
+                    water_quantity: week_array[0].water_quantity,
+                    wtr_date: date)
+              ]);
+              week_array.setAll(1, [
+                WeekWaterBarChartModel(
+                    days: 'Mon',
+                    water_quantity: week_array[1].water_quantity,
+                    wtr_date: date)
+              ]);
+              week_array.setAll(2, [
+                WeekWaterBarChartModel(
+                    days: 'Tue',
+                    water_quantity: week_array[2].water_quantity,
+                    wtr_date: date)
+              ]);
+              week_array.setAll(3, [
+                WeekWaterBarChartModel(
+                    days: 'Wed',
+                    water_quantity: week_array[3].water_quantity,
+                    wtr_date: date)
+              ]);
+              week_array.setAll(4, [
+                WeekWaterBarChartModel(
+                    days: 'Thu',
+                    water_quantity: week_array[4].water_quantity,
+                    wtr_date: date)
+              ]);
+              week_array.setAll(5, [
+                WeekWaterBarChartModel(
+                    days: 'Fri', water_quantity: water_quantity, wtr_date: date)
+              ]);
+              week_array.setAll(6, [
+                WeekWaterBarChartModel(
+                    days: 'Sat',
+                    water_quantity: week_array[6].water_quantity,
+                    wtr_date: date)
+              ]);
+            } else {
+              int abc = water_quantity + week_array[5].water_quantity;
+              week_array.setAll(0, [
+                WeekWaterBarChartModel(
+                    days: 'Sun',
+                    water_quantity: week_array[0].water_quantity,
+                    wtr_date: date)
+              ]);
+              week_array.setAll(1, [
+                WeekWaterBarChartModel(
+                    days: 'Mon',
+                    water_quantity: week_array[1].water_quantity,
+                    wtr_date: date)
+              ]);
+              week_array.setAll(2, [
+                WeekWaterBarChartModel(
+                    days: 'Tue',
+                    water_quantity: week_array[2].water_quantity,
+                    wtr_date: date)
+              ]);
+              week_array.setAll(3, [
+                WeekWaterBarChartModel(
+                    days: 'Wed',
+                    water_quantity: week_array[3].water_quantity,
+                    wtr_date: date)
+              ]);
+              week_array.setAll(4, [
+                WeekWaterBarChartModel(
+                    days: 'Thu',
+                    water_quantity: week_array[4].water_quantity,
+                    wtr_date: date)
+              ]);
+              week_array.setAll(5, [
+                WeekWaterBarChartModel(
+                    days: 'Fri', water_quantity: abc, wtr_date: date)
+              ]);
+              week_array.setAll(6, [
+                WeekWaterBarChartModel(
+                    days: 'Sat',
+                    water_quantity: week_array[6].water_quantity,
+                    wtr_date: date)
+              ]);
+            }
+            List<String> jsonList = week_array
+                .map((week_data) => jsonEncode(week_data.toJson()))
+                .toList();
+            pr.setStringList('week_data', jsonList);
+            pr.commit();
+            break;
+
+          case 'Sat':
+            if (week_array[6].water_quantity == '0') {
+              week_array.setAll(0, [
+                WeekWaterBarChartModel(
+                    days: 'Sun',
+                    water_quantity: week_array[0].water_quantity,
+                    wtr_date: date)
+              ]);
+              week_array.setAll(1, [
+                WeekWaterBarChartModel(
+                    days: 'Mon',
+                    water_quantity: week_array[1].water_quantity,
+                    wtr_date: date)
+              ]);
+              week_array.setAll(2, [
+                WeekWaterBarChartModel(
+                    days: 'Tue',
+                    water_quantity: week_array[2].water_quantity,
+                    wtr_date: date)
+              ]);
+              week_array.setAll(3, [
+                WeekWaterBarChartModel(
+                    days: 'Wed',
+                    water_quantity: week_array[3].water_quantity,
+                    wtr_date: date)
+              ]);
+              week_array.setAll(4, [
+                WeekWaterBarChartModel(
+                    days: 'Thu',
+                    water_quantity: week_array[4].water_quantity,
+                    wtr_date: date)
+              ]);
+              week_array.setAll(5, [
+                WeekWaterBarChartModel(
+                    days: 'Fri',
+                    water_quantity: week_array[5].water_quantity,
+                    wtr_date: date)
+              ]);
+              week_array.setAll(6, [
+                WeekWaterBarChartModel(
+                    days: 'Sat', water_quantity: water_quantity, wtr_date: date)
+              ]);
+            } else {
+              int abc = water_quantity + week_array[6].water_quantity;
+              week_array.setAll(0, [
+                WeekWaterBarChartModel(
+                    days: 'Sun',
+                    water_quantity: week_array[0].water_quantity,
+                    wtr_date: date)
+              ]);
+              week_array.setAll(1, [
+                WeekWaterBarChartModel(
+                    days: 'Mon',
+                    water_quantity: week_array[1].water_quantity,
+                    wtr_date: date)
+              ]);
+              week_array.setAll(2, [
+                WeekWaterBarChartModel(
+                    days: 'Tue',
+                    water_quantity: week_array[2].water_quantity,
+                    wtr_date: date)
+              ]);
+              week_array.setAll(3, [
+                WeekWaterBarChartModel(
+                    days: 'Wed',
+                    water_quantity: week_array[3].water_quantity,
+                    wtr_date: date)
+              ]);
+              week_array.setAll(4, [
+                WeekWaterBarChartModel(
+                    days: 'Thu',
+                    water_quantity: week_array[4].water_quantity,
+                    wtr_date: date)
+              ]);
+              week_array.setAll(5, [
+                WeekWaterBarChartModel(
+                    days: 'Fri',
+                    water_quantity: week_array[5].water_quantity,
+                    wtr_date: date)
+              ]);
+              week_array.setAll(6, [
+                WeekWaterBarChartModel(
+                    days: 'Sat', water_quantity: abc, wtr_date: date)
+              ]);
+            }
+            List<String> jsonList = week_array
+                .map((week_data) => jsonEncode(week_data.toJson()))
+                .toList();
+            pr.setStringList('week_data', jsonList);
+            pr.commit();
+            break;
+        }
+      }
+    } else {
+      print('yes week else');
+      switch (day) {
+        case 'Sun':
+          week_array.add(WeekWaterBarChartModel(
+              days: 'Sun', water_quantity: water_quantity, wtr_date: date));
+          week_array.add(WeekWaterBarChartModel(
+              days: 'Mon', water_quantity: 0, wtr_date: date));
+          week_array.add(WeekWaterBarChartModel(
+              days: 'Tue', water_quantity: 0, wtr_date: date));
+          week_array.add(WeekWaterBarChartModel(
+              days: 'Wed', water_quantity: 0, wtr_date: date));
+          week_array.add(WeekWaterBarChartModel(
+              days: 'Thu', water_quantity: 0, wtr_date: date));
+          week_array.add(WeekWaterBarChartModel(
+              days: 'Fri', water_quantity: 0, wtr_date: date));
+          week_array.add(WeekWaterBarChartModel(
+              days: 'Sat', water_quantity: 0, wtr_date: date));
+          List<String> jsonList = week_array
+              .map((week_data) => jsonEncode(week_data.toJson()))
+              .toList();
+          pr.setStringList('week_data', jsonList);
+          pr.commit();
+          break;
+
+        case 'Mon':
+          week_array.add(WeekWaterBarChartModel(
+              days: 'Sun', water_quantity: 0, wtr_date: date));
+          week_array.add(WeekWaterBarChartModel(
+              days: 'Mon', water_quantity: water_quantity, wtr_date: date));
+          week_array.add(WeekWaterBarChartModel(
+              days: 'Tue', water_quantity: 0, wtr_date: date));
+          week_array.add(WeekWaterBarChartModel(
+              days: 'Wed', water_quantity: 0, wtr_date: date));
+          week_array.add(WeekWaterBarChartModel(
+              days: 'Thu', water_quantity: 0, wtr_date: date));
+          week_array.add(WeekWaterBarChartModel(
+              days: 'Fri', water_quantity: 0, wtr_date: date));
+          week_array.add(WeekWaterBarChartModel(
+              days: 'Sat', water_quantity: 0, wtr_date: date));
+          List<String> jsonList = week_array
+              .map((week_data) => jsonEncode(week_data.toJson()))
+              .toList();
+          pr.setStringList('week_data', jsonList);
+          pr.commit();
+
+          break;
+
+        case 'Tue':
+          week_array.add(WeekWaterBarChartModel(
+              days: 'Sun', water_quantity: 0, wtr_date: date));
+          week_array.add(WeekWaterBarChartModel(
+              days: 'Mon', water_quantity: 0, wtr_date: date));
+          week_array.add(WeekWaterBarChartModel(
+              days: 'Tue', water_quantity: water_quantity, wtr_date: date));
+          week_array.add(WeekWaterBarChartModel(
+              days: 'Wed', water_quantity: 0, wtr_date: date));
+          week_array.add(WeekWaterBarChartModel(
+              days: 'Thu', water_quantity: 0, wtr_date: date));
+          week_array.add(WeekWaterBarChartModel(
+              days: 'Fri', water_quantity: 0, wtr_date: date));
+          week_array.add(WeekWaterBarChartModel(
+              days: 'Sat', water_quantity: 0, wtr_date: date));
+          List<String> jsonList = week_array
+              .map((week_data) => jsonEncode(week_data.toJson()))
+              .toList();
+          pr.setStringList('week_data', jsonList);
+          pr.commit();
+
+          break;
+
+        case 'Wed':
+          week_array.add(WeekWaterBarChartModel(
+              days: 'Sun', water_quantity: 0, wtr_date: date));
+          week_array.add(WeekWaterBarChartModel(
+              days: 'Mon', water_quantity: 0, wtr_date: date));
+          week_array.add(WeekWaterBarChartModel(
+              days: 'Tue', water_quantity: 0, wtr_date: date));
+          week_array.add(WeekWaterBarChartModel(
+              days: 'Wed', water_quantity: water_quantity, wtr_date: date));
+          week_array.add(WeekWaterBarChartModel(
+              days: 'Thu', water_quantity: 0, wtr_date: date));
+          week_array.add(WeekWaterBarChartModel(
+              days: 'Fri', water_quantity: 0, wtr_date: date));
+          week_array.add(WeekWaterBarChartModel(
+              days: 'Sat', water_quantity: 0, wtr_date: date));
+          List<String> jsonList = week_array
+              .map((week_data) => jsonEncode(week_data.toJson()))
+              .toList();
+          pr.setStringList('week_data', jsonList);
+          pr.commit();
+
+          break;
+
+        case 'Thu':
+          week_array.add(WeekWaterBarChartModel(
+              days: 'Sun', water_quantity: 0, wtr_date: date));
+          week_array.add(WeekWaterBarChartModel(
+              days: 'Mon', water_quantity: 0, wtr_date: date));
+          week_array.add(WeekWaterBarChartModel(
+              days: 'Tue', water_quantity: 0, wtr_date: date));
+          week_array.add(WeekWaterBarChartModel(
+              days: 'Wed', water_quantity: 0, wtr_date: date));
+          week_array.add(WeekWaterBarChartModel(
+              days: 'Thu', water_quantity: water_quantity, wtr_date: date));
+          week_array.add(WeekWaterBarChartModel(
+              days: 'Fri', water_quantity: 0, wtr_date: date));
+          week_array.add(WeekWaterBarChartModel(
+              days: 'Sat', water_quantity: 0, wtr_date: date));
+          List<String> jsonList = week_array
+              .map((week_data) => jsonEncode(week_data.toJson()))
+              .toList();
+          pr.setStringList('week_data', jsonList);
+          pr.commit();
+
+          break;
+        case 'Fri':
+          week_array.add(WeekWaterBarChartModel(
+              days: 'Sun', water_quantity: 0, wtr_date: date));
+          week_array.add(WeekWaterBarChartModel(
+              days: 'Mon', water_quantity: 0, wtr_date: date));
+          week_array.add(WeekWaterBarChartModel(
+              days: 'Tue', water_quantity: 0, wtr_date: date));
+          week_array.add(WeekWaterBarChartModel(
+              days: 'Wed', water_quantity: 0, wtr_date: date));
+          week_array.add(WeekWaterBarChartModel(
+              days: 'Thu', water_quantity: 0, wtr_date: date));
+          week_array.add(WeekWaterBarChartModel(
+              days: 'Fri', water_quantity: water_quantity, wtr_date: date));
+          week_array.add(WeekWaterBarChartModel(
+              days: 'Sat', water_quantity: 0, wtr_date: date));
+
+          List<String> jsonList = week_array
+              .map((week_data) => jsonEncode(week_data.toJson()))
+              .toList();
+          pr.setStringList('week_data', jsonList);
+          pr.commit();
+          break;
+        case 'Sat':
+          week_array.add(WeekWaterBarChartModel(
+              days: 'Sun', water_quantity: 0, wtr_date: date));
+          week_array.add(WeekWaterBarChartModel(
+              days: 'Mon', water_quantity: 0, wtr_date: date));
+          week_array.add(WeekWaterBarChartModel(
+              days: 'Tue', water_quantity: 0, wtr_date: date));
+          week_array.add(WeekWaterBarChartModel(
+              days: 'Wed', water_quantity: 0, wtr_date: date));
+          week_array.add(WeekWaterBarChartModel(
+              days: 'Thu', water_quantity: 0, wtr_date: date));
+          week_array.add(WeekWaterBarChartModel(
+              days: 'Fri', water_quantity: 0, wtr_date: date));
+          week_array.add(WeekWaterBarChartModel(
+              days: 'Sat', water_quantity: water_quantity, wtr_date: date));
+          List<String> jsonList = week_array
+              .map((week_data) => jsonEncode(week_data.toJson()))
+              .toList();
+          pr.setStringList('week_data', jsonList);
+          pr.commit();
+          break;
+      }
+    }
   }
 }

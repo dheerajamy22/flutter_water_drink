@@ -7,14 +7,14 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:957135562181:android:023a3c2738eb91a7a757ac",
+        "mobilesdk_app_id": "1:957135562181:android:7c40682dbfa5b0fea757ac",
         "android_client_info": {
-          "package_name": "com.example.water_tracker"
+          "package_name": "com.amysoftech.water_tracker"
         }
       },
       "oauth_client": [
         {
-          "client_id": "957135562181-cv5f5a6e1bdt66epgqsievtal94rtsu6.apps.googleusercontent.com",
+          "client_id": "957135562181-mf0i8kqc14h331ou5uiq6sgpspitrehq.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
@@ -27,7 +27,7 @@
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "957135562181-cv5f5a6e1bdt66epgqsievtal94rtsu6.apps.googleusercontent.com",
+              "client_id": "957135562181-6vatoi9542bvu6d2fb9nec9jc74irnil.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

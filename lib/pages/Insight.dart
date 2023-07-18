@@ -4,6 +4,7 @@ import 'package:percent_indicator/percent_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
+import 'package:water_tracker/pages/step_bar_chart/step_week_array.dart';
 import 'package:water_tracker/pages/step_bar_chart/stepbarchartmodel.dart';
 
 class insight extends StatefulWidget {
@@ -17,8 +18,8 @@ class _insightState extends State<insight> {
   double _per = 0.0, _per_cal = 0.0, _per_dis = 0.0;
   String dis = "0", cal = "0", min = '0';
   int steps = 0;
-  bool wm=true;
-  List<StepBarChartModel> data = [];
+  bool wm=true,_visi=true;
+  List<WeekStepBarChartModel> step_data = [];
   List<StepBarChartModel> sdata = [];
   void dataList() async {
     SharedPreferences pref = await SharedPreferences.getInstance();
@@ -36,6 +37,17 @@ class _insightState extends State<insight> {
     });
 
     print('object w ' + sdata.toString());
+
+     List<String> week = pref.getStringList('step_data') ?? [];
+    print('object  ' + getList.toString());
+
+    setState(() {
+      step_data = week
+          .map((jsonString) =>
+              WeekStepBarChartModel.fromJson(jsonDecode(jsonString)))
+          .toList();
+    });
+    
   }
 
   void getvalue() async {
@@ -227,6 +239,7 @@ class _insightState extends State<insight> {
                     onTap: () {
                       setState(() {
                         wm=true;
+                         _visi=true;
                       });
                     },
                     child: Container(
@@ -235,7 +248,7 @@ class _insightState extends State<insight> {
                         borderRadius: BorderRadius.only(topLeft: Radius.circular(5),bottomLeft: Radius.circular(5))
                         ),
                         child:  Text(
-                          "weekly",
+                          "Weekly",
                           style: TextStyle(color: wm == true?Colors.white:Colors.black,fontSize: 16, fontFamily: "Open_sans" ),
                         )),
                   ),
@@ -245,6 +258,7 @@ class _insightState extends State<insight> {
                       onTap: () {
                        setState(() {
                           wm=false;
+                          _visi=false;
                        });
                       },
                       child: Container(
@@ -253,7 +267,7 @@ class _insightState extends State<insight> {
                         color: wm==false?Colors.blue:Colors.grey,
                         ),
                           child:  Text(
-                                          "monthly",
+                                          "Monthly",
                                           style: TextStyle(color: wm == false?Colors.white:Colors.black,fontSize: 16, fontFamily: "Open_sans" ),
                                         )),
                     ))
@@ -263,49 +277,98 @@ class _insightState extends State<insight> {
           SizedBox(
             height: 30,
           ),
-          SfCartesianChart(
-              //primaryXAxis: CategoryAxis(),
-              enableAxisAnimation: true,
-              // Chart title
-              title: ChartTitle(text: ''),
-              // Enable legend
-              legend: Legend(isVisible: false),
-              primaryXAxis: CategoryAxis(
-                labelStyle: TextStyle(fontSize: 20),
-                maximumLabels: 100,
-                autoScrollingDelta: 6,
-                majorGridLines: MajorGridLines(width: 0),
-                majorTickLines: MajorTickLines(width: 0),
-              ),
-              primaryYAxis: NumericAxis(
-                  //  numberFormat: NumberFormat('##########人'),
-                  minimum: 1.0,
-                  majorGridLines: MajorGridLines(
-                    width: 0,
-                  )),
-              zoomPanBehavior: ZoomPanBehavior(
-                enablePanning: true,
-              ),
-    
-              // Enable tooltip
-              tooltipBehavior: TooltipBehavior(enable: false),
-              series: <ChartSeries<StepBarChartModel, String>>[
-                StackedColumnSeries<StepBarChartModel, String>(
-                    dataSource: sdata,
-                    xValueMapper: (StepBarChartModel sales, _) => sales.days,
-                    yValueMapper: (StepBarChartModel sales1, _) =>
-                        sales1.steps,
-                    name: 'Record',
-                    width: 0.1,
-                    spacing: 0.1,
-                    emptyPointSettings: EmptyPointSettings(
-                        // Mode of empty point
-                        mode: EmptyPointMode.average),
-                    borderRadius: const BorderRadius.all(Radius.circular(10)),
-                    // Enable data label
-                    dataLabelSettings:
-                        const DataLabelSettings(isVisible: true)),
-              ]),
+          Visibility(
+            visible:_visi ,
+            child: SfCartesianChart(
+                //primaryXAxis: CategoryAxis(),
+                enableAxisAnimation: true,
+                // Chart title
+                title: ChartTitle(text: ''),
+                // Enable legend
+                legend: Legend(isVisible: false),
+                primaryXAxis: CategoryAxis(
+                  labelStyle: TextStyle(fontSize: 14),
+                  maximumLabels: 100,
+                  autoScrollingDelta: 7,
+                  majorGridLines: MajorGridLines(width: 0),
+                  majorTickLines: MajorTickLines(width: 0),
+                ),
+                primaryYAxis: NumericAxis(
+                    //  numberFormat: NumberFormat('##########人'),
+                    minimum: 1.0,
+                    majorGridLines: MajorGridLines(
+                      width: 0,
+                    )),
+                zoomPanBehavior: ZoomPanBehavior(
+                  enablePanning: true,
+                ),
+              
+                // Enable tooltip
+                tooltipBehavior: TooltipBehavior(enable: false),
+                series: <ChartSeries<WeekStepBarChartModel, String>>[
+                  StackedColumnSeries<WeekStepBarChartModel, String>(
+                      dataSource: step_data,
+                      xValueMapper: (WeekStepBarChartModel sales, _) => sales.days,
+                      yValueMapper: (WeekStepBarChartModel sales1, _) =>
+                          sales1.steps,
+                      name: 'Record',
+                      width: 0.3,
+                      spacing: 0.1,
+                      emptyPointSettings: EmptyPointSettings(
+                          // Mode of empty point
+                          mode: EmptyPointMode.average),
+                      borderRadius: const BorderRadius.all(Radius.circular(10)),
+                      // Enable data label
+                      dataLabelSettings:
+                          const DataLabelSettings(isVisible: true)),
+                ]),
+          ),
+          Visibility(
+            visible: _visi==false?true:false,
+            child: SfCartesianChart(
+                //primaryXAxis: CategoryAxis(),
+                enableAxisAnimation: true,
+                // Chart title
+                title: ChartTitle(text: ''),
+                // Enable legend
+                legend: Legend(isVisible: false),
+                primaryXAxis: CategoryAxis(
+                  labelStyle: TextStyle(fontSize: 14),
+                  maximumLabels: 100,
+                  autoScrollingDelta: 6,
+                  majorGridLines: MajorGridLines(width: 0),
+                  majorTickLines: MajorTickLines(width: 0),
+                ),
+                primaryYAxis: NumericAxis(
+                    //  numberFormat: NumberFormat('##########人'),
+                    minimum: 1.0,
+                    majorGridLines: MajorGridLines(
+                      width: 0,
+                    )),
+                zoomPanBehavior: ZoomPanBehavior(
+                  enablePanning: true,
+                ),
+              
+                // Enable tooltip
+                tooltipBehavior: TooltipBehavior(enable: false),
+                series: <ChartSeries<StepBarChartModel, String>>[
+                  StackedColumnSeries<StepBarChartModel, String>(
+                      dataSource: sdata,
+                      xValueMapper: (StepBarChartModel sales, _) => sales.step_date,
+                      yValueMapper: (StepBarChartModel sales1, _) =>
+                          sales1.steps,
+                      name: 'Record',
+                      width: 0.05,
+                      spacing: 0.1,
+                      emptyPointSettings: EmptyPointSettings(
+                          // Mode of empty point
+                          mode: EmptyPointMode.average),
+                      borderRadius: const BorderRadius.all(Radius.circular(10)),
+                      // Enable data label
+                      dataLabelSettings:
+                          const DataLabelSettings(isVisible: true)),
+                ]),
+          )
         ],
           ),
         ),

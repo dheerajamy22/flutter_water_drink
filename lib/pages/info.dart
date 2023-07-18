@@ -4,8 +4,6 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:water_tracker/pages/mainscreen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import 'notification_service.dart';
-
 class info extends StatefulWidget {
   const info({super.key});
 

@@ -13,8 +13,8 @@ class adddrink extends StatefulWidget {
 }
 
 class _adddrinkState extends State<adddrink> {
-  bool _visiblep = false;
-  bool _visiblec = false;
+  bool _visiblep = false, _visiblemilk = false, _visibleed = false, _visiblecold = false;
+  bool _visiblec = false, _visiblem = false, _visibleco = false;
   double _slidervalue = 25;
   String water_value = '25';
   String oz_value = '0.8';
@@ -219,7 +219,29 @@ class _adddrinkState extends State<adddrink> {
                             Container(
                               margin: const EdgeInsets.only(
                                   right: 10, left: 120, top: 10),
-                              child: SvgPicture.asset("assets/unlike.svg"),
+                              child: Stack(
+                                children: [
+                                  InkWell(
+                                    onTap: () {
+                                          setState(() {
+                                            _visiblecold = true;
+                                          });
+                                        },
+                                      child: SvgPicture.asset(
+                                          "assets/unlike.svg")),
+                                           Visibility(
+                                      visible: _visiblecold,
+                                      child: InkWell(
+                                        onTap: () {
+                                          setState(() {
+                                            _visiblecold = false;
+                                          });
+                                        },
+                                        child: SvgPicture.asset(
+                                            "assets/filledlike.svg"),
+                                      )),
+                                ],
+                              ),
                             ),
                           ],
                         ),
@@ -253,7 +275,29 @@ class _adddrinkState extends State<adddrink> {
                             Container(
                               margin: const EdgeInsets.only(
                                   right: 10, left: 120, top: 10),
-                              child: SvgPicture.asset("assets/unlike.svg"),
+                              child: Stack(
+                                children: [
+                                  InkWell(
+                                      onTap: () {
+                                        setState(() {
+                                          _visibleco = true;
+                                        });
+                                      },
+                                      child: SvgPicture.asset(
+                                          "assets/unlike.svg")),
+                                  Visibility(
+                                      visible: _visibleco,
+                                      child: InkWell(
+                                        onTap: () {
+                                          setState(() {
+                                            _visibleco = false;
+                                          });
+                                        },
+                                        child: SvgPicture.asset(
+                                            "assets/filledlike.svg"),
+                                      )),
+                                ],
+                              ),
                             ),
                           ],
                         )
@@ -295,7 +339,29 @@ class _adddrinkState extends State<adddrink> {
                             Container(
                               margin: const EdgeInsets.only(
                                   right: 10, left: 120, top: 10),
-                              child: SvgPicture.asset("assets/unlike.svg"),
+                              child: Stack(
+                                children: [
+                                  InkWell(
+                                      onTap: () {
+                                        setState(() {
+                                          _visibleed = true;
+                                        });
+                                      },
+                                      child: SvgPicture.asset(
+                                          "assets/unlike.svg")),
+                                  Visibility(
+                                      visible: _visibleed,
+                                      child: InkWell(
+                                        onTap: () {
+                                          setState(() {
+                                            _visibleed = false;
+                                          });
+                                        },
+                                        child: SvgPicture.asset(
+                                            "assets/filledlike.svg"),
+                                      )),
+                                ],
+                              ),
                             ),
                           ],
                         ),
@@ -329,7 +395,29 @@ class _adddrinkState extends State<adddrink> {
                             Container(
                               margin: const EdgeInsets.only(
                                   right: 10, left: 120, top: 10),
-                              child: SvgPicture.asset("assets/unlike.svg"),
+                              child: Stack(
+                                children: [
+                                  InkWell(
+                                      onTap: () {
+                                        setState(() {
+                                          _visiblemilk = true;
+                                        });
+                                      },
+                                      child: SvgPicture.asset(
+                                          "assets/unlike.svg")),
+                                  Visibility(
+                                      visible: _visiblemilk,
+                                      child: InkWell(
+                                        onTap: () {
+                                          setState(() {
+                                            _visiblemilk = false;
+                                          });
+                                        },
+                                        child: SvgPicture.asset(
+                                            "assets/filledlike.svg"),
+                                      )),
+                                ],
+                              ),
                             ),
                           ],
                         )
@@ -371,7 +459,29 @@ class _adddrinkState extends State<adddrink> {
                             Container(
                               margin: const EdgeInsets.only(
                                   right: 10, left: 120, top: 10),
-                              child: SvgPicture.asset("assets/unlike.svg"),
+                              child: Stack(
+                                children: [
+                                  InkWell(
+                                      onTap: () {
+                                        setState(() {
+                                          _visiblem = true;
+                                        });
+                                      },
+                                      child: SvgPicture.asset(
+                                          "assets/unlike.svg")),
+                                  Visibility(
+                                      visible: _visiblem,
+                                      child: InkWell(
+                                        onTap: () {
+                                          setState(() {
+                                            _visiblem = false;
+                                          });
+                                        },
+                                        child: SvgPicture.asset(
+                                            "assets/filledlike.svg"),
+                                      )),
+                                ],
+                              ),
                             ),
                           ],
                         ),

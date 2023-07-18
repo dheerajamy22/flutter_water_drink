@@ -2,11 +2,13 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:water_tracker/pages/facebooklogin.dart';
-import 'package:water_tracker/pages/googlelogin.dart';
 import 'package:water_tracker/pages/info.dart';
 import 'package:water_tracker/pages/signup.dart';
 import 'package:http/http.dart' as http;
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 class signin extends StatefulWidget {
   const signin({super.key});
@@ -21,6 +23,7 @@ class _signinState extends State<signin> {
   TextEditingController _password = TextEditingController();
   // bool _isLoggedIn=false;
   // Map _userObj={};
+  String token = '';
 
   @override
   Widget build(BuildContext context) {
@@ -138,7 +141,10 @@ class _signinState extends State<signin> {
                               ),
                               InkWell(
                                 onTap: () async {
-                                
+                                  SharedPreferences pref =
+                                      await SharedPreferences.getInstance();
+                                  token =
+                                      pref.getString('device_token') as String;
                                   var response = await http.post(
                                       Uri.parse(
                                           'https://ennaya.co/dev/appMDDAPI/source=Mobapp_API?action=EMPLOGIN'),
@@ -151,13 +157,14 @@ class _signinState extends State<signin> {
                                   var jsonObject = json.decode(response.body);
                                   if (response.statusCode == 200) {
                                     if (jsonObject['Status'] == '1') {
-                                        // ignore: use_build_context_synchronously
-                                        showDialog(
-                                      context: context,
-                                      builder: (context) {
-                                        return const Center(
-                                            child: CircularProgressIndicator());
-                                      });
+                                      // ignore: use_build_context_synchronously
+                                      showDialog(
+                                          context: context,
+                                          builder: (context) {
+                                            return const Center(
+                                                child:
+                                                    CircularProgressIndicator());
+                                          });
                                       // ignore: use_build_context_synchronously
                                       Navigator.push(
                                           context,
@@ -272,8 +279,39 @@ class _signinState extends State<signin> {
                               height: 20,
                             ),
                             InkWell(
-                              onTap: () {
-                                signinwithgoogle();
+                              onTap: () async {
+                                GoogleSignInAccount? googleuser =
+                                    await GoogleSignIn().signIn();
+                                GoogleSignInAuthentication? googleauth =
+                                    await googleuser?.authentication;
+
+                                AuthCredential credential =
+                                    GoogleAuthProvider.credential(
+                                  accessToken: googleauth?.accessToken,
+                                  idToken: googleauth?.idToken,
+                                );
+
+                                UserCredential userCredential =
+                                    await FirebaseAuth.instance
+                                        .signInWithCredential(credential);
+
+                                if (userCredential != null) {
+                                  print(userCredential.user?.displayName);
+                                  print(userCredential.user?.email);
+                                  print(userCredential.user?.uid);
+                                  print(userCredential.user?.getIdToken());
+
+                                  // jsonD = jsonDecode()
+                                  Send_SocialLogin_Data(
+                                      userCredential.user!.displayName
+                                          as String,
+                                      userCredential.user!.email as String,
+                                      userCredential.user?.uid as String);
+                                } else {
+                                  print('invalid cread');
+                                }
+
+                                // signinwithgoogle();
                               },
                               child: CircleAvatar(
                                 radius: 22,
@@ -329,5 +367,36 @@ class _signinState extends State<signin> {
         ),
       )),
     );
+  }
+
+  void Send_SocialLogin_Data(String name, String email, String id) async {
+    var response = await http.post(
+        Uri.parse(
+            'https://ennaya.co/dev/appMDDAPI/source=Mobapp_API?action=SOCIALLOGIN'),
+        body: {
+          'u_name': name,
+          'u_email': email,
+          'u_mobile': '',
+          'u_device_token': '',
+          'u_join_source': 'Google',
+          'u_social_id': id
+        });
+    var jsonObject = json.decode(response.body);
+    if (response.statusCode == 200) {
+      if (jsonObject['Status'] == '1') {
+        // ignore: use_build_context_synchronously
+        showDialog(
+            context: context,
+            builder: (context) {
+              return const Center(child: CircularProgressIndicator());
+            });
+        // ignore: use_build_context_synchronously
+        Navigator.push(
+            context, MaterialPageRoute(builder: (context) => info()));
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text("Please Enter Valid Google Account")));
+      }
+    } else {}
   }
 }

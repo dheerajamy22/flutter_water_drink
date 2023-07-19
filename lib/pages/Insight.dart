@@ -38,8 +38,8 @@ class _insightState extends State<insight> {
 
     print('object w ' + sdata.toString());
 
-     List<String> week = pref.getStringList('step_data') ?? [];
-    print('object  ' + getList.toString());
+      List<String> week = pref.getStringList('step_data') ?? [];
+    print('object  ' + week.toString());
 
     setState(() {
       step_data = week
@@ -308,7 +308,7 @@ class _insightState extends State<insight> {
                 series: <ChartSeries<WeekStepBarChartModel, String>>[
                   StackedColumnSeries<WeekStepBarChartModel, String>(
                       dataSource: step_data,
-                      xValueMapper: (WeekStepBarChartModel sales, _) => sales.days,
+                      xValueMapper: (WeekStepBarChartModel steps, _) => steps.days,
                       yValueMapper: (WeekStepBarChartModel sales1, _) =>
                           sales1.steps,
                       name: 'Record',
@@ -320,7 +320,7 @@ class _insightState extends State<insight> {
                       borderRadius: const BorderRadius.all(Radius.circular(10)),
                       // Enable data label
                       dataLabelSettings:
-                          const DataLabelSettings(isVisible: true)),
+                          const DataLabelSettings(isVisible: false)),
                 ]),
           ),
           Visibility(
@@ -366,7 +366,7 @@ class _insightState extends State<insight> {
                       borderRadius: const BorderRadius.all(Radius.circular(10)),
                       // Enable data label
                       dataLabelSettings:
-                          const DataLabelSettings(isVisible: true)),
+                          const DataLabelSettings(isVisible: false)),
                 ]),
           )
         ],

@@ -213,7 +213,7 @@ class _MyBarChartState extends State<MyBarChart> {
                                   BorderRadius.all(Radius.circular(10)),
                               // Enable data label
                               dataLabelSettings:
-                                  DataLabelSettings(isVisible: true)),
+                                  DataLabelSettings(isVisible: false)),
                         ]),
                   ),
                   Visibility(
@@ -261,7 +261,7 @@ class _MyBarChartState extends State<MyBarChart> {
                                   BorderRadius.all(Radius.circular(10)),
                               // Enable data label
                               dataLabelSettings:
-                                  DataLabelSettings(isVisible: true)),
+                                  DataLabelSettings(isVisible: false)),
                         ]),
                   )
                 ]),

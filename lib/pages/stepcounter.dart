@@ -9,7 +9,6 @@ import 'package:percent_indicator/percent_indicator.dart';
 import 'package:water_tracker/pages/Insight.dart';
 import 'package:water_tracker/pages/step_bar_chart/step_week_array.dart';
 import 'package:water_tracker/pages/step_bar_chart/stepbarchartmodel.dart';
-import 'package:water_tracker/pages/water_bar_charts/water_week_array.dart';
 
 class StepCounterPage extends StatefulWidget {
   @override
@@ -383,11 +382,11 @@ class _StepCounterPageState extends State<StepCounterPage> {
   }
   void step_weekData(String day, int steps, String date) async {
     SharedPreferences pr = await SharedPreferences.getInstance();
-    List<String> getList = pr.getStringList('step_data') ?? [];
-    print('week  ' + getList.toString());
-    if (!getList.isEmpty) {
-      print('if week  ' + getList.toString());
-      step_array = getList
+    List<String> getstepList = pr.getStringList('step_data') ?? [];
+    print('week  ' + getstepList.toString());
+    if (!getstepList.isEmpty) {
+      print('if week  ' + getstepList.toString());
+      step_array = getstepList
           .map((jsonString) =>
               WeekStepBarChartModel.fromJson(jsonDecode(jsonString)))
           .toList();
@@ -499,7 +498,7 @@ class _StepCounterPageState extends State<StepCounterPage> {
               ]);
               step_array.setAll(1, [
                 WeekStepBarChartModel(
-                    days: 'Mon', steps: _currentStepCount, step_date: date)
+                    days: 'Mon', steps: steps, step_date: date)
               ]);
               step_array.setAll(2, [
                 WeekStepBarChartModel(
@@ -532,7 +531,7 @@ class _StepCounterPageState extends State<StepCounterPage> {
                     step_date: date)
               ]);
             } else {
-              int abc = steps + step_array[1].steps;
+              // int abc = steps + step_array[1].steps;
               step_array.setAll(0, [
                 WeekStepBarChartModel(
                     days: 'Sun',
@@ -541,7 +540,7 @@ class _StepCounterPageState extends State<StepCounterPage> {
               ]);
               step_array.setAll(1, [
                 WeekStepBarChartModel(
-                    days: 'Mon', steps: abc, step_date: date)
+                    days: 'Mon', steps: steps, step_date: date)
               ]);
               step_array.setAll(2, [
                 WeekStepBarChartModel(
@@ -624,7 +623,7 @@ class _StepCounterPageState extends State<StepCounterPage> {
                     step_date: date)
               ]);
             } else {
-              int abc = steps + step_array[2].steps;
+              // int abc = steps + step_array[2].steps;
               step_array.setAll(0, [
                 WeekStepBarChartModel(
                     days: 'Sun',
@@ -639,7 +638,7 @@ class _StepCounterPageState extends State<StepCounterPage> {
               ]);
               step_array.setAll(2, [
                 WeekStepBarChartModel(
-                    days: 'Tue', steps: abc, step_date: date)
+                    days: 'Tue', steps: steps, step_date: date)
               ]);
               step_array.setAll(3, [
                 WeekStepBarChartModel(
@@ -716,7 +715,7 @@ class _StepCounterPageState extends State<StepCounterPage> {
                     step_date: date)
               ]);
             } else {
-              int abc = steps + step_array[3].steps;
+             // int abc = steps + step_array[3].steps;
               step_array.setAll(0, [
                 WeekStepBarChartModel(
                     days: 'Sun',
@@ -737,7 +736,7 @@ class _StepCounterPageState extends State<StepCounterPage> {
               ]);
               step_array.setAll(3, [
                 WeekStepBarChartModel(
-                    days: 'Wed', steps: abc, step_date: date)
+                    days: 'Wed', steps: steps, step_date: date)
               ]);
               step_array.setAll(4, [
                 WeekStepBarChartModel(
@@ -808,7 +807,7 @@ class _StepCounterPageState extends State<StepCounterPage> {
                     step_date: date)
               ]);
             } else {
-              int abc = steps + step_array[4].steps;
+              // int abc = steps + step_array[4].steps;
               step_array.setAll(0, [
                 WeekStepBarChartModel(
                     days: 'Sun',
@@ -835,7 +834,7 @@ class _StepCounterPageState extends State<StepCounterPage> {
               ]);
               step_array.setAll(4, [
                 WeekStepBarChartModel(
-                    days: 'Thu', steps: abc, step_date: date)
+                    days: 'Thu', steps: steps, step_date: date)
               ]);
               step_array.setAll(5, [
                 WeekStepBarChartModel(
@@ -900,7 +899,7 @@ class _StepCounterPageState extends State<StepCounterPage> {
                     step_date: date)
               ]);
             } else {
-              int abc = steps + step_array[5].steps;
+              // int abc = steps + step_array[5].steps;
               step_array.setAll(0, [
                 WeekStepBarChartModel(
                     days: 'Sun',
@@ -933,7 +932,7 @@ class _StepCounterPageState extends State<StepCounterPage> {
               ]);
               step_array.setAll(5, [
                 WeekStepBarChartModel(
-                    days: 'Fri', steps: abc, step_date: date)
+                    days: 'Fri', steps: steps, step_date: date)
               ]);
               step_array.setAll(6, [
                 WeekStepBarChartModel(
@@ -992,7 +991,7 @@ class _StepCounterPageState extends State<StepCounterPage> {
                     days: 'Sat', steps: steps, step_date: date)
               ]);
             } else {
-              int abc = steps + step_array[6].steps;
+              // int abc = steps + step_array[6].steps;
               step_array.setAll(0, [
                 WeekStepBarChartModel(
                     days: 'Sun',
@@ -1031,7 +1030,7 @@ class _StepCounterPageState extends State<StepCounterPage> {
               ]);
               step_array.setAll(6, [
                 WeekStepBarChartModel(
-                    days: 'Sat', steps: abc, step_date: date)
+                    days: 'Sat', steps: steps, step_date: date)
               ]);
             }
             List<String> jsonList = step_array

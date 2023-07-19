@@ -295,7 +295,7 @@ class _signinState extends State<signin> {
                                     await FirebaseAuth.instance
                                         .signInWithCredential(credential);
 
-                                if (userCredential != null) {
+                                if (userCredential !=null) {
                                   print(userCredential.user?.displayName);
                                   print(userCredential.user?.email);
                                   print(userCredential.user?.uid);
@@ -385,11 +385,11 @@ class _signinState extends State<signin> {
     if (response.statusCode == 200) {
       if (jsonObject['Status'] == '1') {
         // ignore: use_build_context_synchronously
-        showDialog(
-            context: context,
-            builder: (context) {
-              return const Center(child: CircularProgressIndicator());
-            });
+        // showDialog(
+        //     context: context,
+        //     builder: (context) {
+        //       return const Center(child: CircularProgressIndicator());
+        //     });
         // ignore: use_build_context_synchronously
         Navigator.push(
             context, MaterialPageRoute(builder: (context) => info()));

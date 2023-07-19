@@ -24,7 +24,7 @@ class _splashState extends State<splash> {
                   mainscreen(access_from: 'spls', cat_water_value: ''))));
     }else{
       Timer(
-      Duration(seconds: 4),
+      Duration(seconds: 0),
       () => Navigator.pushReplacement(
         context,
         MaterialPageRoute(
@@ -45,6 +45,7 @@ class _splashState extends State<splash> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor:  Colors.blue,
       body: Center(
         child: Container(
           height: 500,
@@ -52,17 +53,9 @@ class _splashState extends State<splash> {
           child: Center(
               child: Image.asset(
             'assets/splash_logo.png',
-            color: Colors.blue,
+             color: Colors.white,
           )),
-          // child: RippleAnimation(
-          //   repeat: false,
-          //   key: UniqueKey(),
-          //   minRadius: 20,
-          //   child: ClipRRect(
-          //     //borderRadius: BorderRadius.circular(10),
-          //     child: Center(child: Image.asset('assets/splash_logo.png',color: Colors.blue,)),
-          //   ),
-          // ),
+        
         ),
       ),
     );

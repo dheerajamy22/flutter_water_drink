@@ -334,19 +334,20 @@ class _signupState extends State<signup> {
                                   var jsonObject = json.decode(response.body);
                                   if (response.statusCode == 200) {
                                     if (jsonObject['Status'] == '1') {
-                                      // ignore: use_build_context_synchronously
-                                      showDialog(
+                                      
+                                     
+                                      
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>info()));
+                                               showDialog(
                                           context: context,
                                           builder: (context) {
                                             return const Center(
                                                 child:
                                                     CircularProgressIndicator());
                                           });
-                                      // ignore: use_build_context_synchronously
-                                      Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) =>info()));
                                     } else {
                                       ScaffoldMessenger.of(context)
                                           .showSnackBar(const SnackBar(

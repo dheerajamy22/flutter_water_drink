@@ -160,6 +160,8 @@ flutter:
     - assets/cocktail.svg
     - assets/proteinshake.svg
     - assets/mocktail.svg
+    - assets/soup.svg
+    - assets/tea.svg
     - assets/unlike.svg
     - assets/bmiicon.svg
     - assets/cleandata.svg

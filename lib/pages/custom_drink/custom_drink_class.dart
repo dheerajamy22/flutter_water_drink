@@ -1,5 +1,5 @@
 class custom_drink {
-  final int img;
+  final String img;
   final String name;
   final String Status;
 

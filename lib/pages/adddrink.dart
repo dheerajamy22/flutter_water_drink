@@ -1,8 +1,13 @@
+import 'dart:convert';
+
 import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:water_tracker/pages/custom_drink/fav_data.dart';
 import 'package:water_tracker/pages/mainscreen.dart';
+
+import 'custom_drink/custom_drink_class.dart';
 
 class adddrink extends StatefulWidget {
   final String rem_value;
@@ -13,8 +18,6 @@ class adddrink extends StatefulWidget {
 }
 
 class _adddrinkState extends State<adddrink> {
-  bool _visiblep = false, _visiblemilk = false, _visibleed = false, _visiblecold = false;
-  bool _visiblec = false, _visiblem = false, _visibleco = false;
   double _slidervalue = 25;
   String water_value = '25';
   String oz_value = '0.8';
@@ -22,6 +25,10 @@ class _adddrinkState extends State<adddrink> {
   String? oz = '';
   String oz_remain = '0';
   String water_data = "200";
+
+  List<custom_drink> custom_array = [];
+  List<FavData> fav_data_array = [];
+
   void getValue() async {
     SharedPreferences pr = await SharedPreferences.getInstance();
 
@@ -31,10 +38,60 @@ class _adddrinkState extends State<adddrink> {
     });
   }
 
+  void load_DrinkStatus() async {
+    SharedPreferences pref = await SharedPreferences.getInstance();
+    List<String> favData = pref.getStringList('fav_data') ?? [];
+
+    if (!favData.isEmpty) {
+      fav_data_array = favData
+          .map((jsonString) => FavData.fromJson(jsonDecode(jsonString)))
+          .toList();
+    } else {
+      custom_array.add(custom_drink(
+          img: 'assets/water.svg',
+          name: 'Water',
+          Status: '1'));
+      custom_array.add(custom_drink(
+          img: 'assets/coconutwater.svg',
+          name: 'Coconut water',
+          Status: '1'));
+      custom_array.add(custom_drink(
+          img: 'assets/colddrink.svg',
+          name: 'Cold drink',
+          Status: '0'));
+      custom_array.add(custom_drink(
+          img: 'assets/cocktail.svg',
+          name: 'Cocktail',
+          Status: '0'));
+      custom_array.add(custom_drink(
+          img: 'assets/energydrink.svg',
+          name: 'Energy drink',
+          Status: '1'));
+      custom_array.add(custom_drink(
+          img: 'assets/milk.svg',
+          name: 'Milk',
+          Status: '1'));
+      custom_array.add(custom_drink(
+          img: 'assets/mocktail.svg',
+          name: 'Mocktail',
+          Status: '0'));
+      custom_array.add(custom_drink(
+          img: 'assets/proteinshake.svg',
+          name: 'Protein shake',
+          Status: '0'));
+      custom_array.add(custom_drink(
+          img: 'assets/soup.svg',
+          name: 'Soup',
+          Status: '0'));
+      custom_array.add(custom_drink(
+          img: 'assets/tea.svg', name: 'Tea', Status: '0'));
+    }
+  }
+
   @override
   void initState() {
     getValue();
-
+    load_DrinkStatus();
     super.initState();
   }
 
@@ -81,475 +138,74 @@ class _adddrinkState extends State<adddrink> {
                     topLeft: Radius.circular(20),
                     topRight: Radius.circular(20)),
                 color: Colors.white),
-            child: SingleChildScrollView(
-              child: Column(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(top: 15.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        Stack(
+            child: Expanded(
+                child: GridView.builder(
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2,
+                    crossAxisSpacing: 2,
+                    childAspectRatio: 1,
+                    mainAxisSpacing: 2,
+                    mainAxisExtent: 160),
+                    shrinkWrap: true,
+                    itemCount: custom_array.length,
+                    itemBuilder: (context, index) {
+                      return Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Column(
                           children: [
-                            InkWell(
-                              onTap: () {
-                                addDrinkDilog();
-                              },
-                              child: Container(
-                                height: 130,
-                                width: 150,
-                                decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(10),
-                                    color: const Color.fromARGB(
-                                        255, 168, 211, 247)),
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    SvgPicture.asset("assets/water.svg"),
-                                    const SizedBox(
-                                      height: 15,
-                                    ),
-                                    const Text(
-                                      "Water",
-                                      style: TextStyle(fontFamily: "Open_sans"),
-                                    )
-                                  ],
-                                ),
-                              ),
-                            ),
-                            Container(
-                              margin: const EdgeInsets.only(
-                                  right: 10, left: 120, top: 10),
-                              child: SvgPicture.asset("assets/filledlike.svg"),
-                            ),
-                          ],
-                        ),
-                        Stack(
-                          children: [
-                            InkWell(
-                              onTap: () {
-                                addDrinkDilog();
-                              },
-                              child: Container(
-                                height: 130,
-                                width: 150,
-                                decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(10),
-                                    color: const Color.fromARGB(
-                                        255, 168, 211, 247)),
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    SvgPicture.asset("assets/coconutwater.svg"),
-                                    const SizedBox(
-                                      height: 15,
-                                    ),
-                                    const Text(
-                                      "Coconut Water",
-                                      style: TextStyle(fontFamily: "Open_sans"),
-                                    )
-                                  ],
-                                ),
-                              ),
-                            ),
-                            Container(
-                              margin: const EdgeInsets.only(
-                                  right: 10, left: 120, top: 10),
-                              child: InkWell(
+                            Stack(
+                              children: [
+                                InkWell(
                                   onTap: () {
-                                    setState(() {
-                                      _visiblec = true;
-                                    });
+                                    addDrinkDilog();
                                   },
-                                  child: Stack(
-                                    children: [
-                                      Visibility(
-                                          child: SvgPicture.asset(
-                                              "assets/unlike.svg")),
-                                      InkWell(
-                                          onTap: () {
-                                            setState(() {
-                                              _visiblec = false;
-                                            });
-                                          },
-                                          child: Visibility(
-                                              visible: _visiblec,
-                                              child: SvgPicture.asset(
-                                                  "assets/filledlike.svg"))),
-                                    ],
-                                  )),
-                            ),
-                          ],
-                        )
-                      ],
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(top: 15.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        Stack(
-                          children: [
-                            InkWell(
-                              onTap: () {
-                                addDrinkDilog();
-                              },
-                              child: Container(
-                                height: 130,
-                                width: 150,
-                                decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(10),
-                                    color: const Color.fromARGB(
-                                        255, 168, 211, 247)),
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    SvgPicture.asset("assets/colddrink.svg"),
-                                    const SizedBox(
-                                      height: 15,
+                                  child: Container(
+                                    height: 140,
+                                  
+                                    width: MediaQuery.of(context).size.width,
+                                    decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(10),
+                                        color: const Color.fromARGB(
+                                            255, 168, 211, 247)),
+                                    child: Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        SvgPicture.asset(custom_array[index].img,height: 45,),
+                                        const SizedBox(
+                                          height: 15,
+                                        ),
+                                         Text(
+                                          custom_array[index].name,
+                                          style: TextStyle(
+                                              fontFamily: "Open_sans"),
+                                        )
+                                      ],
                                     ),
-                                    const Text("Cold Drink",
-                                        style:
-                                            TextStyle(fontFamily: "Open_sans"))
-                                  ],
+                                  ),
                                 ),
-                              ),
+                               if(custom_array[index].Status=='1')...[
+                                 Container(
+                                 alignment: Alignment.topRight,
+                                 margin: EdgeInsets.only(top: 10,right: 10),
+                                  child:
+                                      SvgPicture.asset("assets/filledlike.svg"),
+                                ),
+                               ]else...[
+                                Container(
+                                 alignment: Alignment.topRight,
+                                 margin: EdgeInsets.only(top: 10,right: 10),
+                                  child:
+                                      SvgPicture.asset("assets/unlike.svg"),
+                                ),
+                               ]
+                              ],
                             ),
-                            Container(
-                              margin: const EdgeInsets.only(
-                                  right: 10, left: 120, top: 10),
-                              child: Stack(
-                                children: [
-                                  InkWell(
-                                    onTap: () {
-                                          setState(() {
-                                            _visiblecold = true;
-                                          });
-                                        },
-                                      child: SvgPicture.asset(
-                                          "assets/unlike.svg")),
-                                           Visibility(
-                                      visible: _visiblecold,
-                                      child: InkWell(
-                                        onTap: () {
-                                          setState(() {
-                                            _visiblecold = false;
-                                          });
-                                        },
-                                        child: SvgPicture.asset(
-                                            "assets/filledlike.svg"),
-                                      )),
-                                ],
-                              ),
-                            ),
+                            
                           ],
                         ),
-                        Stack(
-                          children: [
-                            InkWell(
-                              onTap: () {
-                                addDrinkDilog();
-                              },
-                              child: Container(
-                                height: 130,
-                                width: 150,
-                                decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(10),
-                                    color: const Color.fromARGB(
-                                        255, 168, 211, 247)),
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    SvgPicture.asset("assets/cocktail.svg"),
-                                    const SizedBox(
-                                      height: 15,
-                                    ),
-                                    const Text("CockTail",
-                                        style:
-                                            TextStyle(fontFamily: "Open_sans"))
-                                  ],
-                                ),
-                              ),
-                            ),
-                            Container(
-                              margin: const EdgeInsets.only(
-                                  right: 10, left: 120, top: 10),
-                              child: Stack(
-                                children: [
-                                  InkWell(
-                                      onTap: () {
-                                        setState(() {
-                                          _visibleco = true;
-                                        });
-                                      },
-                                      child: SvgPicture.asset(
-                                          "assets/unlike.svg")),
-                                  Visibility(
-                                      visible: _visibleco,
-                                      child: InkWell(
-                                        onTap: () {
-                                          setState(() {
-                                            _visibleco = false;
-                                          });
-                                        },
-                                        child: SvgPicture.asset(
-                                            "assets/filledlike.svg"),
-                                      )),
-                                ],
-                              ),
-                            ),
-                          ],
-                        )
-                      ],
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(top: 15.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        Stack(
-                          children: [
-                            InkWell(
-                              onTap: () {
-                                addDrinkDilog();
-                              },
-                              child: Container(
-                                height: 130,
-                                width: 150,
-                                decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(10),
-                                    color: const Color.fromARGB(
-                                        255, 168, 211, 247)),
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    SvgPicture.asset("assets/energydrink.svg"),
-                                    const SizedBox(
-                                      height: 15,
-                                    ),
-                                    const Text("Energy Drink",
-                                        style:
-                                            TextStyle(fontFamily: "Open_sans"))
-                                  ],
-                                ),
-                              ),
-                            ),
-                            Container(
-                              margin: const EdgeInsets.only(
-                                  right: 10, left: 120, top: 10),
-                              child: Stack(
-                                children: [
-                                  InkWell(
-                                      onTap: () {
-                                        setState(() {
-                                          _visibleed = true;
-                                        });
-                                      },
-                                      child: SvgPicture.asset(
-                                          "assets/unlike.svg")),
-                                  Visibility(
-                                      visible: _visibleed,
-                                      child: InkWell(
-                                        onTap: () {
-                                          setState(() {
-                                            _visibleed = false;
-                                          });
-                                        },
-                                        child: SvgPicture.asset(
-                                            "assets/filledlike.svg"),
-                                      )),
-                                ],
-                              ),
-                            ),
-                          ],
-                        ),
-                        Stack(
-                          children: [
-                            InkWell(
-                              onTap: () {
-                                addDrinkDilog();
-                              },
-                              child: Container(
-                                height: 130,
-                                width: 150,
-                                decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(10),
-                                    color: const Color.fromARGB(
-                                        255, 168, 211, 247)),
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    SvgPicture.asset("assets/milk.svg"),
-                                    const SizedBox(
-                                      height: 15,
-                                    ),
-                                    const Text("Milk",
-                                        style:
-                                            TextStyle(fontFamily: "Open_sans"))
-                                  ],
-                                ),
-                              ),
-                            ),
-                            Container(
-                              margin: const EdgeInsets.only(
-                                  right: 10, left: 120, top: 10),
-                              child: Stack(
-                                children: [
-                                  InkWell(
-                                      onTap: () {
-                                        setState(() {
-                                          _visiblemilk = true;
-                                        });
-                                      },
-                                      child: SvgPicture.asset(
-                                          "assets/unlike.svg")),
-                                  Visibility(
-                                      visible: _visiblemilk,
-                                      child: InkWell(
-                                        onTap: () {
-                                          setState(() {
-                                            _visiblemilk = false;
-                                          });
-                                        },
-                                        child: SvgPicture.asset(
-                                            "assets/filledlike.svg"),
-                                      )),
-                                ],
-                              ),
-                            ),
-                          ],
-                        )
-                      ],
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(top: 15.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        Stack(
-                          children: [
-                            InkWell(
-                              onTap: () {
-                                addDrinkDilog();
-                              },
-                              child: Container(
-                                height: 130,
-                                width: 150,
-                                decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(10),
-                                    color: const Color.fromARGB(
-                                        255, 168, 211, 247)),
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    SvgPicture.asset("assets/mocktail.svg"),
-                                    const SizedBox(
-                                      height: 15,
-                                    ),
-                                    const Text("Mocktail",
-                                        style:
-                                            TextStyle(fontFamily: "Open_sans"))
-                                  ],
-                                ),
-                              ),
-                            ),
-                            Container(
-                              margin: const EdgeInsets.only(
-                                  right: 10, left: 120, top: 10),
-                              child: Stack(
-                                children: [
-                                  InkWell(
-                                      onTap: () {
-                                        setState(() {
-                                          _visiblem = true;
-                                        });
-                                      },
-                                      child: SvgPicture.asset(
-                                          "assets/unlike.svg")),
-                                  Visibility(
-                                      visible: _visiblem,
-                                      child: InkWell(
-                                        onTap: () {
-                                          setState(() {
-                                            _visiblem = false;
-                                          });
-                                        },
-                                        child: SvgPicture.asset(
-                                            "assets/filledlike.svg"),
-                                      )),
-                                ],
-                              ),
-                            ),
-                          ],
-                        ),
-                        Stack(
-                          children: [
-                            InkWell(
-                              onTap: () {
-                                addDrinkDilog();
-                              },
-                              child: Container(
-                                height: 130,
-                                width: 150,
-                                decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(10),
-                                    color: const Color.fromARGB(
-                                        255, 168, 211, 247)),
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    SvgPicture.asset("assets/proteinshake.svg"),
-                                    const SizedBox(
-                                      height: 15,
-                                    ),
-                                    const Text("Protein Shake",
-                                        style:
-                                            TextStyle(fontFamily: "Open_sans"))
-                                  ],
-                                ),
-                              ),
-                            ),
-                            Container(
-                              margin: const EdgeInsets.only(
-                                  right: 10, left: 120, top: 10),
-                              child: Stack(
-                                children: [
-                                  InkWell(
-                                      onTap: () {
-                                        setState(() {
-                                          _visiblep = true;
-                                        });
-                                      },
-                                      child: SvgPicture.asset(
-                                          "assets/unlike.svg")),
-                                  Visibility(
-                                      visible: _visiblep,
-                                      child: InkWell(
-                                        onTap: () {
-                                          setState(() {
-                                            _visiblep = false;
-                                          });
-                                        },
-                                        child: SvgPicture.asset(
-                                            "assets/filledlike.svg"),
-                                      )),
-                                ],
-                              ),
-                            ),
-                          ],
-                        )
-                      ],
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 30,
-                  )
-                ],
-              ),
-            ),
+                      );
+                    })),
           )
         ],
       )),

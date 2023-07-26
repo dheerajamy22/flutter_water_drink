@@ -876,7 +876,8 @@ class _mainscreenState extends State<mainscreen> {
                                                       jsonDecode(jsonString)))
                                               .toList();
                                         });
-
+                                        undo_data(
+                                            days, int_water, current_date);
                                         if (water_data.length != 0) {
                                           if (water_data[water_data.length - 1]
                                                   .days ==
@@ -1890,6 +1891,366 @@ class _mainscreenState extends State<mainscreen> {
           pr.commit();
           break;
       }
+    }
+  }
+
+  void undo_data(String day, int water_quantity, String date) async {
+    SharedPreferences pref = await SharedPreferences.getInstance();
+    List<String> getList = pref.getStringList('week_data') ?? [];
+    week_array = getList
+        .map((jsonString) =>
+            WeekWaterBarChartModel.fromJson(jsonDecode(jsonString)))
+        .toList();
+    switch (day) {
+      case 'Sun':
+        int abc = week_array[0].water_quantity - water_quantity;
+        week_array.setAll(0, [
+          WeekWaterBarChartModel(
+              days: 'Sun', water_quantity: abc, wtr_date: date)
+        ]);
+        week_array.setAll(1, [
+          WeekWaterBarChartModel(
+              days: 'Mon',
+              water_quantity: week_array[1].water_quantity,
+              wtr_date: date)
+        ]);
+        week_array.setAll(2, [
+          WeekWaterBarChartModel(
+              days: 'Tue',
+              water_quantity: week_array[2].water_quantity,
+              wtr_date: date)
+        ]);
+        week_array.setAll(3, [
+          WeekWaterBarChartModel(
+              days: 'Wed',
+              water_quantity: week_array[3].water_quantity,
+              wtr_date: date)
+        ]);
+        week_array.setAll(4, [
+          WeekWaterBarChartModel(
+              days: 'Thu',
+              water_quantity: week_array[4].water_quantity,
+              wtr_date: date)
+        ]);
+        week_array.setAll(5, [
+          WeekWaterBarChartModel(
+              days: 'Fri',
+              water_quantity: week_array[5].water_quantity,
+              wtr_date: date)
+        ]);
+        week_array.setAll(6, [
+          WeekWaterBarChartModel(
+              days: 'Sat',
+              water_quantity: week_array[6].water_quantity,
+              wtr_date: date)
+        ]);
+
+        List<String> jsonList = week_array
+            .map((week_data) => jsonEncode(week_data.toJson()))
+            .toList();
+        pref.setStringList('week_data', jsonList);
+        pref.commit();
+        break;
+
+      case 'Mon':
+        int abc = week_array[1].water_quantity - water_quantity;
+        week_array.setAll(0, [
+          WeekWaterBarChartModel(
+              days: 'Sun',
+              water_quantity: week_array[0].water_quantity,
+              wtr_date: date)
+        ]);
+        week_array.setAll(1, [
+          WeekWaterBarChartModel(
+              days: 'Mon', water_quantity: abc, wtr_date: date)
+        ]);
+        week_array.setAll(2, [
+          WeekWaterBarChartModel(
+              days: 'Tue',
+              water_quantity: week_array[2].water_quantity,
+              wtr_date: date)
+        ]);
+        week_array.setAll(3, [
+          WeekWaterBarChartModel(
+              days: 'Wed',
+              water_quantity: week_array[3].water_quantity,
+              wtr_date: date)
+        ]);
+        week_array.setAll(4, [
+          WeekWaterBarChartModel(
+              days: 'Thu',
+              water_quantity: week_array[4].water_quantity,
+              wtr_date: date)
+        ]);
+        week_array.setAll(5, [
+          WeekWaterBarChartModel(
+              days: 'Fri',
+              water_quantity: week_array[5].water_quantity,
+              wtr_date: date)
+        ]);
+        week_array.setAll(6, [
+          WeekWaterBarChartModel(
+              days: 'Sat',
+              water_quantity: week_array[6].water_quantity,
+              wtr_date: date)
+        ]);
+
+        List<String> jsonList = week_array
+            .map((week_data) => jsonEncode(week_data.toJson()))
+            .toList();
+        pref.setStringList('week_data', jsonList);
+        pref.commit();
+        break;
+
+      case 'Tue':
+        int abc = week_array[2].water_quantity - water_quantity;
+        week_array.setAll(0, [
+          WeekWaterBarChartModel(
+              days: 'Sun',
+              water_quantity: week_array[0].water_quantity,
+              wtr_date: date)
+        ]);
+        week_array.setAll(1, [
+          WeekWaterBarChartModel(
+              days: 'Mon',
+              water_quantity: week_array[1].water_quantity,
+              wtr_date: date)
+        ]);
+        week_array.setAll(2, [
+          WeekWaterBarChartModel(
+              days: 'Tue', water_quantity: abc, wtr_date: date)
+        ]);
+        week_array.setAll(3, [
+          WeekWaterBarChartModel(
+              days: 'Wed',
+              water_quantity: week_array[3].water_quantity,
+              wtr_date: date)
+        ]);
+        week_array.setAll(4, [
+          WeekWaterBarChartModel(
+              days: 'Thu',
+              water_quantity: week_array[4].water_quantity,
+              wtr_date: date)
+        ]);
+        week_array.setAll(5, [
+          WeekWaterBarChartModel(
+              days: 'Fri',
+              water_quantity: week_array[5].water_quantity,
+              wtr_date: date)
+        ]);
+        week_array.setAll(6, [
+          WeekWaterBarChartModel(
+              days: 'Sat',
+              water_quantity: week_array[6].water_quantity,
+              wtr_date: date)
+        ]);
+
+        List<String> jsonList = week_array
+            .map((week_data) => jsonEncode(week_data.toJson()))
+            .toList();
+        pref.setStringList('week_data', jsonList);
+        pref.commit();
+        break;
+
+      case 'Wed':
+        int abc = week_array[3].water_quantity - water_quantity;
+        week_array.setAll(0, [
+          WeekWaterBarChartModel(
+              days: 'Sun',
+              water_quantity: week_array[0].water_quantity,
+              wtr_date: date)
+        ]);
+        week_array.setAll(1, [
+          WeekWaterBarChartModel(
+              days: 'Mon',
+              water_quantity: week_array[1].water_quantity,
+              wtr_date: date)
+        ]);
+        week_array.setAll(2, [
+          WeekWaterBarChartModel(
+              days: 'Tue',
+              water_quantity: week_array[2].water_quantity,
+              wtr_date: date)
+        ]);
+        week_array.setAll(3, [
+          WeekWaterBarChartModel(
+              days: 'Wed', water_quantity: abc, wtr_date: date)
+        ]);
+        week_array.setAll(4, [
+          WeekWaterBarChartModel(
+              days: 'Thu',
+              water_quantity: week_array[4].water_quantity,
+              wtr_date: date)
+        ]);
+        week_array.setAll(5, [
+          WeekWaterBarChartModel(
+              days: 'Fri',
+              water_quantity: week_array[5].water_quantity,
+              wtr_date: date)
+        ]);
+        week_array.setAll(6, [
+          WeekWaterBarChartModel(
+              days: 'Sat',
+              water_quantity: week_array[6].water_quantity,
+              wtr_date: date)
+        ]);
+
+        List<String> jsonList = week_array
+            .map((week_data) => jsonEncode(week_data.toJson()))
+            .toList();
+        pref.setStringList('week_data', jsonList);
+        pref.commit();
+        break;
+
+      case 'Thu':
+        int abc = week_array[4].water_quantity - water_quantity;
+        week_array.setAll(0, [
+          WeekWaterBarChartModel(
+              days: 'Sun',
+              water_quantity: week_array[0].water_quantity,
+              wtr_date: date)
+        ]);
+        week_array.setAll(1, [
+          WeekWaterBarChartModel(
+              days: 'Mon',
+              water_quantity: week_array[1].water_quantity,
+              wtr_date: date)
+        ]);
+        week_array.setAll(2, [
+          WeekWaterBarChartModel(
+              days: 'Tue',
+              water_quantity: week_array[2].water_quantity,
+              wtr_date: date)
+        ]);
+        week_array.setAll(3, [
+          WeekWaterBarChartModel(
+              days: 'Wed',
+              water_quantity: week_array[3].water_quantity,
+              wtr_date: date)
+        ]);
+        week_array.setAll(4, [
+          WeekWaterBarChartModel(
+              days: 'Thu', water_quantity: abc, wtr_date: date)
+        ]);
+        week_array.setAll(5, [
+          WeekWaterBarChartModel(
+              days: 'Fri',
+              water_quantity: week_array[5].water_quantity,
+              wtr_date: date)
+        ]);
+        week_array.setAll(6, [
+          WeekWaterBarChartModel(
+              days: 'Sat',
+              water_quantity: week_array[6].water_quantity,
+              wtr_date: date)
+        ]);
+
+        List<String> jsonList = week_array
+            .map((week_data) => jsonEncode(week_data.toJson()))
+            .toList();
+        pref.setStringList('week_data', jsonList);
+        pref.commit();
+        break;
+
+      case 'Fri':
+        int abc = week_array[5].water_quantity - water_quantity;
+        week_array.setAll(0, [
+          WeekWaterBarChartModel(
+              days: 'Sun',
+              water_quantity: week_array[0].water_quantity,
+              wtr_date: date)
+        ]);
+        week_array.setAll(1, [
+          WeekWaterBarChartModel(
+              days: 'Mon',
+              water_quantity: week_array[1].water_quantity,
+              wtr_date: date)
+        ]);
+        week_array.setAll(2, [
+          WeekWaterBarChartModel(
+              days: 'Tue',
+              water_quantity: week_array[2].water_quantity,
+              wtr_date: date)
+        ]);
+        week_array.setAll(3, [
+          WeekWaterBarChartModel(
+              days: 'Wed',
+              water_quantity: week_array[3].water_quantity,
+              wtr_date: date)
+        ]);
+        week_array.setAll(4, [
+          WeekWaterBarChartModel(
+              days: 'Thu',
+              water_quantity: week_array[4].water_quantity,
+              wtr_date: date)
+        ]);
+        week_array.setAll(5, [
+          WeekWaterBarChartModel(
+              days: 'Fri', water_quantity: abc, wtr_date: date)
+        ]);
+        week_array.setAll(6, [
+          WeekWaterBarChartModel(
+              days: 'Sat',
+              water_quantity: week_array[6].water_quantity,
+              wtr_date: date)
+        ]);
+
+        List<String> jsonList = week_array
+            .map((week_data) => jsonEncode(week_data.toJson()))
+            .toList();
+        pref.setStringList('week_data', jsonList);
+        pref.commit();
+        break;
+
+      case 'Sat':
+        int abc = week_array[6].water_quantity - water_quantity;
+        week_array.setAll(0, [
+          WeekWaterBarChartModel(
+              days: 'Sun',
+              water_quantity: week_array[0].water_quantity,
+              wtr_date: date)
+        ]);
+        week_array.setAll(1, [
+          WeekWaterBarChartModel(
+              days: 'Mon',
+              water_quantity: week_array[1].water_quantity,
+              wtr_date: date)
+        ]);
+        week_array.setAll(2, [
+          WeekWaterBarChartModel(
+              days: 'Tue',
+              water_quantity: week_array[2].water_quantity,
+              wtr_date: date)
+        ]);
+        week_array.setAll(3, [
+          WeekWaterBarChartModel(
+              days: 'Wed',
+              water_quantity: week_array[3].water_quantity,
+              wtr_date: date)
+        ]);
+        week_array.setAll(4, [
+          WeekWaterBarChartModel(
+              days: 'Thu',
+              water_quantity: week_array[4].water_quantity,
+              wtr_date: date)
+        ]);
+        week_array.setAll(5, [
+          WeekWaterBarChartModel(
+              days: 'Fri',
+              water_quantity: week_array[5].water_quantity,
+              wtr_date: date)
+        ]);
+        week_array.setAll(6, [
+          WeekWaterBarChartModel(
+              days: 'Sat', water_quantity: abc, wtr_date: date)
+        ]);
+
+        List<String> jsonList = week_array
+            .map((week_data) => jsonEncode(week_data.toJson()))
+            .toList();
+        pref.setStringList('week_data', jsonList);
+        pref.commit();
+        break;
     }
   }
 }

@@ -1,8 +1,5 @@
-
-import 'package:flutter_svg/flutter_svg.dart';
-
 class FavData {
-  final SvgPicture img;
+  final String img;
   final String name;
   final String Status;
 

@@ -128,7 +128,11 @@ class _infoState extends State<info> {
                       //  alignment: Alignment.centerRight,
                       child: InkWell(
                         onTap: () async {
+                          SharedPreferences pref=await SharedPreferences.getInstance();
                           if (_checkweight == true) {
+                            pref.setString('weight', _weight as String);
+                            pref.setString('height', _height as String);
+
                             double total_weight =
                                 double.parse(_weight.text) * 0.454;
                             print("object hb  " + index1);

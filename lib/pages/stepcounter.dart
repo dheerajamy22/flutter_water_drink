@@ -151,230 +151,233 @@ class _StepCounterPageState extends State<StepCounterPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.only(left: 20, right: 20),
-          child: Column(
-            children: [
-              //this is the starting of row in which back and insight button are declared
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  IconButton(
-                      onPressed: () {
-                        Navigator.of(context).pop();
-                      },
-                      icon: Icon(Icons.arrow_back_ios)),
-                  const Text(
-                    "Step Counter",
-                    style: TextStyle(fontFamily: "Open_sans", fontSize: 14,),
-                  ),
-                  InkWell(
-                    onTap: () {
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (context) => insight()));
-                    },
-                    child: Container(
-                      height: 30,
-                      width: 60,
-                      alignment: Alignment.center,
-                      decoration: BoxDecoration(
-                          color: Colors.blue,
-                          borderRadius: BorderRadius.circular(5)),
-                      child: const Text(
-                        "Insight",
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 14,
-                            fontFamily: "Open_sans"),
-                      ),
+    return WillPopScope(
+      onWillPop: () async=> false,
+      child: Scaffold(
+        body: SafeArea(
+          child: Padding(
+            padding: const EdgeInsets.only(left: 20, right: 20),
+            child: Column(
+              children: [
+                //this is the starting of row in which back and insight button are declared
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    IconButton(
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        },
+                        icon: Icon(Icons.arrow_back_ios)),
+                    const Text(
+                      "Step Counter",
+                      style: TextStyle(fontFamily: "Open_sans", fontSize: 14,),
                     ),
-                  )
-                ],
-              ),
-              //this is the ending of row in which back and insight button are declared
-
-              //this is the starting of percent indicator and steps block
-              Padding(
-                padding: const EdgeInsets.only(top: 50),
-                child: Container(
-                  height: 300,
+                    InkWell(
+                      onTap: () {
+                        Navigator.push(context,
+                            MaterialPageRoute(builder: (context) => insight()));
+                      },
+                      child: Container(
+                        height: 30,
+                        width: 60,
+                        alignment: Alignment.center,
+                        decoration: BoxDecoration(
+                            color: Colors.blue,
+                            borderRadius: BorderRadius.circular(5)),
+                        child: const Text(
+                          "Insight",
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 14,
+                              fontFamily: "Open_sans"),
+                        ),
+                      ),
+                    )
+                  ],
+                ),
+                //this is the ending of row in which back and insight button are declared
+    
+                //this is the starting of percent indicator and steps block
+                Padding(
+                  padding: const EdgeInsets.only(top: 50),
+                  child: Container(
+                    height: 300,
+                    alignment: Alignment.center,
+                    child: Stack(
+                      children: [
+                        //percent indicator block starting
+                        Container(
+                          alignment: Alignment.center,
+                          child: CircularPercentIndicator(
+                            radius: 120,
+                            animation: true,
+                            animationDuration: 1000,
+                            lineWidth: 10,
+                            percent: _per / 100,
+                            progressColor: Colors.blue,
+                            backgroundColor: Colors.blue.shade100,
+                            circularStrokeCap: CircularStrokeCap.round,
+                          ),
+                        ),
+                        //percent indicator block starting
+    
+                        Container(
+                          alignment: Alignment.center,
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              SvgPicture.asset(
+                                "assets/steps.svg",
+                                height: 50,
+                              ),
+                              const SizedBox(
+                                height: 10,
+                              ),
+                              Text(
+                                '$_currentStepCount',
+                                style: const TextStyle(
+                                    fontSize: 24, fontFamily: "Open_sans"),
+                              ),
+                              const SizedBox(
+                                height: 10,
+                              ),
+                              const Text(
+                                "Steps",
+                                style: TextStyle(
+                                    fontSize: 18, fontFamily: "Open_sans"),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                //this is the starting of percent indicator and steps block
+                Container(
                   alignment: Alignment.center,
-                  child: Stack(
-                    children: [
-                      //percent indicator block starting
-                      Container(
-                        alignment: Alignment.center,
-                        child: CircularPercentIndicator(
-                          radius: 120,
-                          animation: true,
-                          animationDuration: 1000,
-                          lineWidth: 10,
-                          percent: _per / 100,
-                          progressColor: Colors.blue,
-                          backgroundColor: Colors.blue.shade100,
-                          circularStrokeCap: CircularStrokeCap.round,
-                        ),
-                      ),
-                      //percent indicator block starting
-
-                      Container(
-                        alignment: Alignment.center,
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            SvgPicture.asset(
-                              "assets/steps.svg",
-                              height: 50,
-                            ),
-                            const SizedBox(
-                              height: 10,
-                            ),
-                            Text(
-                              '$_currentStepCount',
-                              style: const TextStyle(
-                                  fontSize: 24, fontFamily: "Open_sans"),
-                            ),
-                            const SizedBox(
-                              height: 10,
-                            ),
-                            const Text(
-                              "Steps",
-                              style: TextStyle(
-                                  fontSize: 18, fontFamily: "Open_sans"),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
+                  child: Text(
+                    '$_currentStepCount / 6000',
+                    style: TextStyle(fontSize: 24, fontFamily: "Open_sans"),
                   ),
                 ),
-              ),
-              //this is the starting of percent indicator and steps block
-              Container(
-                alignment: Alignment.center,
-                child: Text(
-                  '$_currentStepCount / 6000',
-                  style: TextStyle(fontSize: 24, fontFamily: "Open_sans"),
-                ),
-              ),
-
-              //Starting of time ,cal and dis block
-              Column(
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      //start of cal block
-                      Flexible(
-                        child: Container(
-                          height: 90,
-                          child: Stack(
-                            children: [
-                              Container(
-                                alignment: Alignment.center,
-                                child: CircularPercentIndicator(
-                                  radius: 30,
-                                  lineWidth: 5,
-                                  percent: _per_cal / 100,
-                                  progressColor: Colors.blue,
-                                  backgroundColor: Colors.blue.shade100,
+    
+                //Starting of time ,cal and dis block
+                Column(
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        //start of cal block
+                        Flexible(
+                          child: Container(
+                            height: 90,
+                            child: Stack(
+                              children: [
+                                Container(
+                                  alignment: Alignment.center,
+                                  child: CircularPercentIndicator(
+                                    radius: 30,
+                                    lineWidth: 5,
+                                    percent: _per_cal / 100,
+                                    progressColor: Colors.blue,
+                                    backgroundColor: Colors.blue.shade100,
+                                  ),
                                 ),
-                              ),
-                              Container(
-                                alignment: Alignment.center,
-                                child: SvgPicture.asset(
-                                  "assets/calorie.svg",
-                                  width: 25,
-                                  height: 25,
-                                ),
-                              )
-                            ],
+                                Container(
+                                  alignment: Alignment.center,
+                                  child: SvgPicture.asset(
+                                    "assets/calorie.svg",
+                                    width: 25,
+                                    height: 25,
+                                  ),
+                                )
+                              ],
+                            ),
                           ),
                         ),
-                      ),
-                      //ending of cal block
-
-                      //start of time block
-                      Flexible(
-                        child: Container(
-                          height: 90,
-                          //   width: 90,
-                          alignment: Alignment.center,
-                          child: Stack(
-                            children: [
-                              Container(
-                                alignment: Alignment.center,
-                                child: CircularPercentIndicator(
-                                  radius: 30,
-                                  lineWidth: 5,
-                                  percent: _per_dis / 100,
-                                  progressColor: Colors.blue,
-                                  backgroundColor: Colors.blue.shade100,
+                        //ending of cal block
+    
+                        //start of time block
+                        Flexible(
+                          child: Container(
+                            height: 90,
+                            //   width: 90,
+                            alignment: Alignment.center,
+                            child: Stack(
+                              children: [
+                                Container(
+                                  alignment: Alignment.center,
+                                  child: CircularPercentIndicator(
+                                    radius: 30,
+                                    lineWidth: 5,
+                                    percent: _per_dis / 100,
+                                    progressColor: Colors.blue,
+                                    backgroundColor: Colors.blue.shade100,
+                                  ),
                                 ),
-                              ),
-                              Container(
-                                alignment: Alignment.center,
-                                child: SvgPicture.asset(
-                                  "assets/timing.svg",
-                                  height: 25,
-                                  width: 25,
-                                ),
-                              )
-                            ],
+                                Container(
+                                  alignment: Alignment.center,
+                                  child: SvgPicture.asset(
+                                    "assets/timing.svg",
+                                    height: 25,
+                                    width: 25,
+                                  ),
+                                )
+                              ],
+                            ),
                           ),
                         ),
-                      ),
-                      //end of time block
-
-                      //start of dis block
-                      Flexible(
-                        child: Container(
-                          height: 90,
-                          alignment: Alignment.center,
-                          child: Stack(
-                            children: [
-                              Container(
-                                alignment: Alignment.center,
-                                child: CircularPercentIndicator(
-                                  radius: 30,
-                                  lineWidth: 5,
-                                  percent: _per_min / 100,
-                                  progressColor: Colors.blue,
-                                  backgroundColor: Colors.blue.shade100,
+                        //end of time block
+    
+                        //start of dis block
+                        Flexible(
+                          child: Container(
+                            height: 90,
+                            alignment: Alignment.center,
+                            child: Stack(
+                              children: [
+                                Container(
+                                  alignment: Alignment.center,
+                                  child: CircularPercentIndicator(
+                                    radius: 30,
+                                    lineWidth: 5,
+                                    percent: _per_min / 100,
+                                    progressColor: Colors.blue,
+                                    backgroundColor: Colors.blue.shade100,
+                                  ),
                                 ),
-                              ),
-                              Container(
-                                alignment: Alignment.center,
-                                child: SvgPicture.asset("assets/distance.svg",
-                                    height: 25, width: 25),
-                              )
-                            ],
+                                Container(
+                                  alignment: Alignment.center,
+                                  child: SvgPicture.asset("assets/distance.svg",
+                                      height: 25, width: 25),
+                                )
+                              ],
+                            ),
                           ),
-                        ),
-                      )
-                      //end of dis block
-                    ],
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      Text("$cal Kcal",
-                          style:
-                              TextStyle(fontSize: 16, fontFamily: "Open_sans")),
-                      Text("$min Min",
-                          style:
-                              TextStyle(fontSize: 16, fontFamily: "Open_sans")),
-                      Text("$dis Km",
-                          style:
-                              TextStyle(fontSize: 16, fontFamily: "Open_sans"))
-                    ],
-                  )
-                ],
-              )
-              //Starting of time ,cal and dis block
-            ],
+                        )
+                        //end of dis block
+                      ],
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        Text("$cal Kcal",
+                            style:
+                                TextStyle(fontSize: 16, fontFamily: "Open_sans")),
+                        Text("$min Min",
+                            style:
+                                TextStyle(fontSize: 16, fontFamily: "Open_sans")),
+                        Text("$dis Km",
+                            style:
+                                TextStyle(fontSize: 16, fontFamily: "Open_sans"))
+                      ],
+                    )
+                  ],
+                )
+                //Starting of time ,cal and dis block
+              ],
+            ),
           ),
         ),
       ),

@@ -157,14 +157,16 @@ class _signinState extends State<signin> {
                                   if (response.statusCode == 200) {
                                     if (jsonObject['Status'] == '1') {
                                       // ignore: use_build_context_synchronously
-                                      showDialog(
-                                          context: context,
-                                          builder: (context) {
-                                            return const Center(
-                                                child:
-                                                    CircularProgressIndicator());
-                                          });
+                                     
                                       // ignore: use_build_context_synchronously
+                                      //  showDialog(
+                                      //     context: context,
+                                      //     builder: (context) {
+                                      //       return const Center(
+                                      //           child:
+                                      //               CircularProgressIndicator());
+                                      //     });
+
                                       Navigator.push(
                                           context,
                                           MaterialPageRoute(
@@ -176,6 +178,7 @@ class _signinState extends State<signin> {
                                                   "You Enter Wrong Email And Password")));
                                     }
                                   } else {}
+                                  
                                 },
                                 child: Container(
                                   height: 48,
